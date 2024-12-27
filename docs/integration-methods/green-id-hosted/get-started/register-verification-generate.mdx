@@ -1,0 +1,132 @@
+---
+id: register-verification-generate
+title: Register Verification and Generate Invite
+sidebar_position: 5
+---
+
+# Register Verification and Generate Invite
+
+## registerVerificationAndGenerateHostedInviteURL
+
+This method checks that the input account is enabled for Hosted, performs a registration/validation using the input details and then will prepare a link to the hosted site for the account and return the link in the API response.
+
+### SOAP{#SOAP}
+
+#### **Input Parameters**{#Input-Parameters}
+
+| Field Name                | Type                  | Required         | Restrictions                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------- | --------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| accountId                 | String                | Yes              | GreenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API.                                                                                                                                                                                                           |
+| password                  | String                | Yes              | Each customer is issued a password that must be supplied with every call to any web method in the API.                                                                                                                                                                                                                                                                                                 |
+| verificationId            | String                | No (may be null) | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person.  If the caller supplies the `verificationId` then greenID stores and uses that identifier; otherwise, greenID will generate a unique `verificationId`.  The `verificationId` is returned to the caller. |
+| ruleId                    | String                | No (may be null) | Callers have a specific rule configured for their greenID Hosted account.  This string must identify a rule. Contact greenID for the name of the rule configured for your Hosted account.  If only one rule is configured, then the string “default” will automatically select that rule.                                                                                                              |
+| name                      | Name                  | Yes              |                                                                                                                                                                                                                                                                                                                                                                                                        |
+| currentResidentialAddress | Address               | No (may be null) |                                                                                                                                                                                                                                                                                                                                                                                                        |
+|  dob                      | DateOfBirth           | Yes              | Must be a valid date in the past.                                                                                                                                                                                                                                                                                                                                                                      |
+| mobilePhone               | String                | No (may be null) | See [Mobile Phone Validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation)                                                                                                                                                                                                                                                          |
+| email                     | String                | No (may be null) | Must be a valid email address following standard email validation rules and checking Top Level Domain (TLD) is valid. See [https://data.iana.org/TLD/tlds-alpha-by-domain.txt](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation)                                                                                                         |
+| extraData                 | List \<NameValuePair> | No               | This parameter allows the customer to send extra data that will need to be agreed upon before implementation. It will be a simple key /value format. If there is no previous agreement for certain keys to be sent in this field then it will be ignored.                                                                                                                                              |
+
+For further information on the data structures used in this API please refer to [Data Structures V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60369524).
+
+#### Return Values{#Return-Values}
+
+The API call returns a GreenIDHostedServiceResult containing the following data:
+
+| Field Name                | Type    | Description                                                        |
+| ------------------------- | ------- | ------------------------------------------------------------------ |
+| verificationId            | String  |                                                                    |
+| overallVerificationStatus | String  | The overall status of the verification.                            |
+| hostedInviteUrl           | String  | ShortUrl generated for this registration for this call.            |
+| responseErrorFlag         | Boolean | True = an error occurred False = no error occurred                 |
+| responseErrorMessage      | String  | A message providing information regarding the error that occurred. |
+| errorReasonCode           | String  | Indicates the type of error that occurred.                         |
+
+#### **Sample SOAP Request and Response**{#Sample-SOAP-Request-and-Response}
+
+- Open SOAP-registerVerificationAndGenerateHostedInviteURL-Request.xml
+
+  **SOAP-registerVerificationAndGenerateHostedInviteURL-Request.xml**
+
+  24 Feb 2022, 11:18 PM
+
+- Open SOAP-registerVerificationAndGenerateHostedInviteURLResponse.xml
+
+  **SOAP-registerVerificationAndGenerateHostedInviteURLResponse.xml**
+
+  24 Feb 2022, 11:18 PM
+
+### JSON{#JSON}
+
+#### **Input Parameters**{#Input-Parameters.1}
+
+| Field Name     | Type        | Required         | Restrictions                                                                                                                                                                                                                                                                                                                                                                                           |
+| -------------- | ----------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| accountId      | String      | Yes              | GreenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API.                                                                                                                                                                                                           |
+| password       | String      | Yes              | Each customer is issued a password that must be supplied with every call to any web method in the API.                                                                                                                                                                                                                                                                                                 |
+| verificationId | String      | No (may be null) | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person.  If the caller supplies the `verificationId` then greenID stores and uses that identifier; otherwise, greenID will generate a unique `verificationId`.  The `verificationId` is returned to the caller. |
+| ruleId         | String      | No (may be null) | Callers have a specific rule configured for their greenID Hosted account.  This string must identify a rule. Contact greenID for the name of the rule configured for your Hosted account.  If only one rule is configured, then the string “default” will automatically select that rule.                                                                                                              |
+| givenNames     | String      | Yes              | <p>Cannot be null. Cannot be the empty string.</p><p>Max 255 characters.</p>                                                                                                                                                                                                                                                                                                                           |
+| middleNames    | String      | No (may be null) | Max 255 characters.                                                                                                                                                                                                                                                                                                                                                                                    |
+| surname        | Stromg      | Yes              | <p>Cannot be null. Cannot be the empty string.</p><p>Max 255 characters.</p>                                                                                                                                                                                                                                                                                                                           |
+| country        | String      | No (may be null) | <p>The country code. This must be the ISO 3166 country code. The country code can be given in either the alpha-2, alpha-3 or numeric format.</p><p>Please refer to [https://www.iso.org/obp/ui/#search](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation) for a full (and up to date) list of ISO 3166 country codes.</p>                |
+| postcode       | String      | No (may be null) | A 4 digit Australian postcode.                                                                                                                                                                                                                                                                                                                                                                         |
+| state          | String      | No (may be null) | A valid abbreviation of an Australian state or territory, i.e. ACT, QLD, NSW, NT, SA, TAS, VIC or WA.                                                                                                                                                                                                                                                                                                  |
+| streetName     | String      | No (may be null) | Max 255 characters.                                                                                                                                                                                                                                                                                                                                                                                    |
+| streetNumber   | String      | No (may be null) | Max 255 characters.                                                                                                                                                                                                                                                                                                                                                                                    |
+| streetType     | String      | No (may be null) | A valid street type abbreviation, e.g. “ST”, “RD” etc.                                                                                                                                                                                                                                                                                                                                                 |
+| suburb         | String      | No (may be null) | Max 255 characters.                                                                                                                                                                                                                                                                                                                                                                                    |
+|  dob           | DateOfBirth | Yes              | Must be a valid date in the past.                                                                                                                                                                                                                                                                                                                                                                      |
+| mobilePhone    | String      | No (may be null) | See [Mobile Phone Validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation)                                                                                                                                                                                                                                                          |
+| email          | String      | No (may be null) | Must be a valid email address following standard email validation rules and checking Top Level Domain (TLD) is valid. See [https://data.iana.org/TLD/tlds-alpha-by-domain.txt](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation)                                                                                                         |
+
+For further information on the data structures used in this API please refer to [Data Structures V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2162884761/registerVerificationAndGenerateHostedInviteURL#).
+
+#### Return Values{#Return-Values.1}
+
+The API call returns a GreenIDHostedServiceResult containing the following data:
+
+| Field Name                | Type    | Description                                                                                          |
+| ------------------------- | ------- | ---------------------------------------------------------------------------------------------------- |
+| verificationId            | String  |                                                                                                      |
+| overallVerificationStatus | String  | The overall status of the verification.                                                              |
+| hostedInviteUrl           | String  | ShortUrl generated for this registration for this call.                                              |
+| responseErrorFlag         | Boolean | True = an error occurred False = no error occurred                                                   |
+| responseErrorMessage      | String  | A message providing information regarding the error that occurred.                                   |
+| errorReasonCode           | String  | Indicates the type of error that occurred.                                                           |
+| smsID                     |         | This field should **not** be used in your implementation, it will be removed from the response soon. |
+| smsStatus                 |         | This field should **not** be used in your implementation, it will be removed from the response soon. |
+
+#### Sample JSON Request and Response{#Sample-JSON-Request-and-Response}
+
+- Open JSON-registerVerificationAndGenerateHostedInviteURL-Request.json
+
+  **JSON-registerVerificationAndGenerateHostedInviteURL-Request.json**
+
+  03 Aug 2022, 01:58 PM
+
+- Open JSON-registerVerificationAndGenerateHostedInviteURL-Response.json
+
+  **JSON-registerVerificationAndGenerateHostedInviteURL-Response.json**
+
+  24 Feb 2022, 11:18 PM
+
+### Exceptions and Errors{#Exceptions-and-Errors}
+
+Detailed Exception and Error information for SOAP and JSON for this method is available on [Exceptions and Errors](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2164129836).
+
+## **Useful Links**{#Useful-Links}
+
+- [Hosted Endpoints](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164)
+
+- [ID Glossary](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#ID-Glossary)
+
+- [Mobile Phone Validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation)
+
+- [Address Validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#A-Note-on-Addresses)
+
+- [Verification Results](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60368141#WebMethodDetailsV3-GetVerificationResult)
+
+- [Image and OCR Results](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/336429183)
+
+\\

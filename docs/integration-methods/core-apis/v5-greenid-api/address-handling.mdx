@@ -1,0 +1,482 @@
+---
+id: address-handling
+title: Adress Handling
+sidebar_position: 11
+---
+
+# Address Handling
+
+:::note
+
+All fields not named in the table/s below will be ignored by the rules engine and should not be sent to vixverify.
+
+:::
+
+## Australia
+
+| **Country** | **Field Name** | **Required** | **Restrictions/Notes**                                                                                                                                                                                                               |
+| ----------- | -------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Australia   | propertyName   | No\*         |                                                                                                                                                                                                                                      |
+| Australia   | flatNumber     | No           | Less than 256 characters                                                                                                                                                                                                             |
+| Australia   | streetNumber   | Yes          | Less than 256 characters                                                                                                                                                                                                             |
+| Australia   | streetName     | Yes          | Less than 256 characters                                                                                                                                                                                                             |
+| Australia   | streetType     | No           | <p>If present, the street type must be one of those listed at AU [Street Types](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2193031169/Street+Types) otherwise it will be discarded. </p><p>Less than 256 characters</p> |
+| Australia   | suburb         | Yes          | Less than 256 characters                                                                                                                                                                                                             |
+| Australia   | postcode       | Yes          | Must be 4 digits                                                                                                                                                                                                                     |
+| Australia   | state          | Yes          | Must be one of the following: ACT NSW NT QLD SA TAS VIC WA                                                                                                                                                                           |
+| Australia   | country        | Yes          | \*Must be AU                                                                                                                                                                                                                         |
+
+\*While Property Name is not a required field, it should be passed in if a customer has the Electoral Roll data source configured. The source will be checked for a Property Name if it is available on the individual's address record.
+
+## New Zealand
+
+| **Country** | **Field Name** | **Required** | **Restrictions/Notes**                                                                                                                                                                                     |
+| ----------- | -------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| New Zealand | flatNumber     | No           |                                                                                                                                                                                                            |
+| New Zealand | streetNumber   | Yes          |                                                                                                                                                                                                            |
+| New Zealand | streetName     | Yes          |                                                                                                                                                                                                            |
+| New Zealand | streetType     | No           | <p>If present, the street type must be one of those listed in NZ [Street Types](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2193031169/Street+Types)</p><p>otherwise it will be discarded.</p> |
+| New Zealand | suburb         | No           |                                                                                                                                                                                                            |
+| New Zealand | postcode       | Yes          | Must be 4 digits                                                                                                                                                                                           |
+| New Zealand | townCity       | Yes          |                                                                                                                                                                                                            |
+| New Zealand | country        | Yes          | Must be NZ                                                                                                                                                                                                 |
+
+# Street Types
+
+:::note
+
+From Sep 13, 2022 , greenID will support an [expanded list of street types for AU](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2193031169/Street+Types#Expanded-Street-Types-for-AU-\(DVS-Australian-Electoral-Roll\)) to ensure that it can support and validate the street types required by the DVS version of the Australia Electoral Roll source. If you are collecting address data and intend to use the new version of the AEC source, it is recommended that you incorporate the expanded list.
+
+:::
+
+## **Street Types AU and NZ**{#Street-Types-AU-and-NZ}
+
+Accepted Street Types for Australia (AU) and New Zealand (NZ) addresses are as follows.
+
+| **AU Street** | **AU Abbrev** | **NZ Street** | **NZ Abbrev** |
+| ------------- | ------------- | ------------- | ------------- |
+| Access        | Accs          | Access        | Accs          |
+|               |               | Accessway     | Accswy        |
+| Alley         | Ally          | Alley         | Aly           |
+| Alleyway      | Alwy          |               |               |
+| Amble         | Ambl          |               |               |
+| Anchorage     | Ancg          | Anchorage     | Ancg          |
+| Approach      | App           | Approach      | App           |
+| Arcade        | Arc           | Arcade        | Arc           |
+|               |               | Arch          | Arch          |
+| Artery        | Art           |               |               |
+| Avenue        | Ave           | Avenue        | Ave           |
+|               |               | Bank          | Bank          |
+|               |               | Bay           | Bay           |
+| Basin         | Basn          |               |               |
+| Beach         | Bch           | Beach         | Bch           |
+|               |               | Belt          | Belt          |
+| Bend          | Bend          | Bend          | Bnd           |
+| Block         | Blk           |               |               |
+|               |               | Bluff         | Blf           |
+| Boulevard     | Bvd           | Boulevard     | Blvd          |
+| Brace         | Brce          |               |               |
+| Brae          | Brae          | Brae          | Brae          |
+| Break         | Brk           |               |               |
+|               |               | Briars        | Briars        |
+| Bridge        | Bdge          | Bridge        | Brg           |
+| Broadway      | Bdwy          |               |               |
+| Brow          | Brow          |               |               |
+| Bypass        | Bypa          | Bypass        | Byp           |
+| Byway         | Bywy          |               |               |
+| Causeway      | Caus          |               |               |
+| Centre        | Ctr           | Centre        | Ctr           |
+| Centreway     | Cnwy          |               |               |
+| Chase         | Ch            | Chase         | Ch            |
+| Circle        | Cir           | Circle        | Cir           |
+| Circlet       | Clt           |               |               |
+| Circuit       | Cct           |               |               |
+| Circus        | Crcs          | Circus        | Crcs          |
+|               |               | Claim         | Clm           |
+| Close         | Cl            | Close         | Cl            |
+| Colonnade     | Clde          |               |               |
+| Common        | Cmmn          | Common        | Cmn           |
+| Concourse     | Con           |               |               |
+| Copse         | Cps           |               |               |
+| Corner        | Cnr           |               |               |
+| Corso         | Cso           |               |               |
+| Court         | Ct            | Court         | Crt           |
+|               |               | Courts        | Crts          |
+| Courtyard     | Ctyd          |               |               |
+| Cove          | Cove          | Cove          | Cv            |
+|               |               | Creek         | Crk           |
+| Crescent      | Cres or Cr    | Crescent      | Cres          |
+| Crest         | Crst          | Crest         | Crst          |
+| Cross         | Crss          |               |               |
+| Crossing      | Crsg          |               |               |
+| Crossroad     | Crd           |               |               |
+| Crossway      | Cowy          |               |               |
+| Cruiseway     | Cuwy          |               |               |
+| Cul-De-Sac    | Cds           | Cul           | Cul           |
+| Cutting       | Cttg          |               |               |
+| Dale          | Dale          | Dale          | Dle           |
+| Dell          | Dell          | Dell          | Del           |
+| Deviation     | Devn          | Deviation     | Dvn           |
+| Dip           | Dip           |               |               |
+| Distributor   | Dstr          |               |               |
+|               |               | Downs         | Downs         |
+| Drive         | Dr            | Drive         | Dr            |
+| Driveway      | Drwy          |               |               |
+|               |               | Dune          | Dune          |
+| Edge          | Edge          |               |               |
+| Elbow         | Elb           |               |               |
+|               |               | Elm           | Elm           |
+| End           | End           | End           | End           |
+| Entrance      | Ent           | Entrance      | Ent           |
+| Esplanade     | Esp           | Esplanade     | Esp           |
+| Estate        | Est           | Estate        | Est           |
+| Expressway    | Exp           |               |               |
+| Extension     | Extn          |               |               |
+| Fairway       | Fawy          | Fairway       | Fawy          |
+|               |               | Fall          | Fall          |
+|               |               | Fare          | Fare          |
+|               |               | Farms         | Frms          |
+|               |               | Fen           | Fen           |
+|               |               | Fern          | Fern          |
+| Fire Track    | Ftrk          |               |               |
+| Firetrail     | Fitr          |               |               |
+| Flat          | Flat          | Flat          | Flt           |
+|               |               | Flats         | Flts          |
+| Follow        | Folw          |               |               |
+| Footway       | Ftwy          |               |               |
+| Foreshore     | Fshr          |               |               |
+| Formation     | Form          |               |               |
+| Freeway       | Fwy           |               |               |
+| Front         | Frnt          |               |               |
+| Frontage      | Frtg          |               |               |
+| Gap           | Gap           |               |               |
+| Garden        | Gdn           | Garden        | Gdn           |
+| Gardens       | Gdns          | Gardens       | Gdns          |
+| Gate          | Gte           | Gate          | Gte           |
+| Gates         | Gtes          |               |               |
+| Glade         | Gld           | Glade         | Gld           |
+| Glen          | Glen          | Glen          | Gln           |
+| Grange        | Gra           | Grange        | Grg           |
+| Green         | Grn           | Green         | Grn           |
+| Ground        | Grnd          |               |               |
+| Grove         | Gr            | Grove         | Grv           |
+| Gully         | Gly           | Gully         | Gly           |
+|               |               | Haven         | Hvn           |
+|               |               | Head          | Head          |
+| Heights       | Hts           | Heights       | Hts           |
+| Highroad      | Hrd           |               |               |
+| Highway       | Hwy           | Highway       | Hwy           |
+| Hill          | Hill          | Hill          | Hl            |
+| Interchange   | Intg          |               |               |
+| Intersection  | Intn          |               |               |
+|               |               | Island        | Is            |
+| Junction      | Jnc           | Junction      | Jct           |
+| Key           | Key           | Key           | Key           |
+|               |               | Knob          | Knob          |
+|               |               | Ladder        | Ladr          |
+| Landing       | Ldg           | Landing       | Lndg          |
+| Lane          | Lane          | Lane          | Lane          |
+| Laneway       | Lnwy          |               |               |
+|               |               | Lea           | Lea           |
+|               |               | Leader        | Ledr          |
+|               |               | Leigh         | Lgh           |
+| Lees          | Lees          |               |               |
+| Line          | Line          | Line          | Line          |
+| Link          | Link          | Link          | Link          |
+| Little        | Lt            |               |               |
+| Lookout       | Lkt           | Lookout       | Lkt           |
+| Loop          | Loop          | Loop          | Loop          |
+| Lower         | Lwr           |               |               |
+| Mall          | Mall          | Mall          | Mall          |
+|               |               | Mead          | Mead          |
+|               |               | Meadows       | Mdws          |
+| Meander       | Mndr          |               |               |
+| Mew           | Mew           |               |               |
+| Mews          | Mews          | Mews          | Mews          |
+|               |               | Mile          | Mile          |
+| Motorway      | Mwy           | Motorway      | Mwy           |
+|               |               | Motu          | Motu          |
+| Mount         | Mt            | Mount         | Mt            |
+|               |               | Neaves        | Nvs           |
+| Nook          | Nook          |               |               |
+|               |               | Oaks          | Oaks          |
+| Outlook       | Otlk          |               |               |
+|               |               | Paddock       | Padk          |
+|               |               | Paku          | Paku          |
+| Parade        | Pde           | Parade        | Pde           |
+| Park          | Park          | Park          | Pk            |
+| Parklands     | Pkld          |               |               |
+| Parkway       | Pkwy          | Parkway       | Pkwy          |
+| Part          | Part          |               |               |
+| Pass          | Pass          | Pass          | Pass          |
+|               |               | Passage       | Psge          |
+| Path          | Path          | Path          | Pth           |
+| Pathway       | Phwy          |               |               |
+| Piazza        | Piaz          |               |               |
+| Place         | Pl            | Place         | Pl            |
+| Plateau       | Plat          |               |               |
+| Plaza         | Plza          |               |               |
+| Pocket        | Pkt           |               |               |
+| Point         | Pnt           | Point         | Pt            |
+| Port          | Port          |               |               |
+|               |               | Priors        | Priors        |
+| Promenade     | Prom          | Promenade     | Prom          |
+| Quad          | Quad          |               |               |
+| Quadrangle    | Qdgl          |               |               |
+| Quadrant      | Qdrt          | Quadrant      | Qdrt          |
+| Quay          | Qy            | Quay          | Qy            |
+| Quays         | Qys           |               |               |
+| Ramble        | Rmbl          |               |               |
+| Ramp          | Ramp          |               |               |
+| Range         | Rnge          |               |               |
+| Reach         | Rch           |               |               |
+|               |               | Reef          | Reef          |
+| Reserve       | Res           | Reserve       | Res           |
+| Rest          | Rest          | Rest          | Rest          |
+| Retreat       | Rtt           | Retreat       | Rtr           |
+| Ride          | Ride          |               |               |
+| Ridge         | Rdge          | Ridge         | Rdge          |
+| Ridgeway      | Rgwy          |               |               |
+| Right Of Way  | Rowy          |               |               |
+| Ring          | Ring          |               |               |
+| Rise          | Rise          | Rise          | Rise          |
+| River         | Rvr           |               |               |
+| Riverway      | Rvwy          |               |               |
+| Riviera       | Rvra          |               |               |
+| Road          | Rd            | Road          | Rd            |
+| Roads         | Rds           | Roads         | Rds           |
+| Roadside      | Rdsd          |               |               |
+| Roadway       | Rdwy          | Roadway       | Rdwy          |
+| Ronde         | Rnde          |               |               |
+| Rosebowl      | Rsbl          |               |               |
+| Rotary        | Rty           |               |               |
+| Round         | Rnd           |               |               |
+| Route         | Rte           | Route         | Rte           |
+| Row           | Row           | Row           | Row           |
+| Rue           | Rue           |               |               |
+| Run           | Run           |               |               |
+|               |               | Service Lane  | Svln          |
+| Service Way   | Swy           |               |               |
+| Siding        | Sdng          |               |               |
+| Slope         | Slpe          | Slope         | Slp           |
+| Sound         | Snd           |               |               |
+|               |               | Spa           | Spa           |
+| Spur          | Spur          | Spur          | Spur          |
+| Square        | Sq            | Square        | Sq            |
+| Stairs        | Strs          |               |               |
+| State Highway | Shwy          | State Highway | SH            |
+|               |               | Steep         | Steep         |
+| Steps         | Stps          | Steps         | Stps          |
+|               |               | Straight      | Stgt          |
+| Strand        | Stra          | Strand        | Strd          |
+| Street        | St            | Street        | St            |
+| Strip         | Strp          |               |               |
+| Subway        | Sbwy          |               |               |
+| Tarn          | Tarn          |               |               |
+| Terrace       | Tce           | Terrace       | Tce           |
+| Thoroughfare  | Thor          |               |               |
+| Tollway       | Tlwy          |               |               |
+| Top           | Top           |               |               |
+| Tor           | Tor           |               |               |
+| Towers        | Twrs          | Towers        | Twrs          |
+| Track         | Trk           | Track         | Trk           |
+| Trail         | Trl           | Trail         | Trl           |
+| Trailer       | Trlr          |               |               |
+|               |               | Tramway       | Tmwy          |
+|               |               | Trees         | Trs           |
+| Triangle      | Tri           |               |               |
+| Trunkway      | Tkwy          |               |               |
+| Turn          | Turn          |               |               |
+| Underpass     | Upas          |               |               |
+| Upper         | Upr           |               |               |
+| Vale          | Vale          | Vale          | Vale          |
+|               |               | Valley        | Vly           |
+|               |               | Venus         | Vnus          |
+| Viaduct       | Vdct          |               |               |
+| View          | View          | View          | Vw            |
+|               |               | Views         | Vws           |
+|               |               | Village       | Vlg           |
+| Villas        | Vlls          | Villas        | Vlls          |
+| Vista         | Vsta          | Vista         | Vis           |
+|               |               | Vue           | Vue           |
+| Wade          | Wade          |               |               |
+| Walk          | Walk          | Walk          | Wlk           |
+| Walkway       | Wkwy          |               |               |
+|               |               | Waters        | Waters        |
+| Way           | Way           | Way           | Way           |
+| Wharf         | Whrf          | Wharf         | Whrf          |
+| Wynd          | Wynd          | Wynd          | Wynd          |
+| Yard          | Yard          |               |               |
+
+## **Expanded Street Types for AU (DVS Australian Electoral Roll)**{#Expanded-Street-Types-for-AU-(DVS-Australian-Electoral-Roll)}
+
+The street types below are supported for AU in addition to the street types provided above.
+
+| **AU Street**      | **AU Abbrev** |
+| ------------------ | ------------- |
+| ACCESS ROAD        | AC RD         |
+| ARTERIAL ROAD      | ART           |
+| ARTERIAL ROAD LINK | ART LNK       |
+| AVENUE CENTRAL     | AVE C         |
+| AVENUE EAST        | AVE E         |
+| AVENUE EXTENSION   | AVE EXT       |
+| AVENUE NORTH       | AVE N         |
+| AVENUE SOUTH       | AVE S         |
+| AVENUE WEST        | AVE W         |
+| BANK               | BANK          |
+| BAY                | BAY           |
+| BOULEVARDE         | BLVD          |
+| BOULEVARDE EAST    | BLVD E        |
+| BOULEVARDE NORTH   | BLVD N        |
+| BOULEVARDE SOUTH   | BLVD S        |
+| BOULEVARDE WEST    | BLVD W        |
+| BOARDWALK          | BRDWLK        |
+| BRETT              | BRETT         |
+| BULL               | BULL          |
+| BOWL               | BWL           |
+| CIRCLE EAST        | CIR E         |
+| CIRCLE NORTH       | CIR N         |
+| CIRCLE SOUTH       | CIR S         |
+| CIRCLE WEST        | CIR W         |
+| CLOSE EAST         | CL E          |
+| CLOSE NORTH        | CL N          |
+| CLOSE SOUTH        | CL S          |
+| CLOSE WEST         | CL W          |
+| CLUSTER            | CLSTR         |
+| COMMONS            | CMMNS         |
+| COURSE             | COURSE        |
+| CIRCUS EAST        | CRCS E        |
+| CIRCUS NORTH       | CRCS N        |
+| CIRCUS SOUTH       | CRCS S        |
+| CIRCUS WEST        | CRCS W        |
+| CIRCUIT EAST       | CRCT E        |
+| CIRCUIT NORTH      | CRCT N        |
+| CIRCUIT SOUTH      | CRCT S        |
+| CIRCUIT WEST       | CRCT W        |
+| CRESCENT EAST      | CRES E        |
+| CRESCENT NORTH     | CRES N        |
+| CRESCENT SOUTH     | CRES S        |
+| CRESCENT WEST      | CRES W        |
+| CRIEF              | CRIEF         |
+| CROSS WEST         | CRS W         |
+| COURT EAST         | CT E          |
+| COURT NORTH        | CT N          |
+| COURT SOUTH        | CT S          |
+| COURT WEST         | CT W          |
+| COURTS             | CTS           |
+| DENE               | DENE          |
+| DEVIATION ROAD     | DEV RD        |
+| DIVIDE             | DIVDE         |
+| DOCK               | DOCK          |
+| DOMAIN             | DOMAIN        |
+| DOWNS              | DOWNS         |
+| DRIVE EAST         | DR E          |
+| DRIVE EXTENDED     | DR EXT        |
+| DRIVE NORTH        | DR N          |
+| DRIVE SOUTH        | DR S          |
+| DRIVE WEST         | DR W          |
+| EASEMENT           | ESMNT         |
+| ESPLANADE EAST     | ESP E         |
+| ESPLANADE NORTH    | ESP N         |
+| ESPLANADE SOUTH    | ESP S         |
+| ESPLANADE WEST     | ESP W         |
+| FORD               | FORD          |
+| GATEWAY            | GATEWAY       |
+| GROVE EAST         | GR E          |
+| GROVE NORTH        | GR N          |
+| GROVE SOUTH        | GR S          |
+| GROVE WEST         | GR W          |
+| HAVEN              | HAVEN         |
+| HIDEAWAY           | HDWY          |
+| HOLLOW             | HLLW          |
+| HARBOUR            | HRBR          |
+| HEATH              | HTH           |
+| HIGHWAY EAST       | HWY E         |
+| HIGHWAY NORTH      | HWY N         |
+| HIGHWAY SOUTH      | HWY S         |
+| HIGHWAY WEST       | HWY W         |
+| INLET              | INLET         |
+| ISLAND             | IS            |
+| KEYS               | KEYS          |
+| KNOLL              | KNOLL         |
+| LANE EAST          | LA E          |
+| LANE NORTH         | LA N          |
+| LANE SOUTH         | LA S          |
+| LANE WEST          | LA W          |
+| MART               | MART          |
+| MEAD               | MEAD          |
+| OUTLET             | OUTLT         |
+| OVAL               | OVAL          |
+| OVERPASS           | OVRPS         |
+| PARADE EAST        | PDE E         |
+| PARADE NORTH       | PDE N         |
+| PARADE SOUTH       | PDE S         |
+| PARADE WEST        | PDE W         |
+| PARK EAST          | PK E          |
+| PARK NORTH         | PK N          |
+| PARK SOUTH         | PK S          |
+| PARK WEST          | PK W          |
+| PLACE EAST         | PL E          |
+| PLACE NORTH        | PL N          |
+| PLACE SOUTH        | PL S          |
+| PLACE WEST         | PL W          |
+| PENINSULA          | PNSLA         |
+| PRECINCT           | PREC          |
+| PASSAGE            | PSGE          |
+| PURSUIT            | PUR           |
+| QUAY EAST          | QUAY E        |
+| QUAY NORTH         | QUAY N        |
+| QUAY SOUTH         | QUAY S        |
+| QUAY WEST          | QUAY W        |
+| ROAD CENTRAL       | RD C          |
+| ROAD EAST          | RD E          |
+| ROAD EXTENDED      | RD EXT        |
+| ROAD NORTH         | RD N          |
+| ROAD SOUTH         | RD S          |
+| ROAD SOUTH EAST    | RD SE         |
+| ROAD WEST          | RD W          |
+| ROUTE N            | ROUTE N       |
+| ROUTE S            | ROUTE S       |
+| ROW SOUTH          | ROW S         |
+| ROWE               | ROWE          |
+| SKYLINE            | SKYLINE       |
+| SQUARE EAST        | SQ E          |
+| SQUARE NORTH       | SQ N          |
+| SQUARE SOUTH       | SQ S          |
+| SQUARE WEST        | SQ W          |
+| STREET CENTRAL     | ST C          |
+| STREET EAST        | ST E          |
+| STREET EXTENDED    | ST EXT        |
+| STREET MALL        | ST MALL       |
+| STREET NORTH       | ST N          |
+| STREET SOUTH       | ST S          |
+| STREET WEST        | ST W          |
+| STRAIGHT           | STRGHT        |
+| STRAIT             | STRT          |
+| TERRACE EAST       | TCE E         |
+| TERRACE NORTH      | TCE N         |
+| TERRACE SOUTH      | TCE S         |
+| TERRACE WEST       | TCE W         |
+| THROUGHWAY         | THRWY         |
+| TOURIST ROAD       | TOUR          |
+| TRACK EAST         | TRACK E       |
+| TRACK NORTH        | TRACK N       |
+| TRACK SOUTH        | TRACK S       |
+| TRACK WEST         | TRACK W       |
+| VALE NORTH         | VALE N        |
+| VALE SOUTH         | VALE S        |
+| VIEWS              | VIEWS         |
+| VILLA              | VILLA         |
+| VALLEY             | VLY           |
+| VUE                | VUE           |
+| WALK EAST          | WALK E        |
+| WALK NORTH         | WALK N        |
+| WALK SOUTH         | WALK S        |
+| WALK WEST          | WALK W        |
+| WATERS             | WATERS        |
+| WAY EAST           | WAY E         |
+| WAY NORTH          | WAY N         |
+| WAY SOUTH          | WAY S         |
+| WAY WEST           | WAY W         |
+| WAYS               | WAYS          |
+| WEG                | WEG           |

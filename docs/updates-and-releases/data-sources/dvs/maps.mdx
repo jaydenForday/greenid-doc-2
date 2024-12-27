@@ -1,0 +1,64 @@
+---
+id: maps
+title: Malicious Activity Prevention System (MAPS)
+sidebar_position: 3
+---
+
+# Malicious Activity Prevention System (MAPS)
+
+On 1 June 2022, DVS introduced Malicious Activity Prevention System - MAPS. This page explains everything you need to know about MAPS. Please review the [customer impact](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2191327233/Malicious+Activity+Prevention+System+MAPS#Customer-Impact) section for more details.
+
+## **What is Malicious Activity Prevention System (MAPS)?**{#What-is-Malicious-Activity-Prevention-System-(MAPS)?}
+
+Home Affairs have introduced a Malicious Activity Prevention System (MAPS) that will monitor for repeat verification attempts against the same document by a single User Originating Agency Code (OAC). MAPS is an added security measure aimed at improving the detection of fraudulent activity.
+
+## **How does it work?**{#How-does-it-work?}
+
+MAPS will use the documents unique number to monitor for repeated verification attempts against the document number from the same User Originating Agency Code (OAC).
+
+If the number of verification attempts within 30 minutes reaches a set threshold, the OAC will be locked out of further identity matches on that specific document for 20 minutes. See below for threshold information.
+
+## **What are the DVS threshold limits?**{#What-are-the-DVS-threshold-limits?}
+
+| **Document Type**           | **Lockout Threshold** |
+| --------------------------- | --------------------- |
+| Driver Licence              | 4                     |
+| Passport                    | 4                     |
+| Medicare Card               | 8                     |
+| Visa                        | 5                     |
+| Citizenship Certificate     | 5                     |
+| Centrelink Concession Card  | 4                     |
+| ImmiCard                    | 4                     |
+| Registration by Descent     | 5                     |
+| Birth Certificate           | 5                     |
+| Marriage Certificate        | 10                    |
+| Change of Name Certificate  | 8                     |
+| Death Certificate           | 4                     |
+| ASIC/MSIC                   | 5                     |
+| Commonwealth Electoral Roll | 10                    |
+
+## **How is DVS MAPS different from greenID lockout?**{#How-is-DVS-MAPS-different-from-greenID-lockout?}
+
+The greenID lockout threshold rules apply to a registration in greenID and will take affect when a user has reached the configured lockout limit.
+
+Standard greenID lockout threshold rules are: **a user can attempt 1 data source 3 times or 5 data sources overall.** There is no time limit associated with standard greenID lockouts.
+
+The table below describes the differences between the DVS MAPS lockout and the greenID lockout.
+
+|                            | **greenID Lockout**                                                                                                                                         | **DVS MAPS Lockout**                                                                                                                                                                                                             |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Application**            | Multiple attempts in a greenID registration.                                                                                                                | <p>Multiple attempts by a particular identification document from an OAC (or a DVS User).</p><p>The timeframe for the attempts to trigger a lock out is 30 minutes from the last recorded attempt, this is a rolling window.</p> |
+| **Conditions**             | Lockout applies to failed **data** source attempts.                                                                                                         | MAPS applies to **document** identification attempts whether they are failed or successful.                                                                                                                                      |
+| **Time period of lockout** | Once a user is locked out, an administrator must unlock the verification.                                                                                   | <p>DVS will prevent further identity matches for a 20 minute period.</p><p>The lock out only applies to that particular document and does not prevent other identification documents being attempted.</p>                        |
+| **End user impact**        | greenID will display appropriate messaging or hand off - depending on customer implementation and part of the workflow.                                     | DVS will send an ‘N' response to greenID which translates to 'no match’.                                                                                                                                                         |
+| **Thresholds**             | <p>**Standard threshold:**</p><p>3 attempts - 1 data source</p><p>5 attempts - overall</p><p>Customers may have custom configurations for this setting.</p> | See above for thresholds.                                                                                                                                                                                                        |
+
+## **Summary**{#Summary}
+
+DVS MAPS is an initiative by the DHA to reduce fraud.  In most cases customers are already protected by the standard greenID lockout rules.  However, there are a few customers who are hitting the MAPS lockout rules.
+
+After lobbying by GBG, Home Affairs has agreed not to charge for transactions blocked by MAPS.  If you’ve been impacted GBG will notify you and process credits one month in arrears.
+
+## **Further Information**{#Further-Information}
+
+If you require further information please contact your Account Manager or our Customer Support team at [customer.support@gbgplc.com](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2191327233/Malicious+Activity+Prevention+System+MAPS#Customer-Impact)

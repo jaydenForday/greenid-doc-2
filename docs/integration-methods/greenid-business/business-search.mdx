@@ -1,0 +1,113 @@
+---
+id: business-search
+title: greenID Business Search Restrictions
+sidebar_position: 2
+---
+
+# greenID Business Search Restrictions
+
+Search restrictions in greenID Business allow you to control the extent of automated register searches performed when creating the business structure, and the costs associated with doing so.
+
+## How it works
+
+Search restrictions limit the volume of searches automatically performed against a business register when creating a verification, and thereby the number of sub-businesses created. By default, the entire business structure was always explored which sometimes resulted in significant, unexpected cost specifically when searching for Australian companies.
+
+With search restrictions enabled, you to restrict the automated searches performed against a particular business register based on:
+
+a) how deep within a structure a business is found,
+
+b) ownership percentage, or
+
+c) both depth at which the business is found AND ownership percentage.
+
+This is achieved by defining 'search restriction' settings with your account manager during the account creation phase.
+
+Search Restriction settings can be defined on a 'per register' basis, so you can choose to apply different restrictions to ASIC searches vs NZBN searches. You can can also opt for your searches of a particular register to be 'full searches' (i.e. no search restrictions applied).
+
+When search restrictions are applied when creating a business, any sub-businesses which are not searched for due to the restrictions will be created as 'search restricted'. Only the business's name will be available for these.
+
+You can then choose to manually run a search for these 'search restricted' sub-businesses.\
+*NOTE: The search restrictions defined for your account will be applied to all businesses created via a register search - **you cannot override the restrictions or apply different restrictions on a 'per business lookup' basis**.*
+
+## Search Restrictions configured for the account
+
+Your account needs to be configured with your chosen 'search restriction strategy' (and the relevant 'search restriction thresholds') for **each** business register you wish to use. Different search restriction settings can be configured for each register (e.g. ASIC, NZBN). 
+
+Search restrictions need to be configured for an account by our Engineering Support and a release is required for them to take effect.
+
+### There are 4 'search restriction strategies' available to choose from
+
+1. **Restrict by Level** - this restricts the search to a maximum number of 'levels' deep. It controls how deep into the structure we drill. \
+   A *'maximum search depth threshold'* must be specified. A setting of 1 means only the business number entered by the user will be searched for (i.e. level 1 = the number entered), a setting of 2 means the number entered and its direct sub-businesses will be searched etc
+
+2. **Restrict by Ownership Percentage** - this restricts the search based on the ownership percentage of the relationship in which the business occurs (e.g. the shareholding percentage). An *'ownership percentage threshold'* must be specified. This can be a decimal value. 
+
+3. **Restrict by Level and Ownership Percentage** - this restricts the search based on BOTH the ownership percentage and maximum number of 'levels'. A '*maximum search depth threshold'*  AND an *'ownership percentage threshold'* must be specified\*.\* 
+
+4. **Always Search** - with this option, no search restrictions are applied and searches of the entire structure are performed.
+
+## When performing a search
+
+When you create a new business, the screens presented include relevant information about any 'search restrictions' in place. Tool tips provide guidance based on your settings.
+
+The below screenshots are an example of a customer with a 'Restrict by ownership percentage' strategy for ASIC searches, so only information relevant to this strategy is presented.
+
+*(If a combined strategy was in place, information on ownership percentage and max search depth thresholds would be included):*
+
+![](/img/search-1.png)
+
+![](/img/search-2.png)
+
+## Business is created with search restrictions applied
+
+When you create a business via a search, related businesses (also known as sub businesses) within the structure will only be searched for if they meet the criteria to be searched as dictated by the  'search restriction strategy' in effect for the business register.
+
+### The criteria to be searched is as follows for each strategy
+
+**Restrict by Level** - A sub-business must be found at a depth equal to or less than the *'maximum search depth threshold'* configured. 
+
+- The business, the user submits a search for is always treated as 'level 1' for the purposes of applying the *'maximum search depth'* threshold, regardless of where within the structure the business is being added from. Example: Within a sub-business found 3 levels deep within a business, the user adds a shareholder via a search. The shareholder business being searched for is treated as 'level 1' and the maximum depth threshold is applied from that point.
+
+**Restrict by Ownership Percentage** - the ownership percentage of the relationship in which the sub-business it is found must be equal to or greater than the *'ownership percentage threshold'* configured. 
+
+- When applying the \*'ownership percentage threshold', \*for Australian businesses this will be applied to the 'percentage of class' owned. There is no 'percentage of class' for NZ businesses.
+
+- If a business is found in a relationship which has no 'ownership percentage' (e.g. ultimate holding company or 'other party of interest) then it will be treated as having an ownership percentage of 0%.
+
+**Restrict by Level and Ownership Percentage** - sub-business must be found at a depth equal to or less than the *'maximum search depth threshold'* configured **AND** the ownership percentage of the relationship in which it is found must be equal to or greater than the *'ownership percentage threshold'* configured. (In other words, it will search all sub-businesses to the level specified which also have at least the minimum ownership percentage. E.g.: If the *'maximum search depth threshold'* is 2 and the '*ownership percentage threshold'*  is 25%, it will search the business number entered (level 1) plus 1 level of sub-businesses (level 2) which have 25% ownership or more. If a sub-business is found at level 2, but only has 10% ownership then it will not be searched.)
+
+- Details provided above for 'Restrict by Level' and ' Restrict by Ownership Percentage' also apply for this strategy.
+
+**Always Search** - no search restrictions are applied and searches of the entire structure are performed.
+
+If a business occurs in multiple locations within the business structure, then it will be searched for if it meets the search criteria in ANY of those locations. (Example - 'Restrict by levels' search strategy is in place with a *'maximum search depth'* threshold of 2 levels. If Business A is found at both level 2 and at level 3 then it will be searched and the results displayed in both locations) 
+
+If a sub-business does not meet the criteria to be searched anywhere in the business structure, then it is created as **'search restricted'**. There will be no information available for it, apart from its name.
+
+### Identifying Search Restricted sub-businesses
+
+The location of any search restricted businesses is clearly indicated throughout the business structure with the aid of a 'search restricted' icon. If any of these need to be verified, a warning banner is displayed at the top of the verification.
+
+The below screenshots indicate how 'search restrictions' are highlighted.
+
+**What you need to know**
+
+- Search restrictions do not impact sub-businesses with no business number to search.
+
+- The search restrictions warning banner will only display if search restricted sub-businesses require verification. 
+
+- The audit logs record the search restriction thresholds applied to a search, and reflect if a related business was created as 'search restricted' 
+
+- A business can be 'verified' if it contains 'search restricted' sub-businesses in its structure, providing they do not require verification
+
+![](/img/search-3.png)
+
+![](/img/search-4.png)
+
+## Manually searching for a  'search restricted' sub-business
+
+If a related business has been 'search restricted', then you will have the option of manually submitting a search for that business by using the 'perform search' button provided. When this search is submitted, only that specific business is searched for. Any related businesses within it will be 'search restricted'. This provides a greater level of control of the search spend incurred.
+
+![](/img/search-5.png)
+
+##### ***Note:*** *Using the search button immediately submits the search - there is no data entry or confirmation required by the user.*

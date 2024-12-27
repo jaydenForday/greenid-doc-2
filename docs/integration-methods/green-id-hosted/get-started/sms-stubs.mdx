@@ -1,0 +1,48 @@
+---
+id: sms-stubs
+title: SMS Stubs
+sidebar_position: 7
+---
+
+# Sms Stubs
+
+:::note
+
+Please note if you are an NZ customer using the SMS feature, the **‘sender name'** cannot be customised. Please discuss this with your GBG account representative for more information.
+
+:::
+
+## **What is SMS Stubs Mode?**
+
+The SMS stubs mode allows customers to test their integration with greenID without having to send an SMS.
+
+# **How does it work?**{#How-does-it-work?}
+
+The web services that can be used to send an SMS will typically send 2 types of responses:
+
+- Submitted i.e. the SMS has been successfully accepted by the provider.
+
+- Failed i.e. the SMS has not been accepted by the provider.
+
+The stubs numbers allow customers to receive one of the responses highlighted above while they are integrating with greenID. 
+
+## **Stubs Numbers**{#Stubs-Numbers}
+
+| **Numbers**   | **Response** |
+| ------------- | ------------ |
+| +111111111111 | Submitted    |
+| +222222222222 | Failed       |
+
+## **Sample Response for +111111111111**{#Sample-Response-for-+111111111111}
+
+| `<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"> <env:Header/> <env:Body> <ns2:registerVerificationAndSendHostedSMSInviteResponse xmlns:ns2="http://dynamicform.services.registrations.edentiti.com/"> <return> <overallVerificationStatus>IN_PROGRESS</overallVerificationStatus> <responseErrorFlag>false</responseErrorFlag> <responseErrorMessage/> <verificationId>zrlXd8Pw</verificationId> <smsId>9ee9d6a2-ce12-4d42-91d6-335c64a01cb0</smsId> <smsStatus>Submitted</smsStatus> </return> </ns2:registerVerificationAndSendHostedSMSInviteResponse> </env:Body> </env:Envelope>` |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+
+## **Sample Response for +222222222222**{#Sample-Response-for-+222222222222}
+
+| `<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"> <env:Header/> <env:Body> <ns2:registerVerificationAndSendHostedSMSInviteResponse xmlns:ns2="http://dynamicform.services.registrations.edentiti.com/"> <return> <overallVerificationStatus>IN_PROGRESS</overallVerificationStatus> <responseErrorFlag>true</responseErrorFlag> <responseErrorMessage>An unexpected error occurred when attempting to send the SMS.</responseErrorMessage> <verificationId>QXFLekrq</verificationId> <smsId>9d4e12d5-e380-4ce0-a471-429f952f446e</smsId> <smsStatus>Error</smsStatus> </return> </ns2:registerVerificationAndSendHostedSMSInviteResponse> </env:Body> </env:Envelope>` |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+
+## **How can this be setup?**
+
+The stubs mode for this specific capability does not need to be 'setup'. If a customer send us either of the above numbers, greenID will recognise that these numbers are 'stubs numbers' and generate one of the 2 responses. Please note that these numbers do not work in the greenID Production environment - they are for testing / integration purposes only and will only work in a customer's test instance.

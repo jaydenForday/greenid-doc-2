@@ -1,0 +1,33 @@
+---
+id: sms-notification
+title: SMS Notification
+sidebar_position: 1
+---
+
+# SMS Notification
+
+## **What is the SMS Notification Service?**
+
+This notification service has been specifically introduced for customers using the SMS Invite service for Hosted Web. This is a push notification service and will notify customers (on a configured URL) - when the status of an SMS reaches a final state in greenID. This allows customers to take necessary steps in their workflow - for example, sending the SMS again if the SMS failed to be delivered to the individual attempting verification.
+
+## **How does it work?**
+
+Once a phone number has been successfully submitted to greenID for sending an SMS,  greenID will send an API response to the customer which will contain a 'submitted' status (among other output fields). This service enables customers to receive a notification to a specific URL once we are informed by our SMS provider of the final delivery status of the SMS i.e. Delivered, Undelivered or Failed. Below is the explanation of the SMS statuses:
+
+| \*\*Status \*\* | **Explanation**                                                                                                                                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Delivered       | SMS Service Provider has received confirmation of message delivery from the upstream carrier, and, where available, the destination handset.                                                                             |
+| Undelivered     | SMS Service Provider received a delivery receipt indicating that the message was not delivered. This can happen for several reasons including carrier content filtering and the availability of the destination handset. |
+| Failed          | The message could not be sent.                                                                                                                                                                                           |
+
+The SMS notification will be an HTTP POST to the configured URL. The POST HTTP request will contain form data with the following fields:
+
+- Verification ID - as the field “verificationId”
+
+- SMS Status - as the field “smsStatus”
+
+- SMS ID - as the field “smsMessageId”
+
+## **How can this be setup?**
+
+The notification URL is set as a property for a client organisation and can only be configured or changed by GBG staff. Please contact your account representative for more information.

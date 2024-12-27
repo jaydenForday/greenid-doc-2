@@ -1,0 +1,46 @@
+---
+id: v1-16-jan-2019
+title: V 1.16 Jan 2019
+sidebar_position: 4
+---
+
+# V 1.16 Jan 2019
+
+## Release Dates
+
+**Test**: Jan 8, 2019
+
+**Production**: Jan 22, 2019
+
+## In This Release
+
+This release sees a new feature delivered that will allow the user to view additional information about a top level business (for cases where there is additional information available). There is a new 'show additional details' button on the main business display page:
+
+![](/img/image1.webp)
+
+When pressed this will show details such as addresses, trading names/business names, previous entity names, registered date etc. An example of the additional business details for Vix Verify PTY LTD is seen below:
+
+![](/img/image2.webp)
+
+The information displayed will vary depending on the business type and the details which are available from the business register used to lookup the business. It should be noted that the 'show additional details' feature will **only** be available for new business verifications created **on or after 9 January 2019**. It will NOT be available for pre-existing verifications. 
+
+This release also includes the extraction of the additional business details mentioned above via the greenID Business API for extracting verifications. 
+
+Both the [greenID Business User Guide](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/491652037/greenID+Business+Admin+Panel+User+Guide) and the [data extraction API documentation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/448135169/greenID+Business+API+businessVerification+-+GET) have been updated to reflect the additional business information now available. This documentation is available on the greenID Customer Knowledgebase.
+
+In this release, additional work has been done to improve the internal workings of the system and a number of internal bug fixes have been implemented. These are highlighted in the table below.
+
+## Features and Updates
+
+The following outlines some of the key updates delivered in this release:
+
+| **Business Verification** |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **New Functionality**     | Additional information about a top level business (for cases where there is additional information available) can now be viewed on the business information screen and also in the greenID Business API when the verification is extracted. This is only available for verifications created on/after 9 January 2019.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Errors and Bug Fixes**  | Managed investment Scheme business types now correctly display the controllers of the business (i.e. the 'Responsible Entity') in the controllers section.Logging of performance metrics was occasionally causing a 'ConstraintViolationException' error to be shown to users. This has been resolved and this error should no longer occur.Errors accessing external business registers (such as timeout errors), are no longer being reported as 'not found' errors. Error messages to the user now state that there was a problem accessing the register. This more accurately reflects the actual error encountered by the system.ABR search billing events are now correctly recording successful and unsuccessful searches. Previously, businesses not found on the ABR would be recorded as successful ABR searches, these are now recorded as ABR search errors. The internal billing report now correctly reflects these results. (Please note: Since the impacted billing event is currently a non chargeable event, there were no customer or financial impacts as a result of this issue)Improved messaging on internal reporting logs for billing events and data source errors. |
+
+## Constraints and Known Issues
+
+No new constraints or known issues were introduced in this release.
+
+Existing constraints and known issues can be found on the [Constraints and Known Issues page](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues)

@@ -1,0 +1,325 @@
+---
+id: testing-data
+title: Testing Data
+sidebar_position: 1
+---
+
+# Testing Data
+
+:::note
+
+**IMPORTANT:** greenID has two versions of stubs codes v1 and v2. v1 stubs code has different character positioning for different data sources and can be triggered if customers do not include a 'TWO' or '2-' (where relevant) in front of their stubs data. To ensure that stubs codes are working appropriately customers are advised to always include 'TWO' or '2-' in front of their data when testing using stubs. See **'Using Stubs'** for more information.
+
+:::
+
+:::note
+
+\*\*TESTING GUIDELINE: \*\* When testing please use test data that meets field validation. Some data sources may result in failures or errors if the appropriate validation is not met.
+
+:::
+
+It's very important to test your verification rule set using both real live data and 'stubs'. Without doing this, potential problems can go unnoticed until it's too late.&#x20;
+
+## About real data testing
+
+Testing with real data means just that - inputting real people's details into the system. The results that they achieve are the same as they would be if that person was a real customer. Testing with real data means:
+
+- you can be sure that all data is being sent to greenID in the correct field and format
+
+- you can get a feel for how easy or hard your chosen verification rule set is to pass, and whether you have selected a good range of data sources
+
+- you can address these things before going live
+
+GreenID does not provide real data for testing, however, we are happy to purge your test system of all data prior to go live.
+
+## About stubs testing
+
+Stubs testing allows various codes to be input that will force different verification results on each data source. Stubs makes it easy to use fake data to force various verification results, removing the need to find real data that can achieve all these results.
+
+However, testing only with stubs (and not doing any real data testing) means that the actual format of the data you are sending to greenID is never tested for errors (most data fields are ignored under stubs testing). You may find too late that you are not sending the address in the correct fields, for example, because only testing with real data would pick this up.
+
+### Turning on Stubs
+
+Stubs can be turned on via the Administration Panel. Note that stubs are only available in test they do not work in production. After logging into the Administration Panel, use the "Switch Stubs" menu item to turn stubs on and off. When stubs are "on" they are on for all users of the test site.
+
+Different codes are available for background and interactive checks, as outlined in the following sections. In most rulesets, there is no way to completely pass a verification rule set using background sources alone. A combination of the background and interactive stubs codes must be used to achieve full verification.
+
+#### Using Stubs
+
+##### **Changes to stubs**
+
+:::note
+
+The stubs codes for background have changed to reflect the fact that some data sources are no longer available, and some new data sources have become available.
+
+The update to the stubs codes is dubbed "stubs 2" (i.e. version 2) to differentiate it from the original stubs codes.
+
+**The original stubs codes are deprecated, and no longer supported.**
+
+The main changes have been to the stubs code for background checks, but there have also been changes to the stubs codes for interactive checks.
+
+The original background stubs codes will continue to function, but they are no longer being supported, and so no changes or fixes will be made. If you are creating or updating tests that use stubs for testing background sources, then use stubs 2.
+
+When testing please use test data that meets field validation. Some data sources may results in failures or error if the appropriate validation is not met.
+
+:::
+
+Existing background stubs codes will continue to work, so if you have tests with stubs codes in the middle name, they will continue to work. To use stubs 2 with background sources, a different string is required in the middle name field.
+
+**To use stubs 2, the middle name string must being with "2-".** This instructs the greenID stubs manager to use stubs 2. All of the subsequent codes and examples will follow this convention.
+
+If your input validation prohibits the use of digits or hyphens in name fields, the alternate prefix "TWO" can be used.
+
+If a source's validation prohibits the use of digits or hyphens in name fields, then 2- will not work and "TWO" should be used. An example of this is the 'Australian Electoral Roll'.
+
+*\*\* Please note that the stub codes are NOT case sensitive.*
+
+### Using stubs for New Zealand data sources
+
+A customer may elect to use stubs codes for New Zealand data sources. These sources use a different stubs mapping scheme. The New Zealand stubs do not require the use of stubs 2. For full details, please refer to the tables below.
+
+## Codes for background checks (Australia){#DataTesting-Codesforbackgroundchecks(Australia)}
+
+The code for background checks consists of a series of letters, each of which relate to one of the background checks. GreenID interprets this code and sends back the corresponding result. **Please note there is no difference between the stubs code for a standard or a cascading background source, the same background stubs code applies.**
+
+This series of letters is sent to greenID in the middle name field. The order of these letters is extremely important to ensure the right verification outcome. The order is defined as below:
+
+| **Position** | **Data Source**                   | **Position** | **Data Source**                                                                                                                                          |
+| ------------ | --------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1st          | Blacklist (OPAC, DFAT)            | 13th         | Victorian Electoral Roll                                                                                                                                 |
+| 2nd          | Blacklist (OFAC)                  | 14th         | illion Credit Header (results in a full name + address + DOB match) \*                                                                                   |
+| 3rd          | Blacklist (PEP)                   | 16th         | greenID fraud check (if configured)                                                                                                                      |
+| 4th          | Australian Electoral Roll  #      | 17th         | Experian Credit Header\*                                                                                                                                 |
+| 6th          | FCS Public Number Directory       | 18th         | Data Co-op Database (only returns a full match)                                                                                                          |
+| 7th          | ASIC Personal Name Search         | 19th         | illion credit header - Australian banking & finance segment (results in a full name + address + DOB match) \*                                            |
+| 8th          | Australian Tenancy File           | 20th         | illion credit header - Australian telecommunications segment (results in a full name + address + DOB match) \*                                           |
+| 9th          | FNS NAD File                      | 21st         | illion credit header - Australian utilities segment (results in a full name + address + DOB match) \*                                                    |
+| 10th         | Australian Claims Database        | 22nd         | illion credit header - Australian public records segment (results in a full name + address + DOB match) \*                                               |
+| 12th         | Western Australian Electoral Roll | 25th         | Payroll Data                                                                                                                                             |
+|              |                                   | 26th         | Superannuation Data                                                                                                                                      |
+|              |                                   | 27th         | GBG Alert [(see note below)](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880678/Data+Testing#DataTesting-TestingGBGAlert)                   |
+|              |                                   | 28th         | Visa Entitlement Check [(see note below)](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880678/Data+Testing#DataTesting-VisaEntitlementCheck) |
+
+\# For this source 'TWO' not '2-' must be used for stubs v2 due to validation restrictions
+
+\* See below for [Credit Header stubs options, including forcing partial matches.](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880678/Data+Testing#DataTesting-CodesfortheillionCreditHeadercheck)
+
+*\*\* Please note that the stub codes are NOT case sensitive.*
+
+The letters are defined as follows:
+
+- "P" = Pass
+
+- "F" = Fail
+
+- "E" = Error
+
+- "TwoError" = Error (for all sources, i.e. the entire registration)
+
+- "TwoPass" = pass all sources
+
+- "TwoFail" = fail all sources
+
+- Any other character = Fail
+
+Note that if a character is missing, then a fail will be given for that source. For example, if the middle name string contains only 12 "P"s, then the 13th and 14th sources will be automatically failed.
+
+So, an example that would trigger a pass on the White Pages and Electoral Roll sources only, and a fail on all others, is as follows:
+
+| `2-FFFPPFFFFFFFFF` |
+| ------------------ |
+
+The alternate prefix is used in the same way:
+
+| `TWOFFFPPFFFFFFFFF` |
+| ------------------- |
+
+## Codes for background checks (New Zealand){#DataTesting-Codesforbackgroundchecks(NewZealand)}
+
+The order is defined as below:
+
+| **Position** | **Data Source**                                                        | **Position** | **Data Source**                                                                                        |
+| ------------ | ---------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------ |
+| 1st          | Blacklist (OPAC, DFAT)                                                 | 10th         | Experian Credit header                                                                                 |
+| 2nd          | Blacklist (OFAC)                                                       | 11th         | Centrix Credit Header                                                                                  |
+| 3rd          | Blacklist (PEP)                                                        | 12th         | NZ PPSR                                                                                                |
+| 4th          | DIA Births                                                             | 13th         | NZ Tenancy (illion)                                                                                    |
+| 5th          | NZ Companies Office Directors and Shareholders Database                | 14th         | illion credit header - NZ banking & finance segment (results in a full name + address + DOB match) \*  |
+| 6th          | DIA Citizenship                                                        | 15th         | illion credit header - NZ telecommunications segment (results in a full name + address + DOB match) \* |
+| 7th          | illion Credit Header (results in a full name + address + DOB match) \* | 16th         | illion credit header - NZ utilities segment (results in a full name + address + DOB match) \*          |
+| 8th          | LINZ Property Ownership Database                                       | 17th         | illion credit header - NZ public records segment (results in a full name + address + DOB match) \*     |
+| 9th          | Tenancy Information NZ (TINZ)                                          |              |                                                                                                        |
+
+\* See below for [other illion Credit Header stubs options, including forcing partial matches](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880678/Data+Testing#DataTesting-CodesfortheillionCreditHeadercheck).
+
+*\*\* Please note that the stub codes are NOT case sensitive.*
+
+The same letters apply to New Zealand stubs codes as to Australian stubs codes, however the prefix "2-" or "TWO" is not required.
+
+So, an example that would trigger a pass on the illion credit header file only would be
+
+| `FFFFFFPF` |
+| ---------- |
+
+## Codes for interactive checks (Australia){#DataTesting-Codesforinteractivechecks(Australia)}
+
+Using the stubs testing approach means the background stubs mentioned in the section above must first be used, after which interactive verification can be attempted. Stubs for interactive checks are accessed via a nominated field per verification method, as defined below.
+
+Whilst performing interactive verification, the tester must enter a code into the nominated field for that data source, which greenID will interpret and then send back a corresponding response. The field in which the stubs code must be entered varies from source to source.
+
+The codes are detailed in the table below. These codes have been defined to take into consideration:
+
+- format and size of the fields
+
+- check digit restraints
+
+The screens for interactive verification are pre-populated with the individual's details provided at registration; however, the fields should be modified by the tester to include the codes below at the time of interactive testing.
+
+Note: interactive methods not mentioned here do not have stubs at this point in time.
+
+| **Interactive source**                        | **Nominated field for code input**       | \*\*'Verified' result \*\* | **'Verified With Changes' result** | **'Pending Review' result** | **Error (source unavailable)** | **'Not Contributing' result** |
+| --------------------------------------------- | ---------------------------------------- | -------------------------- | ---------------------------------- | --------------------------- | ------------------------------ | ----------------------------- |
+| Australian Electoral Roll (AML version)       | Street No.                               | 1                          | 2                                  | 3                           | 4                              |                               |
+| Australian Passport - DVS                     | Passport No.                             | A1111111                   | A2222222                           | A3333333                    | A4444444                       | A6666666                      |
+| Australian Visa - DVS                         | Passport No.                             | A1111111                   | A2222222                           | A3333333                    | A4444444                       | A6666666                      |
+| Employment Visa                               | Passport No.                             | A1111111                   | A2222222                           | A3333333                    | A4444444                       |                               |
+| Medicare                                      | Medicare No.                             | 2111111111                 |                                    | 3333333303                  | 4444444404                     | 6666666606                    |
+| All driver's licences                         | Licence No.                              | 11111111                   |                                    | 33333333                    | 44444444                       |                               |
+| WA Electoral Roll                             | Street No.                               | 1                          | 2                                  | 3                           | 4                              |                               |
+| VIC Electoral Roll                            | Year of birth (any day and month are OK) | 1901                       | 1902                               | 1903                        | 1904                           |                               |
+| Medibank Private                              | Membership number                        | 11111111                   | 22222222                           | 33333333                    | 44444444                       |                               |
+| Birth Certificate - DVS                       | Registration No.                         | 11111111                   | 22222222                           | 33333333                    | 44444444                       |                               |
+| Australian Citizenship Certificate - DVS      | Stock No.                                | 11111111                   | 22222222                           | 33333333                    | 44444444                       |                               |
+| Citizenship by descent (post-July 2005) - DVS | Client Id.                               | 11111111111                | 22222222222                        | 33333333333                 | 44444444444                    |                               |
+| Citizenship by descent (pre-July 2005) - DVS  | Register No.                             | 1111                       | 2222                               | 3333                        | 4444                           |                               |
+| Citizenship by descent (pre-July 2005) - DVS  | Entry No.                                | 11111                      | 22222                              | 33333                       | 44444                          |                               |
+| Marriage Certificate - DVS                    | Registration No.                         | 11111111                   | 22222222                           | 33333333                    | 44444444                       |                               |
+| Change of Name Certificate - DVS              | Registration No.                         | 11111111                   | 22222222                           | 33333333                    | 44444444                       |                               |
+| Immi Card - DVS                               | Registration No.                         | AAA111111                  | AAA222222                          | AAA333333                   | AAA444444                      |                               |
+| Registration by Descent Certificate - DVS     | Stock No.                                | 11111111                   | 22222222                           | 33333333                    | 44444444                       |                               |
+| Centrelink card - DVS                         | CRN                                      | 111111111A                 |                                    | 333333333A                  | 444444444A                     | 666666666A                    |
+
+*\*\* Please note that the stub codes are NOT case sensitive.*
+
+## Codes for interactive checks (New Zealand){#DataTesting-Codesforinteractivechecks(NewZealand)}
+
+Using the stubs testing approach means the background stubs mentioned in the New Zealand background stubs must first be used, after which interactive verification can be attempted. Stubs for interactive checks are accessed via a nominated field per verification method, as defined below.
+
+Whilst performing interactive verification, the tester must enter in a code into the nominated field for that data source (14th for illion, which greenID will interpret and then send back a corresponding response. The field in which the stubs code must be entered varies from source to source.
+
+The codes are detailed in the table below. These codes have been defined to take into consideration:
+
+- format and size of the fields
+
+- check digit restraints
+
+The screens for interactive verification are pre-populated with the individual's details provided at registration; however, the fields should be modified by the tester to include the codes below at the time of interactive testing.
+
+Note: interactive methods not mentioned here do not have stubs at this point in time.
+
+| **Interactive source**                  | **Nominated field for code input** | \*\*'Verified' result \*\*                                                                                                | **'Verified With Changes' result** | **'Pending Review' result** | **Error (source unavailable)** |
+| --------------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------- | ------------------------------ |
+| NZ Transport Authority Driver's Licence | Licence No.                        | 11111111 or AA111111                                                                                                      |                                    | 33333333 or AA333333        | 44444444 or AA444444           |
+| NZ Passport                             | Passport No.                       | A1111111                                                                                                                  | A2222222                           | A3333333                    | A4444444                       |
+| NZ Birth Certificate                    | Year of birth                      | 1901                                                                                                                      | 1902                               | 1903                        | 1904                           |
+| NZ Citizenship                          | Year of birth                      | 1901                                                                                                                      | 1902                               | 1903                        | 1904                           |
+| Automobile Association Membership       | Membership No.                     | 3083261111111111 (name + address + DoB match) 3083261111111112 (name + address match) 3083261111111113 (name + DoB match) | 3083262222222222                   | 3083263333333333            | 3083264444444444               |
+| White Pages                             | Street No.                         | 1                                                                                                                         | 2                                  | 3                           | 4                              |
+
+*\*\* Please note that the stub codes are NOT case sensitive.*
+
+## Codes for the Credit Header checks{#DataTesting-CodesfortheCreditHeaderchecks}
+
+The illion and Experian Credit Header check behaves differently to other checks. Below is the required input to force the possible results.
+
+**Note:** The illion Credit Header check does not allow any input via the greenID interactive screen. Therefore, **the codes below must be used at the time of customer registration**.
+
+First you need to invoke the Credit Header check by placing a 'P' or 'F' in the relevant position in the middle name field (14th for illion credit header and 17th for Experian credit header), as described above for [Australia](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=8880678#DataTesting-Codesforbackgroundchecks\(Australia\)) or [New Zealand](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=8880678#DataTesting-Codesforbackgroundchecks\(NewZealand\)).
+
+- Using a 'P' will force a full name + address + DOB 'Verified' result.
+
+- Using an 'F' will force a 'Fail' result.
+
+See below on how to trigger a 'Partial Match' for illion or Experian credit header sources.
+
+## Full or Partial Data Matches in Stubs{#DataTesting-FullorPartialDataMatchesinStubs}
+
+To force the different possible partial or full matches, the following codes can also be used (in conjunction with the 'P' mentioned above.) This method works for any data sources where partial matches can be returned, for example the Australian Claims Database or the Data Co-op Database.
+
+| **Nominated field for code input** | **Full name + address + DOB 'Verified' result** | **Partial name + address 'Verified' result** | **Partial name + DOB 'Verified' result** |
+| ---------------------------------- | ----------------------------------------------- | -------------------------------------------- | ---------------------------------------- |
+| Surname                            | NameAddressDob                                  | NameAddress                                  | NameDob                                  |
+
+*\*\* Please note that the stub codes are NOT case sensitive.*
+
+## Testing Lockout Functionality{#DataTesting-TestingLockoutFunctionality}
+
+If lockout functionality has been enabled then if any character other than the codes detailed in the table above is entered 3 times, the tester will achieve a Verification Result of "Lockout". Any incorrect code entered 5 times across any source will result in an overall verification result of "Lockout".
+
+## Testing greenID Alert Responses{#DataTesting-TestinggreenIDAlertResponses}
+
+greenID Alert must be configured within your account to enable testing of its outcomes. 
+
+Testing uses a combination of the 16th letter of middle name as well as the \<deviceIDData> field to control the results. The 16th letter in the middle name drives the overall response and the \<deviceIDData> field determines the number of RCF codes that are returned. 
+
+Accepted values for 16th letter of the middle name are:
+
+A - for an accept pass  (greenID alert specific)
+
+D - for a deny fail (greenID alert specific)\
+C - for a challenge fail  (greenID alert specific)\
+F - a standard fail, same as any other source\
+P - a standard pass, same as any other source\
+E - for error, e.g. greenID can not make the call to redshield
+
+An example of the middle name field which would drive a DENY response is 2-FFFFFFFFFFFFFFFD.
+
+RCF codes indicate the rules that were triggered during the greenID alert check. The number of RCF codes returned for a challenge or deny response is determined by the number in the \<deviceIDData> attribute.
+
+Accepted values for \<deviceIDData> attribute are:\
+11111111- a single predetermined RCF code will be returned\
+22222222 - two predetermined RCF codes will be returned\
+33333333 - three predetermined RCF codes will be returned\
+44444444 - four predetermined RCF codes will be returned\
+55555555 - five predetermined RCF codes will be returned
+
+## Testing GBG Alert (stubs mode){#DataTesting-TestingGBGAlert(stubsmode)}
+
+GBG Alert must be configured on your GBG Alert account to enable testing this feature. With stubs mode enabled, in the middle name, send a ‘27th’ character with ‘P’, ‘E’ or ‘F’.
+
+| **Example data for middle name** | **Result**                                 |
+| -------------------------------- | ------------------------------------------ |
+| TWOPPPPPPPPPPPPPPPPPPPPPPPPPPP   | GBG Alert checked – no rules raised        |
+| TWOPPPPPPPPPPPPPPPPPPPPPPPPPPF   | GBG Alert checked – all alert rules raised |
+| TWOPPPPPPPPPPPPPPPPPPPPPPPPPPE   | GBG Alert not checked - error              |
+
+ All configured active rules for the account / ruleID will trigger.
+
+## Testing GBG Alert (non-stubs mode){#DataTesting-TestingGBGAlert(non-stubsmode)}
+
+GBG Alert must be configured on your GBG Alert account to enable testing this feature. Please note:
+
+- these rules and a corresponding verification block will only occur if these are configured to your greenID account
+
+- Use this as an alternative, if you are unable to stubs mode to test GBG Alert
+
+The following identities can be used to raise Rules B1 and B2 in **Test**:
+
+| **Rule** | **Given Name** | **Surname**  | **DOB**  |
+| -------- | -------------- | ------------ | -------- |
+| B1       | Sam            | Anderson     | 5/12/96  |
+| B2       | Blair          | Alice Oswald | 30/12/66 |
+
+**Please note:** This data is used in the Test instance so in addition to the B rules may trigger othe configured rules. The intent of this data is just to give customers an overview of what the results look like in greenID admin panel and API.
+
+## Visa Entitlement Check {#DataTesting-VisaEntitlementCheck}
+
+As the visa entitlement check does not contribute to verification outcomes, stubs code will result in the following results:
+
+| **Stubs Code** | **Result**        |
+| -------------- | ----------------- |
+| P              | Details Found     |
+| F              | Details not Found |
+| E              | Error             |
+
+\\

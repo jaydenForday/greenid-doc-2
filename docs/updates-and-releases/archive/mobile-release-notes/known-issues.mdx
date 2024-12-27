@@ -1,0 +1,27 @@
+---
+id: known-issues
+title: Known Issues
+sidebar_position: 1
+---
+
+# Known Issues
+
+## **Existing known issues in greenID Mobile are detailed below:**
+
+- **iOS and Android SDKs: Some phones show initial page twice**
+
+In returning user mode, the “Sign up and verify your identity” screen is reloading after the initial display on some Samsung and iPhone models. We are looking into the cause.
+
+- **Document review screen stealing focus**
+
+Under certain rare conditions, it is possible for the document review screen to take focus when the document review screen is ready, even when the mobile application is in the background.
+
+The circumstances that allow this to occur have been minimised. However, it is still possible for this behaviour to occur in rare circumstances.
+
+- **Document capture widget display**
+
+Under certain conditions the document capture widget will appear discoloured. This has been mainly noted in the capture 'retake' process and is likely an issue with the third-party capture widget.
+
+- **Selfie capture widget colours**
+
+On iOS, with greenID Mobile SDK 1.35, the buttons on the Selfie capture screens are blue, instead of green, and they cannot be styled to other colours.  This will be fixed in the next release of greenID Mobile.  If this is causing issues in your product, please contact our customer support team for an interim patch. 

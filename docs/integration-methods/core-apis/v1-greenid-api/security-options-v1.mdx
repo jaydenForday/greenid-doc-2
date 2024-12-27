@@ -1,0 +1,54 @@
+---
+id: security-options-v1
+title: Security Options V1
+sidebar_position: 12
+---
+
+# Security Options V1
+
+There are 2 main security options to choose from depending on your infrastructure.
+
+- Mutual Authentication
+
+- Password
+
+Depending on your choice you will need to consume a [specific WSDL and call a specific Web Service](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880463/Web+Service+Endpoints).
+
+All connections to the API must be protected by encryption, i.e. plain text transmission is not permitted under any circumstances.
+
+Authentication is performed with the combination of accountId and password fields.  However, mutual SSL authentication can be used if preferred.  To use mutual SSL authentication, please contact us.  When using mutual SSL authentication, the customer must provide a client certificate as part of the handshake process.  The client certificate can be signed by our private certificate authority, or an external CA.  If an external CA is used, Edentiti needs to know which CA so that the CA certificate can be imported into the greenID truststore.
+
+When mutual authentication is being used, a different endpoint must be used.  Details are in the [Web Service Endpoints](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880463/Web+Service+Endpoints) section.
+
+## Mutual Authentication{#SecurityOptions-MutualAuthentication}
+
+In a normal HTTPS connection (over which the web services outlined in this document are served) the client is presented with a certificate by the server. The client then decides whether or not to trust the server based on who signed the certificate. With Mutual Authentication the client also provides a signed certificate which the server then validates before a connection can take place.
+
+If you choose to use Mutual Authentication then you can provide a Certificate Signing Request (CSR) which Edentiti will sign with its private CA, or if you have a signed certificate you can just provide the trusted public CA certificate of the signing body. Edentiti will not only check to see that the certificate is signed by a trusted body, but it will also examine the content of the certificate to ensure that the certificate owner can only perform web service calls on the correct accountId . As a certificate cannot be tampered with, this ensures that no other customer can retrieve information about your users.
+
+As part of your User Acceptance Testing, it's important you allow time to test that you can connect over Mutual Authentication in the greenID production environment. Your greenID system will be migrated to production approximately 2 weeks after final sign-off of your greenID configuration, so this timeframe plus a testing period should be factored into any project planning.
+
+Note that the WSDL's for the MSSL web services also list a password argument to all the calls, however this is is ignored when the MSSL endpoints are used and is present only maintain a consistent interface for all our web service endpoints.
+
+### Setup{#SecurityOptions-Setup}
+
+We use the following process to configure mutual authentication for **test** and then for **production**.\
+There are two options that you can choose from depending upon your needs and current setup.  Our preferred option is for us to generate and sign a certificate using the Edentiti private certificate authority.
+
+**If you wish to use a client certificate signed by the Edentiti private certificate authority**:
+
+1. Send us a [certificate signing request](http://en.wikipedia.org/wiki/Certificate_signing_request) (CSR) for your application infrastructure.
+
+2. We will generate a certificate using the CSR, pass that certificate to you and then add that certificate to our trusted list of certificates for your test or production account.
+
+3. You need to add that certificate to your application server as a client certificate.
+
+4. To test the trust has been setup, retrieve the appropriate [MSSL WSDL](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880463/Web+Service+Endpoints) from the server that has the certificate installed on it.
+
+## Password{#SecurityOptions-Password}
+
+Even without Mutual Authentication the web service calls are conducted over HTTPS, ensuring that the contents are safe from observers. So a second option is to provide a password with the web service calls.
+
+To use password authentication you will need to provide a password with every web service call you make.  The password will be provided to you with your accountId.
+
+If you choose password authentication then every web service call outlined in this document will also require a password with each request. 

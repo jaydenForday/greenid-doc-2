@@ -1,0 +1,71 @@
+---
+id: overview
+title: Overview
+sidebar_position: 1
+---
+
+# Overview
+
+The greenID verification process requires that certain details about an associated person or business be captured and then checked against reliable sources. These details may be entered into a business verification record in two ways:
+
+- GreenID downloads details from a business register;
+
+- You or another administrator enters the details manually.
+
+Sometimes both methods are required. Regardless of the method, you will need to know about [Adding an associated party](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492863966/Adding+an+associated+party), [Editing an associated party](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492831345/Editing+an+associated+party) and [Deleting an associated party](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492798458/Deleting+an+associated+party). 
+
+## Downloading details from a business register
+
+If a business number was used to search for a business on a business register when the verification record was created, greenID automatically downloads information about its associated parties from the business register. If any of them are businesses, greenID attempts to retrieve information about those businesses from the relevant registers as well, until it reaches the bottom of the associated party tree structure or until it encounters any [greenID Business Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions) configured on your account.
+
+In some cases, greenID is unable to download information about an associated business identified. This can happen under the following circumstances:
+
+- The register did not provide a business number for the associated business.
+
+- The business number provided wasn’t found on the register\*
+
+- greenID encountered an error when looking up the associated business\*
+
+- [greenID Business Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions) prevented the automatic download of information\*\*
+
+If downloading isn't possible due to their being no business number available to search, greenID classifies the business with a business type of “Other” and assigns a generic set of roles to it in the verification record. Details about the business (and any associated parties) must then be entered manually.
+
+\*If greenID encounters an error searching for an associated business, it displays an error status, which may be removed by trying again later, or correcting the number to be searched for. If the error is resolved, greenID downloads the data and replaces any generic roles it inserted with the appropriate business structure.
+
+\*\*If you have [Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions) configured on your account, this may prevent the download of information for associated businesses if they do not meet the criteria to be automatically searched. These will clearly be indicated as 'search restricted' and you will have the option available to initiate a further search for these. (These businesses cannot be expanded for manual population). 
+
+## Collecting details for manual entry
+
+greenID collects different types of details depending on whether an associated party is an individual or a business. These details should be at hand when entering items manually:
+
+**For both individuals and businesses:**
+
+- The role or relationship the party has with the business.
+
+- If the party has a controlling or beneficial interest, what percentage does it have (e.g., a partner has 30 percent ownership of the partnership).
+
+- If the party holds shares, what are the details of the shareholding.
+
+**For individuals:**
+
+- Full name
+
+- Address
+
+- Date of birth
+
+Depending on the sources used for verification, you may also need to provide additional data, such as government-issued ID numbers, for the verification check. For example, a passport number is required when checking a passport database. If additional data is required, you will be asked to enter it when you begin verification checks.
+
+**For businesses:**
+
+- Country in which the business is registered
+
+- Business number (if applicable)
+
+- Full name of the business
+
+- Type of business (e.g., company, partnership, trust)
+
+Also, as with the primary business you are verifying, you need evidence that an associated business is a business entity. If the business does not have a business number that greenID can look up in a register, you will need to upload scanned documents as evidence. (See [Verifying the existence of a business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492830791/Verifying+the+existence+of+a+business))
+
+In either case, when you add or edit an associated party, a wizard walks you through the process.

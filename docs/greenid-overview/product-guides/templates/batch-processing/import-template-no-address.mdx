@@ -1,0 +1,23 @@
+---
+id: import-template-no-address
+title: Import Template No Address
+sidebar_position: 4
+---
+
+# Import Template No Address
+
+This template is to be used if you have the Australian Death Check Service enabled on its own using the Rule ID of: ACD
+
+| **Column Name**            | **Required** | **Description**                                                                                                                                                                                            |
+| -------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Rule**                   | Yes          | Tells greenID to specifically process the batch against this ruleset.                                                                                                                                      |
+| **ME\_ID**                 | No           | You can optionally predefine your own reference numbers. Reference numbers must be unique. If a duplicate reference number already exists on your account, then a unique reference number will be created. |
+| **First\_Name**            | Yes          | The person's first name.                                                                                                                                                                                   |
+| **Middle\_Name**           | No           | The person's middle name(s).                                                                                                                                                                               |
+| **Last\_Name**             | Yes          | The person's last name.                                                                                                                                                                                    |
+| **DOB**                    | Yes          | The person's date of birth.                                                                                                                                                                                |
+| **doAustralianDeathCheck** | Yes          | Needs to be set to TRUE for the record to be checked against the Australian Death Check service.                                                                                                           |
+
+ 
+
+![](/img/excel5.png)

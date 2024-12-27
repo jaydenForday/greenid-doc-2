@@ -1,0 +1,176 @@
+---
+id: introduction
+title: Introduction
+sidebar_position: 1
+---
+
+# Introduction
+
+:::note
+
+This section contains information about the web services specifically available for use with the Hosted channel for greenID. The reader is assumed to have:
+
+- an understanding of the Hosted Web channel in greenID;
+
+- a general understanding of programming; and 
+
+- Web Services and how to consume them.
+
+If you are looking to integrate greenID via API please go to [API integration section](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#) of the wiki.
+
+:::
+
+:::note
+
+The SMS service is a charged service and any messages sent to a valid mobile number in Test and Production are chargeable. Please use '[SMS Stubs Mode](https://confluence.gbgplc.com/display/ABOUT/SMS+Stubs+Mode)' if you are integrating one of the Hosted Web Services and want to test expected responses, the use of stubs numbers **does not** incur a charge.
+
+:::
+
+## **Purpose of the Hosted Web API**
+
+The Hosted Web API is specifically designed for facilitating customers who want to use:
+
+- the SMS Invite capability to to invite users to to start or complete their verification using the Hosted website; and
+
+- retrieving a URL link to the Hosted website.
+
+## **Typical Use Cases**
+
+### **Invite a New User for Verification**
+
+This allows customers to invite their users to their Hosted website via an SMS invite. In this use case, the user will be registered in greenID after they visit the Hosted website and complete their verification attempt. Since this web service does not 'register' an individual up front, it has two methods - the first one is to invite the user for verification via SMS and the second method provides information about the status of the SMS invite.
+
+**Note:**  For customers using this implementation, there are 2 methods: sendHostedSMSInviteForOnboarding (sending the SMS invite) and getHostedSMSInvitationStatus (querying the invitation status to track if the user has registered).
+
+*This method is recommended for customers who do not want to capture too much upfront information from the user and also have greenID Scan configured where a mobile device can help with better verification outcomes.*
+
+#### Methods{#Methods}
+
+- [sendHostedSMSInviteForOnboarding & getHostedSMSInvitationStatus](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2163146761)
+
+### **Register and Invite a New User for Verification**
+
+This allows customers to pass in registration information to greenID (therefore creating a registration) and then inviting users to complete their verification attempt via an SMS.
+
+*This method is recommended for customers who are able to capture some information from the user up front and want to be able to create a record in greenID for the user prior to them completing their verification attempt on the Hosted site. It also facilitates customers using greenID Scan where a mobile device can help with better verification outcomes.*
+
+#### Method{#Method}
+
+- [registerVerificationAndSendHostedSMSInvite](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2163081269)
+
+### **Send an SMS for an Existing Registration**
+
+This allows customers to invite an already registered user to complete their verification attempt via an SMS.
+
+*This method is recommended for customers who may want to re-invite users to complete their verification or for customers who are using a different method (eg. Admin Panel) to register user prior to inviting them.*
+
+#### Method{#Method.1}
+
+- [sendHostedSMSInviteForExistingRegistration](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2163081290)
+
+### **Generate a Link for an Existing Registration**
+
+This allows customers to retrieve a link for an existing verification so they can invite users to complete their verification via their own workflow.
+
+*This method is recommended for customers who may have workflows in place to invite their users to the site after retrieving the link.*
+
+#### Method{#Method.2}
+
+- [generateHostedInviteURLForExistingRegistration](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2162884831)
+
+### \*\*Register and Generate a Link for New Registration \*\*
+
+This allows customers to register a new user and retrieve a link so they can invite users to complete their verification via their own workflow.
+
+*This method is recommended for customers who may have workflows in place to invite their users to the site after retrieving the link.*
+
+#### Method{#Method.3}
+
+- [registerVerificationAndGenerateHostedInviteURL](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2162884761)
+
+### **Generate a Link to Invite a User for Verification**
+
+This allows customers retrieve a unique URL so they can invite users to complete their verification. In this use case, the user will be registered in greenID after they visit the Hosted website and complete their verification attempt.
+
+#### Method{#Method.4}
+
+- [generateHostedInviteURLForOnboarding](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2293923841)
+
+## **Hosted Endpoints**
+
+The greenID Hosted API has both a SOAP endpoint and a JSON endpoint.
+
+## **SOAP Endpoint**{#SOAP-Endpoint}
+
+**Test prefix:** test-au
+
+**Test WSDL:** [https://test-au.vixverify.com/Registrations-Registrations/GreenIDHostedAPIService?wsdl](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+**Prod prefix:** au
+
+**Prod WSDL:** [https://au.vixverify.com/Registrations-Registrations/GreenIDHostedAPIService?wsdl](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+The SOAP endpoint is 
+
+https\://\<environment>.[vixverify.com/Registrations-Registrations/GreenIDHostedAPIService](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+with the following soap body tags:
+
+sendHostedSMSInviteForOnboarding
+
+getHostedSMSInvitationStatus
+
+registerVerificationAndSendHostedSMSInvite
+
+sendHostedSMSInviteForExistingRegistration
+
+registerVerificationAndGenerateHostedInviteURL
+
+generateHostedInviteURLForExistingRegistration
+
+generateHostedInviteURLForOnboarding
+
+## **JSON Endpoints**{#JSON-Endpoints}
+
+Test prefix: simpleui-test-au
+
+Prod prefix: simpleui-au
+
+The JSON endpoints are:
+
+https\://\<environment>.[vixverify.com/df/sendHostedSMSInviteForOnboarding](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+https\://\<environment>.[vixverify.com/df/getHostedSMSInvitationStatus](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+https\://\<environment>.[vixverify.com/df/registerVerificationAndSendHostedSMSInvite](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+https\://\<environment>.[vixverify.com/df/sendHostedSMSInviteForExistingRegistration](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+https\://\<environment>.[vixverify.com/df/registerVerificationAndGenerateHostedInviteURL](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+[https://\<environment>.vixverify.com/df/generateHostedInviteURLForExistingRegistration](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+https\://\<environment>.[vixverify.com/df/generateHostedInviteURLForOnboarding](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#)
+
+## **ID Glossary**
+
+The Hosted API's introduce some additional identifiers in addition to the verification ID. The table below summarises each ID, its description and the method it is used in.
+
+| Field                   | Description                                                                                                                                                                                                   | Used in (Hosted Methods)                                                                                                                                                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Verification ID**     | A unique identifier associated with a user's registration in greenID.                                                                                                                                         | <p>getHostedSMSInvitationStatus</p><p>registerVerificationAndSendHostedSMSInvite</p><p>sendHostedSMSInviteForExistingRegistration</p><p>registerVerificationAndGenerateHostedInviteURL</p><p>generateHostedInviteURLForExistingRegistration </p> |
+| **SMS Invitation ID**   | An identifier related to the SMS invitation generated specifically in the scenario where the user is not previously registered or registered via the API. They will register when they visit the Hosted site. | <p>sendHostedSmsInviteForOnboarding</p><p>getHostedSMSInvitationStatus</p>                                                                                                                                                                       |
+| **SMS Verification ID** | An identifier supplied by the customer (prior to the registration). Once a user has registered in greenID, this ID will also be set as the verification ID.                                                   | <p>sendHostedSmsInviteForOnboarding</p><p>getHostedSMSInvitationStatus</p>                                                                                                                                                                       |
+| **SMS ID**              | A unique identifier related specifically to the SMS sending attempt.                                                                                                                                          | <p>sendHostedSmsInviteForOnboarding</p><p>getHostedSMSInvitationStatus</p><p>registerVerificationAndSendHostedSMSInvite</p><p>sendHostedSMSInviteForExistingRegistration</p>                                                                     |
+
+## **Mobile Phone Validation**{#Mobile-Phone-Validation}
+
+Validation performed on the input mobile phone number field is the format of '+' followed by a minimum of 7 and a maximum of 15 digits, and the first digit is not a 0 (i.e. the number is in the E.164 international standard format). Please **note** that greenID does not currently support sending SMS messages to non AU/NZ numbers. If a non-AU/NZ number is received, greenID's SMS provider will reject the SMS and greenID will send back an error.
+
+**Note:** If customers use the [registerVerificationAndSendHostedSMSInvite](https://confluence.gbgplc.com/display/ABOUT/Hosted+Web+Services#HostedWebServices-registerVerificationAndSendHostedSMSInvite) and send a non-AU/NZ number, we will register the individual but not send the SMS and send an error in the response. It is therefore recommended that in such circumstances customers collect the correct (AU/NZ) number and make another call [sendHostedSMSInviteForExistingRegistration](https://confluence.gbgplc.com/display/ABOUT/Hosted+Web+Services#HostedWebServices-sendHostedSMSInviteForExistingRegistration) to avoid being charged for the registration again.
+
+## **A Note on Addresses**{#A-Note-on-Addresses}
+
+The `Address` complex type is intended for use with all international addresses.  The country field should be populated with the ISO 3166 alpha2 country code, i.e. the two character country abbreviation such as "AU" or "NZ".  For full details about the country codes, please refer to ​[ISO Status](https://www.iso.org/obp/ui/#search)​ .
+
+As a specific note about New Zealand addresses, the "city" element is not required for any current greenID data sources, so this is not required to be passed to greenID.  Populating the suburb element into the suburb field is sufficient for the current range of New Zealand data sources.  Also, the state field can be left blank for New Zealand addresses.

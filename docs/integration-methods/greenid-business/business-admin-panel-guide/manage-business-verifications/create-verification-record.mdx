@@ -1,0 +1,43 @@
+---
+id: create-verification-record
+title: Creating a Verification Record
+sidebar_position: 2
+---
+
+# Creating a Verification Record
+
+In greenID, the process of verifying a business begins by creating a verification record. Before you can do this, however, you first need to gather information about the business. Although the information varies depending on the type of business and the country of registration, it generally includes the following items:
+
+- Country in which the business is registered
+
+- Business number (if applicable) - these vary by country, see [Appendix A: Business Registers](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/493912479/Appendix+A+Business+Registers) for a listing of the types of business numbers greenID can look up and the registers it uses.
+
+- Full name of the business
+
+- Type of business entity (e.g., company, partnership, trust)
+
+If the business doesn’t have a business number or its existence can’t be verified by looking it up in a business registry, you may need to provide more details about the business before the verification record can be created. For example, if the business is a trust, you would need to know the type of trust (e.g., charitable, discretionary, family, etc.). Later, you will also need documentation to prove it is a business in order to complete the verification process (see [The Business Verification Workflow](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/491488112/Business+Verification+Workflow)), but such evidence is not required to create the initial verification record.
+
+Once you’ve gathered the necessary information, you can begin the business verification. The [Verify a Business Wizard](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=492306827#Creatingaverificationrecord-Figure3) will collect the information from you and create the verification record.
+
+If you entered a business number, greenID goes to the registry and attempts to download information about the business and enters it into the verification record. This may include information about its registered associated parties, such as directors, shareholders, trustees, etc., as well as the business itself. If any of those parties are businesses, greenID attempts to look up information about those businesses and their registered parties in turn, so depending on the business, the process may take a minute or more to complete. If your account has [Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions) enabled, the results returned will be limited to those meeting your search restriction criteria. 
+
+When the record is created, it is displayed on the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen, and you can complete the verification process there. To abandon or manually fail the process, return to the [Manage Business Verifications](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492470563/Manage+Business+Verifications) screen and follow the instructions on [Actioning business verification records](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492306935/Actioning+business+verification+records).
+
+Use the following procedure to create a new business verification record:
+
+## Procedure 3. Create a new business verification record
+
+On the [Manage Business Verifications](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492470563/Manage+Business+Verifications) screen:
+
+1\. Select **Verify a new business**.
+
+![](/img/bus-admin-panel3.png)
+
+2\. When the **Verify a business** wizard appears, follow the instructions on the screen. Select **Next** to proceed to the next step, or **Back** to return to a previous step.
+
+*Figure 3. Verify a Business Wizard*
+
+![](/img/bus-admin-panel4.png)
+
+3\. Select **Finish** to create the record. (It may take several seconds.)

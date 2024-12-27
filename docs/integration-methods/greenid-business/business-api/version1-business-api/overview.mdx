@@ -1,0 +1,52 @@
+---
+id: overview
+title: Overview
+sidebar_position: 1
+---
+
+# Overview
+
+:::note
+
+**API Versions**
+
+This documentation relates to Version 1, the current version of the greenID Business API. Version 1 became available to customers as of 23 Aug 2018 for extracting verifications and as of 15 Nov 2018 for creating verifications. 
+
+:::
+
+## Authentication
+
+HTTP basic authentication is used for accessing the endpoint. The username is your greenID customer account ID that you use for greenID Business, and the password is your greenID web services password for that account. 
+
+## Exceptions and Error Handling
+
+If an error or exception is encountered, the HTTP response header will contain details of the error. In most cases, we will also return an error response in JSON format. An example of this error response is as follows:
+
+| <p>`{`</p><p>`  "error": "Not found",`</p><p>`  "message": "No verification with ID: 1775",`</p><p>`  "status": 404`</p><p>`}`</p> |
+| ---------------------------------------------------------------------------------------------------------------------------------- |
+
+The following errors may be returned when the API is invoked with either a 'GET' or 'POST' command. Please refer to the pages detailing the 'GET' and 'POST' functionality for additional errors specific to each function which may also be returned:
+
+| **HTTP status code** | **error**             | **error message**                                         | **Conditions**                                                                                                                                                                                                               |
+| -------------------- | --------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 401                  | unauthorised          | "Failed to authenticate \<account id> with given password | <p>Invalid credentials provided for your account to access the API </p><p>Note: if you do not provide any credentials, then you will receive a 401 status in the HTTP header but no JSON error response will be provided</p> |
+| 500                  | Internal server error | "\<Message from the exception">                           | An unexpected exception occurred within the system when processing your request. The message will be dependent on the exception encountered.                                                                                 |
+
+## Endpoints
+
+The greenID Business API is a RESTful web service offering the following endpoints:
+
+### businessVerification 
+
+| `https://au.vixverify.com/vixbiz/api/v1/businessVerification/<input parameters>` |
+| -------------------------------------------------------------------------------- |
+
+This 'businessVerification' endpoint is accessed using **HTTP GET and POST** commands which provide the following capability:
+
+- **[GET](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/448135169/greenID+Business+API+businessVerification+-+GET) (To retrieve a business verification)**
+
+The greenID Business API 'businessVerification' endpoint, when accessed via an HTTP 'GET' command, allows you to extract the current details of a business verification, including its verification status. Given a greenID Business reference number, the API call returns information about the business to be verified (i.e. the 'top level' or 'root business'), its sub-businesses (for example shareholder businesses), and all associated individuals (including their verification status).
+
+- **[POST](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/442172018/greenID+Business+API+businessVerification+-+POST) (To create a business verification)**
+
+The greenID Business API 'businessVerification' endpoint, when accessed via an HTTP 'POST' command, allows you to programatically create a verification in the greenID Business system.

@@ -1,0 +1,49 @@
+---
+id: overview
+title: Overview
+sidebar_position: 1
+---
+
+# Overview
+
+:::note
+
+**iFrame Deprecated**
+
+iFrame integration was deprecated in January 2015.
+
+New customers should integrate using either [greenID Web](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) or [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API). Existing customers are encouraged to upgrade the integration method - [contact support](mailto\:support@edentiti.com) to find out more.
+
+This documentation remains to support existing customers with an iFrame integration.
+
+:::
+
+The greenID application hosts a series of web pages that may be used to verify certain details about an individual.  The greenID application also offers a set of Web Services methods to allow remote clients to access greenID's verification services programmatically. 
+
+The Web Services are implemented as SOAP services since SOAP is a widespread and well supported standard.
+
+In order to verify details about an individual, a Web Service call is required, depending on the outcome a user may be re-directed to the greenID web site to supply additional information about them to allow greenID to carry out certain checks on their behalf.  After the verification process is completed, either successfully or not, then a Web Service can be called to query the outcome of the verification process.
+
+A verification attempt will be considered verified if it passes a set of rules specified by the client organisation.
+
+In order to complete a verification for an individual, greenID employs the following procedure
+
+- The individual registers with the client organisation, which collect some basic information about the person such as name, address, date of birth, etc.
+
+- The client organisation makes a [Registering a user](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/10059855/Registering+a+user) registration Web Service call to greenID to request that greenID carry out a series of automatic checks on the person’s details.
+
+- greenID returns the result of these automatic checks to the client organisation.
+
+- The person is [re-directed to the greenID website](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/14287043/Redirecting+to+greenID+screens) where additional checks are performed in an interactive manner.
+
+- Once the verification process is complete, greenID returns the person to the client organisation’s website.
+
+- The client organisation invokes a Web Service to query greenID for the [outcome of the verification](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880777/Retrieving+the+Verification+State) process for the person.  This can be invoked at any time. It can be triggered by the user returning to the site, or by an [optional notification call](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/10059920/Notification+of+Verification) from greenID which occurs whenever a person is verified.
+
+- The client organisation takes appropriate action at their website based on the outcome reported by greenID.
+
+The diagram below illustrates the flow.
+
+![](/img/processflow.png)
+
+greenID also optionally integrates with Australia Post to allow a user to generate a pre-filled Australia Post PDF that can be taken to any Australia Post branch. The results of a user’s verification at an Australia Post branch will be automatically received by greenID and returned to the client organisation when an outcome is queried.

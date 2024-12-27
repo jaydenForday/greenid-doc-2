@@ -1,0 +1,196 @@
+---
+id: dvs-expanded
+title: DVS Expanded Responses
+---
+
+# DVS Expanded Responses
+
+:::note
+
+**On 10th May 2023, DVS expanded response were made available in greenID. This page explains everything you need to know about expanded responses. See [here ](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2254602241/DVS+expanded+responses#How-do-I-get-to-Expanded-Responses-in-the-Audit-Logs%3F)for how to access Audit Logs.**
+
+:::
+
+### **What are expanded responses? **{#What-are-expanded-responses?}
+
+Expanded responses are a DVS initiative to provide more information about an individual’s document verification outcome. An expanded response is a brief explanation provided by the document issuer, on why the individual's information did not match the document being verified. The purpose of expanded responses is to assist you in making more informed decisions when assessing verification outcomes.    
+
+For example, if an individual provides their driver licence for verification but fails to enter their middle name, the match will error and a brief response will be provided:
+
+Document type: *Driver Licence*
+
+Document field: *First Name*
+
+DVS Expanded Response: *First name does not match*  
+
+### **What are the limitations of expanded responses?**{#What-are-the-limitations-of-expanded-responses?}
+
+There are some limitations to the data provided in the expanded response, these include:
+
+1. Only one expanded response will be returned per document. This means if there are several matching errors only one will be explained. [See details here.](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2254602241/DVS+expanded+responses#How-many-responses-are-returned?)
+
+2. Expanded responses are returned as a free text field, controlled by the document issuers, and **may change without notice**.
+
+3. There is no unique code associated with each response.
+
+4. Note that DVS are still in the process of reviewing the responses they get back from their various document issuers.
+
+### **Where will Expanded Responses be available in greenID?**{#Where-will-Expanded-Responses-be-available-in-greenID?}
+
+Expanded responses will be returned:
+
+- In the API results [(sample below](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2254602241/DVS+expanded+responses#How-the-expanded-responses-appear-in-my-API-results?))
+
+- In Audit Logs via greenID Admin Panel [(see below)](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2254602241/DVS+expanded+responses#How-the-expanded-responses-appear-in-my-API-results?)
+
+### **How do I get to Expanded Responses in the Audit Logs?**{#How-do-I-get-to-Expanded-Responses-in-the-Audit-Logs?}
+
+The Audit Logs are accessed via the greenID Admin Panel, by clicking the ‘Audit Logs’ button from the ‘Verification Results’ screen:
+
+![](/img/dvs-admin-panel.png)
+
+### **What will expanded responses look like in the Audit Logs?**{#What-will-expanded-responses-look-like-in-the-Audit-Logs?}
+
+The Expanded Responses will be displayed in a new Audit Log entry, which will appear following the existing entry that shows the DVS data source result. These will be available for both interactive data source checks and background data source checks. The entry will include which data source the Expanded Response is for, the verification request number for the check, and the ‘expanded response’ message returned by the DVS for the check.
+
+If the DVS do not return an Expanded Response for a data source check, then there will be no Expanded Response audit log entry displayed for that check.
+
+The below is an example of the Expanded Response audit log entry for an interactive source check for the ACT Driver’s Licence:
+
+![](/img/dvs-audit.png)
+
+### **How do expanded responses appear in my API results?**{#How-do-expanded-responses-appear-in-my-API-results?}
+
+Below are samples where an expanded response result has been sent in the extra data section.
+
+| **Method**           | **Source**           | **Response**                           |
+| -------------------- | -------------------- | -------------------------------------- |
+| setFields            | Visa                 | <p>![](/img/dvs-api-1.png)</p><p> </p> |
+| setFields            | Marriage Certificate | ![](/img/dvs-api-2.png)                |
+| setFields            | Birth Certificate    | ![](/img/dvs-api-3.png)                |
+| registerVerification | NSW DL               | ![](/img/dvs-api-4.png)                |
+| registerVerification | ACT DL               | ![](/img/dvs-api-5.png)                |
+| registerVerification | ACT DL               | ![](/img/dvs-api-6.png)                |
+| registerVerification | Passport             | ![](/img/dvs-api-7.png)                |
+
+### **How do expanded responses impact my API results?**{#How-do-expanded-responses-impact-my-API-results?}
+
+Expanded responses are sent in the ‘Extra Data’ section of the API results and therefore should not impact your integration with greenID. You can review and make changes to your workflow (as necessary) to utilise expanded responses in your business process.
+
+### Which versions of the API return Expanded Responses?{#Which-versions-of-the-API-return-Expanded-Responses?}
+
+Expanded Response will be returned in **version 2 onwards**. Version 1 of the greenID API does not support this feature.
+
+### **Do expanded responses impact verification workflows in greenID?**{#Do-expanded-responses-impact-verification-workflows-in-greenID?}
+
+No, expanded responses do not impact workflows. They are only be returned as extra data or additional information associated with a DVS data source outcome.
+
+### **What are the expanded response messages?**{#What-are-the-expanded-response-messages?}
+
+For a full list of messages please see below.
+
+IMPORTANT: This is a DVS list, is not definitive and may change without notice. We will update this as DVS advise.
+
+Last update from DVS Oct 1, 2022.
+
+
+
+EXCEL FILE TO BE LINKED HERE
+
+
+
+Open DVS Expanded Responses - Consolidated Issuer Responses (1).xlsx
+
+**DVS Expanded Responses - Consolidated Issuer Responses (1).xlsx**
+
+11 Jan 2023, 12:54 PM
+
+### What message is returned in the event of a [MAPS ](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2191327233)lockout?{#What-message-is-returned-in-the-event-of-a-MAPS-lockout?}
+
+We are seeing the response Document Temporarily Locked for [MAPS ](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2191327233)lockouts.
+
+### **How many responses are returned?**{#How-many-responses-are-returned?}
+
+DVS will return only one response per document to provide guidance without providing a level of information that could assist fraud. Multiple attempts of a document validation will be prevented by the [MAPS](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2191327233) functionality.
+
+This means that if multiple fields provided do not match fields held by the document issuer, only one of the un-matched fields will be flagged by expanded response.
+
+e.g:
+
+| **Field**      | **Data provided** | **Data held** | **Result** | **Expanded response**              |
+| -------------- | ----------------- | ------------- | ---------- | ---------------------------------- |
+| Given Name     | Bob               | Robert        | No match   | Not provided                       |
+| Family Name    | Jones             | Jones         | Match      | Not expected                       |
+| DOB            | 12/07/1988        | 15/08/1988    | No match   | **“Date of birth does not match”** |
+| Licence Number | 1234567890        | 1234567890    | Match      | Not expected                       |
+| Card Number    | D85945            | T54869        | No match   | Not provided                       |
+
+There is no specified field order in which the messages will be returned.
+
+### Does this mean I won’t have to contact DVS to explain why my document has failed?{#Does-this-mean-I-won’t-have-to-contact-DVS-to-explain-why-my-document-has-failed?}
+
+In some cases it should help narrow down the reason why a document has failed, however there will be cases where DVS can provide more details.
+
+### **Which DVS document issuers are returning expanded responses?**{#Which-DVS-document-issuers-are-returning-expanded-responses?}
+
+The below table shows which documents provide expanded responses. Last update from DVS Aug 31, 2023.
+
+IMPORTANT: This is a DVS list, may not be definitive and may change without notice, we will update as changes are advised by DVS.
+
+| **Document issuer**             | **Document type**                                                   | **Provides expanded responses?** |
+| ------------------------------- | ------------------------------------------------------------------- | -------------------------------- |
+| ACT BDM                         | Birth, Marriage, Change of Name and Death Certificates              | Yes                              |
+| NT BDM                          | Birth, Marriage, Change of Name and Death Certificates              | Yes                              |
+| QLD BDM                         | Birth, Marriage, Change of Name and Death Certificates              | Yes                              |
+| SA BDM                          | Birth, Marriage, Change of Name and Death Certificates              | Yes                              |
+| TAS BDM                         | Birth, Marriage, Change of Name and Death Certificates              | Yes                              |
+| VIC BDM                         | Birth, Marriage, Change of Name and Death Certificates              | Yes                              |
+| WA BDM                          | Birth, Marriage, Change of Name and Death Certificates              | Yes                              |
+| NSW BDM                         | Birth, Marriage, Change of Name and Death Certificates              | Yes                              |
+| NEVDIS                          | Driver Licences                                                     | Yes                              |
+| DFAT                            | Passport                                                            | Yes                              |
+| Department of Home Affairs      | Citizenship Certificates, Registration by Descent, ImmiCards, Visas | Yes                              |
+| Australian Electoral Commission | Commonwealth Electoral Roll                                         | Yes                              |
+| Medicare                        | Medicare Card                                                       | Yes                              |
+| Centrelink                      | Centrelink Concession Cards                                         | Yes                              |
+| Citizenship Certificates        | Citizenship Certificates                                            | Yes                              |
+
+### **How can I use expanded responses?**{#How-can-I-use-expanded-responses?}
+
+The purpose of expanded responses is to provide greater insight into why the data provided did not match the data held by the document issuer. The data could be used to assist with assessment of failed identity verifications. Note the limitations of expanded responses [here](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2254602241/DVS+expanded+responses#What-are-the-limitations-of-expanded-responses?).
+
+### How should I test my system can receive Expanded Responses?{#How-should-I-test-my-system-can-receive-Expanded-Responses?}
+
+:::note
+
+### **Testing Guidelines**
+
+Use one of the document types enabled for expanded responses. Refer to the list [here](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2254602241/DVS+expanded+responses#Which-DVS-document-issuers-are-returning-expanded-responses?).
+
+Supply the document details with one or two fields incorrectly entered.
+
+Ensure that the fields incorrectly entered have associated Expanded Responses, you can check this [here](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2254602241/DVS+expanded+responses#What-are-the-expanded-response-messages?).
+
+Expanded response data will return in the Extra Data section of the API response.
+
+### Testing Steps{#Testing-Steps}
+
+- Ensure that stubs mode is disabled (
+
+- Make a registerVerification or setFields call (depending on data configuration) for a State Driver’s Licence that you have access to.
+
+- Use a valid Driver’s Licences - use genuine details from Driver’s Licence but modify the DOB.
+
+- Send the request.
+
+- The result should return an expanded response in Extra Data stating that ‘Date of birth does not match.’
+
+**Note:** Disabling stubs mode does incur a live call and associated charge to check DVS.
+
+:::
+
+### **Glossary** {#Glossary}
+
+**Document Issuer** - The government body who issues the document, e.g. the Australian Passport Office issues passports, the various state and territory Roads Authorities issue Driver Licences. 
+
+**DVS** - Document Verification Service, the government agency who centralises and manages the connection to the various document issuers for the purpose of identity verification.

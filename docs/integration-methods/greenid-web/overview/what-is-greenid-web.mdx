@@ -1,0 +1,59 @@
+---
+id: what-is-greenid-web
+title: What is greenid Web
+sidebar_position: 1
+---
+
+# What is greenid Web
+
+greenID Web uses javascript and CSS to embed a standardised verification process into your website.
+
+greenID Web is the preferred implementation method of greenID for the majority of customers. It provides a simpler integration option that is seamless to the end-user. Organisations can get up and running with only hours of integration effort.
+
+greenID Web uses a javascript library and CSS file to embed a standardised verification process into your website.  You can override almost every heading or wording element of the default interface and the look and feel can be altered via CSS. Using greenID web also minimises the number of web service calls required.
+
+The trade-off for fast integration is less control over the workflow. greenID Web has a fixed mode of operation which has been designed based on customer feedback and user-testing.
+
+greenID Web is available when you include interactive data sources in your set up.  
+
+greenID Web also offers customers the option of including document scans and facial biometric checking as part of the verification journey.
+
+## How greenID Web works{#AboutgreenIDWeb-HowgreenIDWebworks}
+
+There are three components to greenID Web:
+
+1. A javascript library that must be included on your customer-facing web page.  A small amount of setup in javascript is required, and some callback functions can be optionally implemented.
+
+2. A CSS file that must be included on your web page. This CSS can be overridden if desired.
+
+3. A SOAP Web Service and a RESTful Web Service that can be used to securely query the outcome of a verification attempt.
+
+Once included on your web page, and with the appropriate setup done, the greenID Web javascript will take control of your page at an appropriate point and guide the person through the verification process.  greenID Web interacts with greenID using javascript AJAX calls, and dynamically renders the appropriate UI controls.  Once the verification process is complete, successfully or otherwise, control is returned to the web page for any further action. 
+
+## Usage and Compatibility
+
+If you are using document scans and biometrics, please refer to the [Supported Browsers / Operating Systems](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/1559101483/Supported+Operating+Systems+and+Browsers+Web+with+Scans+and+Biometrics) list.
+
+greenID Web is only available when you include interactive data sources in your set up.
+
+greenID Web should be used **unless** a highly customised user interface or verification process is required - in which case consider using [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API).  
+
+greenID Web is compatible with:
+
+- all modern browsers, plus Internet Explorer version 11+
+
+- mobile devices running iOS 4+ or Android Gingerbread+ operating systems.
+
+## Accessibility{#AboutgreenIDWeb-Accessibility}
+
+greenID Web is WCAG 2.0 AA compliant and adheres to WAI-ARIA principles. [Full WCAG 2.0 accessibility compliance info is available](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/10060052/Accessibility). It must be noted that this compliance does not extend to the greenID Web integration where document scans and facial biometrics are enabled.
+
+## Security and authentication in greenID Web{#AboutgreenIDWeb-SecurityandauthenticationingreenIDWeb}
+
+greenID Web is designed for use on the open internet.  Use of either integration method does not permit any information already stored in greenID to be accessed.  This means that no Personally Identifying Information about anyone previously verified in greenID can be accessed solely via greenID Web.
+
+When verifying people via greenID Web or greenID Hosted, an APICode is needed to tell greenID which greenID customer account should be used for the verification.  Each APICode is unique to a greenID customer account and is designed to be present on the web page that hosts the greenID Web javascript object. 
+
+An APICode can only be used to link a page to a greenID account for information to be **added** to that account. 
+
+There is a separate authentication method (password or client side certificate) that is needed to retrieve or give access to any data present in a greenID account.  This means that there is no data protection/privacy risk to use of greenID Web.

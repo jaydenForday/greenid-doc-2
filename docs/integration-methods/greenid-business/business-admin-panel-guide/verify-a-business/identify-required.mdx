@@ -1,0 +1,71 @@
+---
+id: identify-required
+title: Identifying Required Parties
+sidebar_position: 4
+---
+
+# Identifying Required Parties
+
+Parties that play a significant role in a business need to be verified. Ultimately, your organisation determines what “significant” means, but certain roles, such as directors, beneficial owners, trustees, major shareholders, etc., typically fall into that category. To save you time, greenID pre-populates business verification records with these roles, depending on the business, and it sets default verification requirements accordingly.
+
+If the business you are verifying was found in a registry, the registry too may have gathered information on associated parties it deems significant, and greenID downloads that information into the verification record as well. Please note that the extent of searches conducted against registries may differ depending on the [Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions) configured on your account. 
+
+So, the first step in verifying a business’ associated parties is to carefully go through the verification record and decide which parties your organisation needs verified, according to its policies. Then make sure that all the entered parties are correctly designated.
+
+Any parties not required for verification are clearly marked with a **Verification not required** status:
+
+![](/img/identify-1.png)
+
+If you find that greenID’s default requirements do not match your own, you must override the default by marking that party as requiring (or not requiring) verification.
+
+For example, when greenID looks up a company in a register, it downloads information about the registered shareholders into the business verification record. But since not all shareholders have a significant impact on the business, greenID does not require all of them to be verified by default, only shareholders where the shareholding represents a minimum percentage (e.g., 25 percent) of the total shares in the business, or for Australian businesses the total shares in a particular share class. Because such indirect relationships might not be discovered without delving into the underlying structure, greenID always attempts to download information about all the associated parties and associated businesses, even for parties that ostensibly don’t require verification. (The extent of associated businesses automatically searched and downloaded may however be constrained by [Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions) configured on your account.) 
+
+But you may find on closer examination that a shareholder whose direct shareholding represents less than 25 percent of the shares of the primary business has substantial indirect holdings — e.g., 100 percent of two other associated businesses that between them hold 40 percent of the total shares — and therefore that shareholder is more significant than at first appeared. You would likely want to override its “Verification not required” status to “Verification required”. The threshold is configurable, and is set by your organisation Twenty-five percent is the greenID default setting. (
+
+Note that when a party is marked as “Verification not required”, the exemption applies only to that particular role. If the same party also serves in another role, that case must be dealt with separately. For example, if a person serves as both a director and as a minor shareholder, you might not require verification for the shareholder role, but you would need it for the director role.
+
+Also, if a business is marked as “Verification not required”, all of its associated parties will also be marked as “Verification not required”, all the way down its associated party tree, and the option to mark any of them as requiring verification will not be available.
+
+If an associated business is marked as 'search restricted', then you will not be able to identify indirect shareholders therein. If you determine that this information is required, you can use the 'perform search' button to search and download information about the business from the business register. This action may incur additional cost. (See [Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions))
+
+Finally, if the parties you require were not downloaded from a business register, you will have to enter them manually. If their relationship to the business doesn’t fall under any of the listed roles, you may enter them under **Other parties of interest**. (See [Entering details about associated parties](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492863772/Entering+details+about+associated+parties))
+
+Use the procedures below to override default requirements or to cancel overrides:
+
+- [Procedure 17. Mark an associated party as “verification not required”](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492732659/Identifying+required+parties?atl_f=PAGETREE#Identifyingrequiredparties-procedure17Procedure17.Markanassociatedpartyas%E2%80%9Cverificationnotrequired%E2%80%9D)
+
+- [Procedure 18. Mark an associated party as requiring verification](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492732659/Identifying+required+parties?atl_f=PAGETREE#Identifyingrequiredparties-procedure18Procedure18.Markanassociatedpartyasrequiringverification)
+
+## Procedure 17. Mark an associated party as “verification not required”
+
+On the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen:
+
+1\. Navigate to the party you want to mark and select the dropdown options button. (See [Navigating the associated party tree](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307247/Navigating+the+associated+party+tree))
+
+![](/img/identify-2.png)
+
+2\. Select **Mark verification not required**.
+
+![](/img/identify-3.png)
+
+3\. When the confirmation dialog appears, enter a note explaining the reason.
+
+![](/img/identify-4.png)
+
+4\. Select **Mark as “verification not required”**.
+
+## **Procedure 18. Mark an associated party as requiring verification**
+
+On the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen:
+
+1\. Navigate to the party you want to mark and select the dropdown options button. (See [Navigating the associated party tree](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307247/Navigating+the+associated+party+tree))
+
+![](/img/identify-5.png)
+
+2\. Select **Mark as requiring verification**.
+
+![](/img/identify-6.png)
+
+3\. Select **Yes, mark as requiring verification**.
+
+![](/img/identify-7.png)

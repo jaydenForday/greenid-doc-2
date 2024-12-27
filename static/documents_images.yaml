@@ -1,0 +1,831 @@
+openapi: 3.0.0
+info:
+  title: Documents and Images SOAP API
+  description: |
+    # Overview
+
+    The Documents and Images SOAP API allows customers to integrate greenID Web Services directly into their applications. This API provides operations to retrieve information about documents and images associated with a verification process.
+
+    ### API Versions
+
+    This documentation relates to Version 3, the current version of the Documents and Images API.
+
+    Version 3 became available to customers as of January 2024.
+
+    # Environments
+    ### Test: 
+    https://test-au.vixverify.com/Registrations-Registrations/DocumentImageServiceV3?wsdl
+    ### Production: 
+    https://au.vixverify.com/Registrations-Registrations/DocumentImageServiceV3?wsdl
+  version: 3.0.0
+servers:
+  - description: Test Environment
+    url: https://test-au.vixverify.com/Registrations-Registrations/DocumentImageServiceV3
+  - description: Production Environment
+    url: https://au.vixverify.com/Registrations-Registrations/DocumentImageServiceV3
+paths:
+  /getInfoForAllDocuments:
+    post:
+      summary: Get Information for All Documents
+      description: |
+        This operation retrieves detailed information for all documents associated with a specific verification attempt. It returns confirmed OCR data, raw OCR data, and image data based on the provided parameters.
+
+        ## Request Values
+
+        | Field Name | Type | Required | Restrictions |
+        | --- | --- | --- | --- |
+        | `accountId` | `String` | Yes | GreenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `password` | `String` | Yes | Each customer is issued a password that must be supplied with every call to any web method in the API. |
+        | `verificationId` | `String` | Yes | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person. |
+        | `getConfirmedOcrData` | `Boolean` | No | Set to true to get the confirmed OCR data for all combination source attempts. |
+        | `getRawOcrData` | `Boolean` | No | Set to true to get the raw OCR data for all combination source attempts. |
+        | `getImageData` | `Boolean` | No | Set to true to return document image and selfie information for all combination source attempts. Please note that this function is disabled by default, please contact us at [support@gbgplc.com](https://mailto:support@gbgplc.com) to have this enabled for your account. |
+
+        ## Response Value
+
+        | Field Name | Type | Description |
+        | --- | --- | --- |
+        | `document` | `Object` | Represents a single document container, a combination source attempt, containing all return data. |
+        | `document.selectedDocumentType` | `Object` | Document type selected by the user at registration. |
+        | `document.selectedDocumentType.region` | `String` | Region of the document used for combination source attempt. |
+        | `document.selectedDocumentType.subregion` | `String` | Subregion of the document. Defaults to "unknown" if not used. |
+        | `document.selectedDocumentType.type` | `String` | Document type of the combination source. |
+        | `document.detectedDocumentType` | `Object` | Document type detected. May vary from `selectedDocumentType` or be the same. |
+        | `document.detectedDocumentType.region` | `String` | Region of the detected document used for combination source attempt. |
+        | `document.detectedDocumentType.subregion` | `String` | Subregion of the detected document. Defaults to "unknown" if not used. |
+        | `document.detectedDocumentType.type` | `String` | Document type of the detected combination source. |
+        | `document.confirmed` | `Object` | Contains the list of `confirmedItems`. |
+        | `document.confirmed.confirmedItem` | `Object` | A single confirmed data item. |
+        | `https://url.uk.m.mimecastprotect.com/s/-przCZ6Qos3qYr1tKiEIBaYWo?domain=document.confirmed.confirmeditem.name` | `String` | Name (or key) of the confirmed field. |
+        | `document.confirmed.confirmedItem.value` | `String` | Value of the confirmed field. |
+        | `document.images` | `Object` | Contains the list of images for the combination source. |
+        | `document.images.imageItem` | `Object` | Information about a single image. |
+        | `document.images.imageItem.index` | `String` | Type of image, e.g., FRONT, BACK, FACE, SELFIE. Not all documents have all these indexes. |
+        | `document.images.imageItem.url` | `String` | URL of the image file. |
+        | `document.raw` | `Object` | Contains list of `rawItems`. May be empty if no fields were OCRed from the document. |
+        | `document.raw.rawItem` | `Object` | A single raw data item from OCR process. Output may contain irregular characters and fields may fluctuate depending on the OCR result. |
+        | `https://url.uk.m.mimecastprotect.com/s/9Yl9C1wAnt7AX2rHXsvIVsmg3?domain=document.raw.rawitem.name` | `String` | Name (or key) of the raw field. |
+        | `document.raw.rawItem.value` | `String` | Value of the raw field. |
+      operationId: getInfoForAllDocuments
+      requestBody:
+        description: SOAP Envelope containing the `getInfoForAllDocuments` request.
+        required: true
+        content:
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/EnvelopeGetInfoForAllDocumentsRequest'
+            examples:
+              getInfoForAllDocumentsRequestExample:
+                summary: GetInfoForAllDocuments Request
+                value: |
+                  <soapenv:Envelope xmlns:soapenv="https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org" xmlns:dyn="https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com">
+                     <soapenv:Header/>
+                     <soapenv:Body>
+                        <dyn:getInfoForAllDocuments>
+                           <accountId>{{accountId}}</accountId>
+                           <password>{{web-service-password}}</password>
+                           <verificationId>{{verificationId}}</verificationId>
+                           <param>
+                              <name>getConfirmedOcrData</name>
+                              <value>true</value>
+                           </param>
+                           <param>
+                              <name>getRawOcrData</name>
+                              <value>true</value>
+                           </param>
+                           <param>
+                              <name>getImageData</name>
+                              <value>true</value>
+                           </param>
+                        </dyn:getInfoForAllDocuments>
+                     </soapenv:Body>
+                  </soapenv:Envelope>
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/xml:
+              schema:
+                type: string
+              examples:
+                HappyPath:
+                  summary: Happy Path - 200 Response
+                  value: |
+                    <env:Envelope xmlns:env="https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/">
+                       <env:Header/>
+                       <env:Body>
+                          <ns2:getInfoForAllDocumentsResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/">
+                             <return>
+                                <document>
+                                   <confirmed>
+                                      <confirmedItem>
+                                         <name>surname</name>
+                                         <value>SMITH</value>
+                                      </confirmedItem>
+                                      <confirmedItem>
+                                         <name>documentNumber</name>
+                                         <value>A1111111</value>
+                                      </confirmedItem>
+                                   </confirmed>
+                                   <images>
+                                      <imageItem>
+                                         <index>FRONT</index>
+                                         <url>https://url.uk.m.mimecastprotect.com/s/i8HNC4x0qcp2xMZcjC5I4TkUg?domain=s3-ap-southeast-2.amazonaws.com</url>
+                                      </imageItem>
+                                      <imageItem>
+                                         <index>FACE</index>
+                                         <url>https://url.uk.m.mimecastprotect.com/s/4AFaC5yGrhVP15yflFjIkQAlv?domain=s3-ap-southeast-2.amazonaws.com</url>
+                                      </imageItem>
+                                      <imageItem>
+                                         <index>SELFIE</index>
+                                         <url>https://url.uk.m.mimecastprotect.com/s/81PmC68JvTn6JjRC9HkI5o_q_?domain=s3-ap-southeast-2.amazonaws.com</url>
+                                      </imageItem>
+                                   </images>
+                                   <raw>
+                                      <rawItem>
+                                         <name>surname</name>
+                                         <value>SMITH</value>
+                                      </rawItem>
+                                      <rawItem>
+                                         <name>documentNumber</name>
+                                         <value>A2222222</value>
+                                      </rawItem>
+                                   </raw>
+                                   <detectedDocumentType>
+                                      <documentRegion>XU</documentRegion>
+                                      <documentSubregion/>
+                                      <documentType>UNKNOWN</documentType>
+                                   </detectedDocumentType>
+                                   <selectedDocumentType>
+                                      <documentRegion>AU</documentRegion>
+                                      <documentType>PASSPORT</documentType>
+                                   </selectedDocumentType>
+                                </document>
+                             </return>
+                          </ns2:getInfoForAllDocumentsResponse>
+                       </env:Body>
+                    </env:Envelope>
+                DetectingChanges:
+                  summary: Detecting Changes - 200 Response
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <ns2:getInfoForAllDocumentsResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/">
+                                <return>
+                                    <document>
+                                        <dateCreated>2023-08-28T14:17:02.461+1000</dateCreated>
+                                       <images>
+                                          <imageItem>
+                                             <index>FRONT</index>
+                                             <url>https://url.uk.m.mimecastprotect.com/s/i8HNC4x0qcp2xMZcjC5I4TkUg?domain=s3-ap-southeast-2.amazonaws.com</url>
+                                          </imageItem>
+                                          <imageItem>
+                                             <index>FACE</index>
+                                             <url>https://url.uk.m.mimecastprotect.com/s/4AFaC5yGrhVP15yflFjIkQAlv?domain=s3-ap-southeast-2.amazonaws.com</url>
+                                          </imageItem>
+                                          <imageItem>
+                                             <index>SELFIE</index>
+                                             <url>https://url.uk.m.mimecastprotect.com/s/81PmC68JvTn6JjRC9HkI5o_q_?domain=s3-ap-southeast-2.amazonaws.com</url>
+                                          </imageItem>
+                                       </images>
+                                        <confirmed>
+                                            <confirmedItem>
+                                                <name>secondaryDocumentNumber</name>
+                                                <value>1234567890</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>documentNumber</name>
+                                                <value>11111111</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>documentExpiryDate</name>
+                                                <value>22/12/2025</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>middleNames</name>
+                                                <value>Middle Name</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>dob</name>
+                                                <value>01/01/2000</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>givenNames</name>
+                                                <value>GBG</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>smsInvitationToken</name>
+                                                <value>2FN7mp1F8nXU1z05Xe</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>customFormIds</name>
+                                                <value>{"attemptId":"attemptId","documentType":"documentType","verificationToken":"verificationToken","smsInvitationToken":"smsInvitationToken","accountId":"accountId","ruleId":"ruleId","apiCode":"apiCode","formId":"theform","frameId":"greenid-div","givenNames":"givenNames","middleNames":"middleNames","surname":"surname","email":"email","dob":"dob","homePhone":"homePhone","workPhone":"workPhone","mobilePhone":"mobilePhone","country":"country","flatNumber":"flatNumber","postcode":"postcode","townCity":"townCity","town":"town","city":"city","propertyName":"propertyName","state":"state","streetName":"streetName","streetNumber":"streetNumber","streetType":"streetType","suburb":"suburb","environment":"test","debug":false}</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>givenName</name>
+                                                <value>GBG</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>surname</name>
+                                                <value>LastName</value>
+                                            </confirmedItem>
+                                        </confirmed>
+                                        <raw>
+                                            <rawItem>
+                                                <name>givenName</name>
+                                                <value>GBG</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>middleNames</name>
+                                                <value>Middle Name</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>surname</name>
+                                                <value>LastName</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>dob</name>
+                                                <value>01/01/2000</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>flatNumber</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>streetNumber</name>
+                                                <value>20</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>streetName</name>
+                                                <value>Bond</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>streetType</name>
+                                                <value>Street</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>suburb</name>
+                                                <value>Sydney</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>state</name>
+                                                <value>NSW</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name1</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name2</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentIssuer</name>
+                                                <value>Australia</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentEmployer</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name9</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>birthplace</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name7</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name8</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>nationality</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name5</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name6</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name3</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name4</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentGender</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentOccupation</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>secondaryDocumentNumber</name>
+                                                <value>123456</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentNumber</name>
+                                                <value>11111111</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentExpiryDate</name>
+                                                <value>22/12/2025</value>
+                                            </rawItem>
+                                        </raw>
+                                        <detectedDocumentType>
+                                            <documentRegion>AU</documentRegion>
+                                            <documentSubregion>NSW</documentSubregion>
+                                            <documentType>DRIVERS_LICENCE</documentType>
+                                        </detectedDocumentType>
+                                        <selectedDocumentType>
+                                            <documentRegion>AU</documentRegion>
+                                            <documentSubregion>NSW</documentSubregion>
+                                            <documentType>DRIVERS_LICENCE</documentType>
+                                        </selectedDocumentType>
+                                    </document>
+                                </return>
+                            </ns2:getInfoForAllDocumentsResponse>
+                        </env:Body>
+                    </env:Envelope>
+                DataAnonymised:
+                  summary: Data has been anonymised - 200 Response
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <ns2:getInfoForAllDocumentsResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/">
+                                <return>
+                                    <document>
+                                        <dateCreated>2023-08-28T14:03:16.991+1000</dateCreated>
+                                        <images>
+                                            <imageItem>
+                                                <index>FRONT</index>
+                                                <url>IMAGE_DELETED</url>
+                                            </imageItem>
+                                            <imageItem>
+                                                <index>FACE</index>
+                                                <url>IMAGE_DELETED</url>
+                                            </imageItem>
+                                            <imageItem>
+                                                <index>SELFIE</index>
+                                                <url>IMAGE_DELETED</url>
+                                            </imageItem>
+                                        </images>
+                                        <confirmed>
+                                            <confirmedItem>
+                                                <name>secondaryDocumentNumber</name>
+                                                <value>[secondaryDocumentNumber deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>documentNumber</name>
+                                                <value>[documentNumber deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>documentExpiryDate</name>
+                                                <value>[documentExpiryDate deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>surname</name>
+                                                <value>[surname deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>givenName</name>
+                                                <value>[givenName deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>customFormIds</name>
+                                                <value>[customFormIds deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>smsInvitationToken</name>
+                                                <value>[smsInvitationToken deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>givenNames</name>
+                                                <value>[givenNames deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>dob</name>
+                                                <value>[dob deleted]</value>
+                                            </confirmedItem>
+                                            <confirmedItem>
+                                                <name>middleNames</name>
+                                                <value>[middleNames deleted]</value>
+                                            </confirmedItem>
+                                        </confirmed>
+                                        <raw>
+                                            <rawItem>
+                                                <name>givenName</name>
+                                                <value>[given name deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>middleNames</name>
+                                                <value></value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>surname</name>
+                                                <value>[surname deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentOccupation</name>
+                                                <value>[documentOccupation deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentGender</name>
+                                                <value>[documentGender deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name4</name>
+                                                <value>[Name4 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name3</name>
+                                                <value>[Name3 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name6</name>
+                                                <value>[Name6 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name5</name>
+                                                <value>[Name5 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>nationality</name>
+                                                <value>[nationality deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name8</name>
+                                                <value>[Name8 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name7</name>
+                                                <value>[Name7 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>birthplace</name>
+                                                <value>[birthplace deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name9</name>
+                                                <value>[Name9 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentEmployer</name>
+                                                <value>[documentEmployer deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentIssuer</name>
+                                                <value>[documentIssuer deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name2</name>
+                                                <value>[Name2 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>Name1</name>
+                                                <value>[Name1 deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>secondaryDocumentNumber</name>
+                                                <value>[secondaryDocumentNumber deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentNumber</name>
+                                                <value>[documentNumber deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentExpiryDate</name>
+                                                <value>[documentExpiryDate deleted]</value>
+                                            </rawItem>
+                                            <rawItem>
+                                                <name>documentIssueDate</name>
+                                                <value>[documentIssueDate deleted]</value>
+                                            </rawItem>
+                                        </raw>
+                                        <detectedDocumentType>
+                                            <documentRegion>AU</documentRegion>
+                                            <documentSubregion>NSW</documentSubregion>
+                                            <documentType>DRIVERS_LICENCE</documentType>
+                                        </detectedDocumentType>
+                                        <selectedDocumentType>
+                                            <documentRegion>AU</documentRegion>
+                                            <documentSubregion>NSW</documentSubregion>
+                                            <documentType>DRIVERS_LICENCE</documentType>
+                                        </selectedDocumentType>
+                                    </document>
+                                </return>
+                            </ns2:getInfoForAllDocumentsResponse>
+                        </env:Body>
+                    </env:Envelope>
+        '500':
+          description: Internal Server Error
+          content:
+            text/xml:
+              schema:
+                type: string
+              examples:
+                IncorrectVerificationId:
+                  summary: Incorrect Verification ID - 500 Response
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <env:Fault xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                                <faultcode>env:Server</faultcode>
+                                <faultstring>A verification with verificationId 'UpEtzSBH' could not be found.</faultstring>
+                                <detail>
+                                    <ns2:Exception xmlns:ns2='https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/'>
+                                        <message>A verification with verificationId 'UpEtzSBH' could not be found.</message>
+                                    </ns2:Exception>
+                                </detail>
+                            </env:Fault>
+                        </env:Body>
+                    </env:Envelope>
+                SomeOtherError:
+                  summary: Some Other Error - 500 Response
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <env:Fault xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                                <faultcode>env:Server</faultcode>
+                                <faultstring>An unexpected error occurred.</faultstring>
+                                <detail>
+                                    <ns2:Exception xmlns:ns2='https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/'>
+                                        <message>An unexpected error occurred.</message>
+                                    </ns2:Exception>
+                                </detail>
+                            </env:Fault>
+                        </env:Body>
+                    </env:Envelope>
+  /getDocUploadImages:
+    post:
+      summary: Get Document Upload Images
+      description: |
+        This operation retrieves image data associated with document uploads for a specific verification attempt.
+
+        # Request Values
+
+        | Field Name | Type | Required | Restrictions |
+        | --- | --- | --- | --- |
+        | `accountId` | `String` | Yes | GreenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `password` | `String` | Yes | Each customer is issued a password that must be supplied with every call to any web method in the API. |
+        | `verificationId` | `String` | Yes | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person. |
+        | `getImageData` | `Boolean` | No | Set to true to get the confirmed OCR data for all combination source attempts. |
+        
+        # Response Value
+        
+        | Field Name | Type | Description |
+        | --- | --- | --- |
+        | `document` | `Object` | Represents a single document container, a combination source attempt, containing all return data. |
+        | `document.images` | `Object` | an object which contains the list of images for the combination source |
+        | `document.images.imageItem` | `Object` | A single imageItem object containing information about a single image |
+
+      operationId: getDocUploadImages
+      requestBody:
+        description: SOAP Envelope containing the `getDocUploadImages` request.
+        required: true
+        content:
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/EnvelopeGetDocUploadImagesRequest'
+            examples:
+              getDocUploadImagesRequestExample:
+                summary: GetDocUploadImages Request
+                value: |
+                  <soapenv:Envelope xmlns:soapenv="https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/" xmlns:dyn="https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/">
+                     <soapenv:Header/>
+                     <soapenv:Body>
+                        <dyn:getDocUploadImages>
+                           <accountId>{{accountId}}</accountId>
+                           <password>{{web-service-password}}</password>
+                           <verificationId>{{verificationId}}</verificationId>
+                           <inputFields>
+                              <input>
+                                 <name>getImageData</name>
+                                 <value>true</value>
+                              </input>
+                           </inputFields>
+                        </dyn:getDocUploadImages>
+                     </soapenv:Body>
+                  </soapenv:Envelope>
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/xml:
+              schema:
+                type: string
+              examples:
+                HappyPath:
+                  summary: Happy Path - 200 Response
+                  value: |
+                    <env:Envelope xmlns:env="https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/">
+                       <env:Header/>
+                       <env:Body>
+                          <ns2:getDocUploadImagesResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/">
+                             <return>
+                                <document>
+                                    <dateCreated>2023-08-28T14:54:59.634+1000</dateCreated>
+                                    <images>
+                                        <imageItem>
+                                            <index>Telephone Bill</index>
+                                            <url>https://url.uk.m.mimecastprotect.com/s/i8HNC4x0qcp2xMZcjC5I4TkUg?domain=s3-ap-southeast-2.amazonaws.com</url>
+                                        </imageItem>
+                                    </images>
+                                </document>
+                             </return>
+                          </ns2:getDocUploadImagesResponse>
+                       </env:Body>
+                    </env:Envelope>
+                ImageDataFalse:
+                  summary: getImageData set to false - 200 Response
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <ns2:getDocUploadImagesResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/">
+                                <return>
+                                    <document>
+                                        <dateCreated>2023-08-30T13:18:31.841+1000</dateCreated>
+                                        <images>
+                                            <imageItem>
+                                                <index>Electricity/Gas Bill</index>
+                                            </imageItem>
+                                        </images>
+                                    </document>
+                                </return>
+                            </ns2:getDocUploadImagesResponse>
+                        </env:Body>
+                    </env:Envelope>
+                DataAnonymised:
+                  summary: Data has been anonymised - 200 Response
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <ns2:getDocUploadImagesResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/">
+                                <return>
+                                    <document>
+                                        <dateCreated>2023-08-30T13:26:01.841+1000</dateCreated>
+                                        <images>
+                                            <imageItem>
+                                                <index>Electricity/Gas Bill</index>
+                                                <url>IMAGE_DELETED</url>
+                                            </imageItem>
+                                        </images>
+                                    </document>
+                                </return>
+                            </ns2:getDocUploadImagesResponse>
+                        </env:Body>
+                    </env:Envelope>
+        '500':
+          description: Internal Server Error
+          content:
+            text/xml:
+              schema:
+                type: string
+              examples:
+                IncorrectVerificationId:
+                  summary: Incorrect Verification ID - 500 Response
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <env:Fault xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                                <faultcode>env:Server</faultcode>
+                                <faultstring>A verification with verificationId 'UpEtzSBH' could not be found.</faultstring>
+                                <detail>
+                                    <ns2:Exception xmlns:ns2='https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/'>
+                                        <message>A verification with verificationId 'UpEtzSBH' could not be found.</message>
+                                    </ns2:Exception>
+                                </detail>
+                            </env:Fault>
+                        </env:Body>
+                    </env:Envelope>
+                SomeOtherError:
+                  summary: Some Other Error - 500 Response
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <env:Fault xmlns:env='https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/'>
+                                <faultcode>env:Server</faultcode>
+                                <faultstring>An unexpected error occurred.</faultstring>
+                                <detail>
+                                    <ns2:Exception xmlns:ns2='https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/'>
+                                        <message>An unexpected error occurred.</message>
+                                    </ns2:Exception>
+                                </detail>
+                            </env:Fault>
+                        </env:Body>
+                    </env:Envelope>
+      # No security, as authentication is via body
+components:
+  schemas:
+    EnvelopeGetInfoForAllDocumentsRequest:
+      type: object
+      xml:
+        name: Envelope
+        namespace: "https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/"
+        prefix: soapenv
+      properties:
+        Header:
+          type: object
+          xml:
+            name: Header
+        Body:
+          type: object
+          xml:
+            name: Body
+          properties:
+            getInfoForAllDocuments:
+              type: object
+              xml:
+                name: getInfoForAllDocuments
+                namespace: "https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/"
+                prefix: dyn
+              properties:
+                accountId:
+                  type: string
+                  example: "{{accountId}}"
+                password:
+                  type: string
+                  example: "{{web-service-password}}"
+                verificationId:
+                  type: string
+                  example: "{{verificationId}}"
+                inputFields:
+                  $ref: '#/components/schemas/InputFields'
+    EnvelopeGetDocUploadImagesRequest:
+      type: object
+      xml:
+        name: Envelope
+        namespace: "https://url.uk.m.mimecastprotect.com/s/B5y_C2kBoFN2QPLH9t2I5ldUR?domain=schemas.xmlsoap.org/"
+        prefix: soapenv
+      properties:
+        Header:
+          type: object
+          xml:
+            name: Header
+        Body:
+          type: object
+          xml:
+            name: Body
+          properties:
+            getDocUploadImages:
+              type: object
+              xml:
+                name: getDocUploadImages
+                namespace: "https://url.uk.m.mimecastprotect.com/s/Y2QrC31Dpt5gv6jHvuLIQRn5F?domain=dynamicform.services.registrations.edentiti.com/"
+                prefix: dyn
+              properties:
+                accountId:
+                  type: string
+                  example: "{{accountId}}"
+                password:
+                  type: string
+                  example: "{{web-service-password}}"
+                verificationId:
+                  type: string
+                  example: "{{verificationId}}"
+                inputFields:
+                  $ref: '#/components/schemas/InputFields'
+    InputFields:
+      type: object
+      properties:
+        input:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: comment
+              value:
+                type: string
+                example: string
+            required:
+              - name
+              - value
+      example:
+        input:
+          - name: comment
+            value: The user provided additional certified documentation, endorsed by a Justice of the Peace (JP).
+          - name: description
+            value: Supplementary Certified Documentation
+

@@ -1,0 +1,98 @@
+---
+id: exceptions-errors
+title: Exceptions and Errors
+sidebar_position: 8
+---
+
+# Exceptions and Errors
+
+## **What are Exceptions or Faults?**{#What-are-Exceptions-or-Faults?}
+
+Exceptions or faults may occur before greenID is successfully able to create a registration or retrieve it. For example, when an invalid field is submitted as an input and therefore a registration cannot be created.
+
+Exception data is returned in the following structure which is nested inside an element named `faultData` in the response:
+
+| **Field name** | **Description**                                                                                                  |
+| -------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `faultCode`    | Normally the value `env:Server` to indicate a server-side exception.                                             |
+| `faultString`  | A human-readable string indicating the nature of the fault.                                                      |
+| `code`         | The name of the exception that occurred. Please refer to the able below for the names of the various exceptions. |
+| `details`      | A human-readable string giving further details on the cause of the fault.                                        |
+
+Please note that the structure of the `faultData` element is slightly different between the SOAP and JSON endpoints. For the SOAP endpoint, the elements `code` and `details` are nested inside an element called `faultDetails`. For the JSON endpoint, all elements are in a flat structure in the `faultData` structure.
+
+### Examples of Exceptions or Faults{#Examples-of-Exceptions-or-Faults}
+
+#### SOAP{#SOAP}
+
+Open SOAP-FaultDetails.xml
+
+**SOAP-FaultDetails.xml**
+
+18 Feb 2022, 06:00 PM
+
+#### JSON{#JSON}
+
+Open JSON-FaultDetails.json
+
+**JSON-FaultDetails.json**
+
+24 Feb 2022, 09:43 PM
+
+## **Exceptions List and Details**{#Exceptions-List-and-Details}
+
+| **Exception Type**         | **Details**                                                                                                                                        |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `InvalidPasswordFault`     | The `customerId` or `password` / `apiCode`input parameter was missing or incorrect.                                                                |
+| `FieldValidationFault`     | One of the required fields was missing, or the format of a field was not valid.  For example, this may be thrown if an email address is not valid. |
+| `UserIdInUseFault`         | The UserID/verificationId input is already in use.                                                                                                 |
+| `UserIdForInvitationFault` | User Id is reserved by a SMS invitation.                                                                                                           |
+| `UserIdNotFoundFault`      | The UserID/verificationId input could not be found.                                                                                                |
+| `InvalidCertificateFault`  | The client certificate presented for mutual authentication did not pass the certificate checking process.                                          |
+| `InvalidIPAddressFault`    | The IP address of the client is not permitted to call the web service.                                                                             |
+| `SystemFault`              | There was an unexpected error during the web service call. This is an internal error for greenID.                                                  |
+
+## **What are Errors?**{#What-are-Errors?}
+
+Errors may occur after the registration has been created or retrieved. For example, if our provider fails to send the SMS message submitted.
+
+### Samples of Error{#Samples-of-Error}
+
+#### SOAP{#SOAP.1}
+
+Open SOAP-ErrorDetails.xml
+
+**SOAP-ErrorDetails.xml**
+
+18 Feb 2022, 06:02 PM
+
+#### JSON{#JSON.1}
+
+Open JSON-ErrorDetails.json
+
+**JSON-ErrorDetails.json**
+
+24 Feb 2022, 09:43 PM
+
+## **Error Reason Code Mapping**{#Error-Reason-Code-Mapping}
+
+The API response will include an 'errorReasonCode' and 'errorMessage'. If there is an error with the submitting the SMS - an error reason code and error message will be provided. The table below provides the the error reason code and the description (error message) that greenID will send back in the API response in relation to SMS.
+
+| **Reason Code (errorReasonCode)** | **Description** **(errorMessage)**                                                                                                      |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| InvalidMobileNumberForSMS         | SMS could not be sent since the mobile number is invalid.                                                                               |
+| InvalidMobileNumberForSMS         | SMS could not be sent since the mobile number is invalid.                                                                               |
+| InvalidMobileNumberForSMS         | SMS could not be sent since the mobile number is invalid.                                                                               |
+| InvalidSenderForSMS               | SMS was sent from an invalid 'sender'. Please contact support to correctly configure the 'sender' for your account.                     |
+| InvalidSenderForSMS               | SMS was sent from an invalid 'sender'. Please contact support to correctly configure the 'sender' for your account.                     |
+| NonMobileNumberForSMS             | SMS could not be sent since the number provided is not a mobile phone number                                                            |
+| UnsupportedCountryForSMS          | SMS could not be sent since you are trying to send to a country that is not supported                                                   |
+| ReceiverOptOutForSMS              | SMS could not be delivered since the destination number has opted out of receiving messages from the 'sender' defined for your account. |
+| SMSNotSent                        | SMS could not be sent at this time. Please try again later.                                                                             |
+| DestinationUnreachableForSMS      | SMS could not be delivered since the destination handset could not be reached. Please try again later.                                  |
+| LandlineUsedForSMS                | SMS could not be delivered since the destination number is a landline.                                                                  |
+| SMSNetworkCongestion              | SMS could not be delivered due to carrier network congestion. Please try again later.                                                   |
+| SMSDeliveryError                  | The SMS could not be delivered due to an error.                                                                                         |
+| SMSUnexpectedError                | An unexpected error occurred when sending the SMS.                                                                                      |
+| HostedInviteError                 | An unexpected error occurred when attempting to generate the Hosted Invite URL.                                                         |
+| UnexpectedError                   | An unexpected error occurred.                                                                                                           |

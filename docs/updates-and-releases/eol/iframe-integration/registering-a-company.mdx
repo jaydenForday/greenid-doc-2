@@ -1,0 +1,207 @@
+---
+id: registering-a-company
+title: Registering a Company
+sidebar_position: 7
+---
+
+# Registering a Company
+
+:::note
+
+**iFrame Deprecated**
+
+iFrame integration was deprecated in January 2015.
+
+New customers should integrate using either [greenID Web](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) or [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API). Existing customers are encouraged to upgrade the integration method - [contact support](mailto\:support@edentiti.com) to find out more.
+
+This documentation remains to support existing customers with an iFrame integration.
+
+:::
+
+Companies can be registered with greenID via Web Services in a similar manner to individuals
+
+## Security Options
+
+Unlike the individual registration Web Service methods, the company registration Web Service methods only use Password authentication.
+
+## WSDL Locations
+
+The test environment WSDLs for the company registration methods described below are at the following locations:
+
+[https://test-au.vixverify.com/Registrations-Registrations/CompanyVerificationServicesPassword?wsdl](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web)
+
+The production environment WSDLs for the company registration methods described below are at the following locations:
+
+[https://au.vixverify.com/Registrations-Registrations/CompanyVerificationServicesPassword?wsdl](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) 
+
+## Methods
+
+There are two methods that can be used to register a company with greenID:
+
+1. registerCompany
+
+2. registerCompanySimpleAddress
+
+One of these methods must be called as the first step when verification of a company is required. This method establishes a registration with GreenID that can be used as the basis of further checks.
+
+### The registerCompany Method
+
+At a minimum the following is needed for the registerCompany web service: 
+
+- customerId
+
+- clientId (your unique ID for the company/fund)
+
+- password (web service password)
+
+- ruleId (default)
+
+- clientType (blank or SMSF - see further info below)
+
+- abn or acn 
+
+- companyName (eg Fund X)
+
+- state (state of company/fund registration)
+
+#### Method Signature
+
+| <p>`public` `RichVerificationResult registerCompany (`</p><p>` String customerId,`</p><p>`     String password,`</p><p>`     String clientId,`</p><p>`     String ruleId,`</p><p>`     String clientType,`</p><p>`     String abn,`</p><p>`     String acn,`</p><p>`     String companyName,`</p><p>`     String state,`</p><p>`     String postcode,`</p><p>`     String email,`</p><p>`     String phone,`</p><p>`     String fax,`</p><p>`     NameValuePair[] extraData)`</p> |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+#### Parameters
+
+| **Name**    | **Type**                                                                                                                          | **Required?** | **Description**                                                                                                                                                                                                                                             | **Contact**                                                                                                                                                                                                                                                                                                                                                                                       |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| customerId  | String                                                                                                                            | Yes           | This parameter is GreenID's identifier for the client application.  The value is supplied by GreenID, and must be included with each registration request.                                                                                                  | Must be a valid identifier issued by GreenID.                                                                                                                                                                                                                                                                                                                                                     |
+| password    | String                                                                                                                            | Yes           |                                                                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                                                                                                                                                   |
+| clientId    | String                                                                                                                            | Yes           | An identifier for the company being registered, supplied by the customer, i.e. it is your identifier for the company being registered, not GreenID's.                                                                                                       | No restrictions.                                                                                                                                                                                                                                                                                                                                                                                  |
+| ruleId      | String                                                                                                                            | Yes           | Specifies the predefined verification rule that this registration will be run against.  By default, every customer has at least the rule named "default".                                                                                                   | Must be a string and must match a predefined rule string specified in the system.  The default rule is named "default".                                                                                                                                                                                                                                                                           |
+| clientType  | String                                                                                                                            | Yes           |                                                                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                                                                                                                                                   |
+| abn         | String                                                                                                                            | Yes           | The ABN of the company being registered.                                                                                                                                                                                                                    | No restrictions. All spaces will be stripped prior to being stored.  All non-digits are stripped prior to being used for verification purposes.                                                                                                                                                                                                                                                   |
+| acn         | String                                                                                                                            | Yes           | The ACN of the company being registered.                                                                                                                                                                                                                    | No restrictions. All spaces will be stripped prior to being stored.  All non-digits are stripped prior to being used for verification purposes.                                                                                                                                                                                                                                                   |
+| companyName | String                                                                                                                            | Yes           | The name of the company being registered.                                                                                                                                                                                                                   | Must be a string that is the valid legal name of the company or business entity being registered.                                                                                                                                                                                                                                                                                                 |
+| state       | String                                                                                                                            | Yes           | The state in which the company is registered.                                                                                                                                                                                                               | Must be one of: ACTNSWNTQLDSATASVICWA                                                                                                                                                                                                                                                                                                                                                             |
+| postcode    | String                                                                                                                            | Yes           | The postcode compent of the company's address.                                                                                                                                                                                                              | Must be a string comprising only four digits, i.e.: ^\[\d]\{4}$                                                                                                                                                                                                                                                                                                                                   |
+| email       | String                                                                                                                            | Yes           | The primay email contact for the company being registered.                                                                                                                                                                                                  | Must be a valid email address following the [Standard Hibernate validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/14287025/Before+you+integrate#Beforeyouintegrate-RegardingEmailAddresses) and checking Top Level Domain (TLD) is valid. See [https://data.iana.org/TLD/tlds-alpha-by-domain.txt](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) |
+| phone       | String                                                                                                                            | Yes           | The primary phone contact for the company being registered.                                                                                                                                                                                                 | No restrictions, although non-digits are stripped when used for verification checks. Please don't include country codes.                                                                                                                                                                                                                                                                          |
+| fax         | String                                                                                                                            | No            | The primary fax contact number for the company being registered.                                                                                                                                                                                            | Same as for phone numbers.                                                                                                                                                                                                                                                                                                                                                                        |
+| extraData   | [NameValuePair\[\]](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-NameValuePair) | No            | This parameter allows the customer to send extra data that will need to be agreed upon before implementation.  It will be a simple key/value format.  If there is no previous agreement for certain keys to be send in this field, then it will be ignored. |                                                                                                                                                                                                                                                                                                                                                                                                   |
+
+## The registerCompanySimpleAddress Method{#Registeringacompany-TheregisterCompanySimpleAddressMethod}
+
+### Method Signature{#Registeringacompany-MethodSignature.1}
+
+| <p>`public` `RichVerificationResult registerCompany (`</p><p>` String customerId,`</p><p>`     String password,`</p><p>`     String clientId,`</p><p>`     String ruleId,`</p><p>`     String clientType,`</p><p>`     String abn,`</p><p>`     String acn,`</p><p>`     String companyName,`</p><p>`     SimpleAddress address,`</p><p>`     String email,`</p><p>`     String phone,`</p><p>`     String fax,`</p><p>`     NameValuePair[] extraData`</p> |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+### Parameters{#Registeringacompany-Parameters.1}
+
+| **Name**    | **Type**                                                                                                                          | **Required?** | **Description**                                                                                                                                                                                                                                              | **Contact**                                                                                                                                                                                                                                                                                                                                                                                       |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| customerId  | String                                                                                                                            | YesY          | This parameter is GreenID's identifier for the client application.  The value is supplied by GreenID, and must be included with each registration request.                                                                                                   | Must be a valid identifier issued by GreenID.                                                                                                                                                                                                                                                                                                                                                     |
+| password    | String                                                                                                                            | Yes           |                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                   |
+| clientId    | String                                                                                                                            | Yes           | An identifier for the company being registered, supplied by the customer, i.e. it is your identifier for the company being registered, not GreenID's.                                                                                                        | No restrictions.                                                                                                                                                                                                                                                                                                                                                                                  |
+| ruleId      | String                                                                                                                            | Yes           | Specifies the predefined verification rule that this registration will be run against.  By default, every customer has at least the rule named "default".                                                                                                    | Must be a string and must match a predefined rule string specified in the system.  The default rule is named "default".                                                                                                                                                                                                                                                                           |
+| clientType  | String                                                                                                                            | Yes           |                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                   |
+| abn         | String                                                                                                                            | Yes           | The ABN of the company being registered.                                                                                                                                                                                                                     | No restrictions. All spaces will be stripped prior to being stored.  All non-digits are stripped prior to being used for verification purposes.                                                                                                                                                                                                                                                   |
+| acn         | String                                                                                                                            | Yes           | The ACN of the company being registered.                                                                                                                                                                                                                     | No restrictions. All spaces will be stripped prior to being stored.  All non-digits are stripped prior to being used for verification purposes.                                                                                                                                                                                                                                                   |
+| companyName | String                                                                                                                            | Yes           | The name of the company being registered.                                                                                                                                                                                                                    | Must be a string that is the valid legal name of the company or business entity being registered.                                                                                                                                                                                                                                                                                                 |
+| address     | SimpleAddress                                                                                                                     | Yes           |                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                   |
+| email       | String                                                                                                                            | Yes           | The primay email contact for the company being registered.                                                                                                                                                                                                   | Must be a valid email address following the [Standard Hibernate validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/14287025/Before+you+integrate#Beforeyouintegrate-RegardingEmailAddresses) and checking Top Level Domain (TLD) is valid. See [https://data.iana.org/TLD/tlds-alpha-by-domain.txt](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) |
+| phone       | String                                                                                                                            | Yes           | The primary phone contact for the company being registered.                                                                                                                                                                                                  | No restrictions, although non-digits are stripped when used for verification checks. Please don't include country codes.                                                                                                                                                                                                                                                                          |
+| fax         | String                                                                                                                            | No            | The primary fax contact number for the company being registered.                                                                                                                                                                                             | Same as for phone numbers.                                                                                                                                                                                                                                                                                                                                                                        |
+| extraData   | [NameValuePair\[\]](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-NameValuePair) | No            | This parameter allows the customer to send extra thata that will need to be agreed upon before implementation.  It will be a simple key/value format.  If there is no previous agreement for certain keys to be send in this field, then it will be ignored. |                                                                                                                                                                                                                                                                                                                                                                                                   |
+
+## The SimpleAddress Type{#Registeringacompany-TheSimpleAddressType}
+
+| **Name**    | **Type** | **Required?** | **Description**                    | **Contact**                                                     |
+| ----------- | -------- | ------------- | ---------------------------------- | --------------------------------------------------------------- |
+| description | String   | No            | A description of the address.      | Length \<= 255 characters.                                      |
+| address1    | String   | Yes           | Line 1 of an address.              | Length \<= 255 characters.                                      |
+| address2    | String   | No            | Line 2 of an address               | Length \<= 255 characters.                                      |
+| address3    | String   | no            | Line 3 of an address               | Length \<= 255 characters.                                      |
+| address4    | String   | No            | Line 4 of an address               | Length \<= 255 characters.                                      |
+| suburb      | String   | Yes           | Suburb component of the address.   | Length \<= 255 characters.                                      |
+| postcode    | String   | Yes           | Postcode component of the address. | Must be a string comprising only four digits, i.e.: ^\[\d]\{4}$ |
+| state       | String   | Yes           | State component of the address.    | Must be one of: ACTNSWNTQLDSATASVICWA                           |
+| country     | String   | Yes           | Country component of the address.  |                                                                 |
+
+### Return Value
+
+The return values of the functions are both the same: both methods will return a [RichVerificationResult](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-RichVerificationResult) object.  This object is described in detail in the section on Outcome Notification, so the reader is referred to that section for more detail.  In summary, the return value will indicate the current status of the company's registration, and the outcome of any checks that were performed automatically.
+
+### Faults
+
+Either method may raise a FaultDetails, inside which can be the following codes:
+
+- SystemFault
+
+## About the clientType and how it affects which sources are checked
+
+If you register with a clientType set to anything other than "SMSF" (or alternately don't send down a clientType) then the organisation is treated as a company and two "non-consent" checks are performed.  The entity is checked against the ASIC and ABR sources.  If no match is found via these non-consent sources, then a POST to the start page can be performed to allow the details to be tweaked to achieve a match via the user-centric versions of the ASIC and ABR sources.
+
+\
+If the clientType is "SMSF" the organisation is registered as a self managed super fund and no non-consent checks are performed (we currently don't have a non-consent version of the super fund lookup). The user-centric SMSF source must be used, and so a POST must be done to the start page as below.
+
+## POSTing to the start page
+
+When redirecting to our site for companies/SMSFs, rather than POSTing to \*start.seam \*as you would when verifying individuals, you POST to *company-start.seam*.   The following post parameters are accepted; their meaning is the same as for the individuals.  The only difference being that "clientId" is the identifier for non-individuals rather than userId:\\
+
+- returnUrl
+
+- cancelUrl
+
+- customerId
+
+- timeoutUrl
+
+- exceptionUrl
+
+- clientId
+
+## The sources
+
+The following are the sources we check non-individuals against:
+
+- ASIC: [http://www.search.asic.gov.au/gns001.html](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web)
+
+- ABR: [http://abr.business.gov.au/abrxmlsearch/](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web)
+
+- SMSF: [http://superfundlookup.gov.au](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web)
+
+## Fuzzy Name Matching
+
+The standard rules run by greenID require exact matches when searching for company names.  This can be problematic given the variation in company names, for example, the many variations of “Proprietary Limited” that may suffix a company name.  The use of ampersands and the word “and” can also cause a problem, along with other punctuation marks such as hyphens, dots, exclamation marks, etc.  The same problem presents itself with superannuation funds.
+
+Thus it is highly desirable to perform non-exact matching on company and superannuation fund names.  greenID provides fuzzy name matching features, and this document describes that fuzziness.
+
+## Fuzzy Company Name Matching{#Registeringacompany-FuzzyCompanyNameMatching}
+
+Company names are first checked for an exact match.  An exact match ignores case, but otherwise the names are untouched.
+
+If an exact match is not found, and the greenID customer permits fuzzy matching, then the fuzzy matching routines are run.  Before any matching is attempted, any combination of “Proprietary”, “Pty”, “Pty.”, “Limited”, “Ltd” and/or “Ltd.” is stripped from the name.  Then ampersands are removed, and spaces are normalized.  Then a case-insensitive match is done.
+
+The table below illustrates some examples.
+
+| **Company name …**     | **… matches**                       |
+| ---------------------- | ----------------------------------- |
+| Example Company        | Example Company Proprietary Limited |
+| Example Company        | Example Company Pty. Ltd.           |
+| Example Company        | Example Company Proprietary Ltd.    |
+| Example Company & Sons | Example Company and Sons            |
+| Example Company & Sons | Example Company and Sons Pty Lt     |
+
+## Fuzzy Non-Company Name Matching {#Registeringacompany-FuzzyNon-CompanyNameMatching}
+
+When dealing with superannuation funds, a wide variety of variation is seen.  In particular the phrases “The Trustee for” and “Superannuation Fund” are common prefixes and/or suffixes, and are commonly omitted when entering superannuation fund details.
+
+Similarly to company names, ampersands are stripped and spaces are normalized before matching.  The suffix “fund” is also removed if it is found.  Then a “contains” comparison is performed to take into account the various suffixes and prefixes that are commonly seen.
+
+The table below illustrates some examples
+
+| **Super fund name …** | **… matches**                          |
+| --------------------- | -------------------------------------- |
+| My Super Fund         | My Superannuation Fund                 |
+| My Super Fund         | The Trustee for My Superannuation Fund |
+| Me & My Super Fund    | Me and My Super Fund                   |

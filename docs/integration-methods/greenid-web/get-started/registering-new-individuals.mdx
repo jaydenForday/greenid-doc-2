@@ -1,0 +1,202 @@
+---
+id: registering-new-individuals
+title: Registering new Individuals
+sidebar_position: 11
+---
+
+# Registering new Individuals
+
+### Registering and Verifying New Individuals
+
+## **Overview**
+
+To use greenID Web to register and verify a new person, the following steps are required:
+
+1. Create a form that contains the personal details of the person.
+
+2. Create an HTML element in which greenID Web will render UI controls.
+
+3. Include the greenID Web javascript library and perform the setup.  This is described in detail below.
+
+4. [Include the greenID Web CSS file](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880252)
+
+5. Process the form that is submitted when verification is complete or ended.
+
+These steps are discussed in detail below. 
+
+# **Create a form**{#Create-a-form}
+
+For the new person scenario, greenID Web takes control of the page when a form is submitted.  The form is supplied by the customer, and it can be either a registration form (i.e. a form that captures registration details), or some other form, as long as it contains the person’s information to be verified, including their name, address and date of birth.  greenID Web intercepts the “onSubmit” event and initiates the verification session at this point.  When the verification process is complete, the original submit event is allowed to complete.  When the form is submitted, a verificationToken is embedded added to the form so that the outcome of the verification process can be securely queried.
+
+For the new person scenario, the page must contain a form that has at least the following elements:
+
+- accountId – the customer’s greenID account ID, issued by greenID.  This should be a hidden field element.
+
+- apiCode – the customer’s unique key that greenID Web will use to access greenID on the customer’s behalf.  The API code is issued by greenID.  This should be a hidden field element.
+
+- Given name – the person’s given name.  This field cannot be blank.
+
+- Middle names – the person’s middle names.  This field may be blank.
+
+- Surname – the person’s surname.  This field cannot be blank.
+
+- DoB – the person’s date of birth.  This field cannot be blank, and must be a valid date in the past.
+
+- Address - as defined for the relevant country, see [Address Handling](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/63543880). You might like to consider embedding [Address Validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/15466566) into your form to deal with these elements.
+
+- Email – the person’s email address.  This field may be blank.
+
+- ruleId - the ruleId to use for the verification.  This field is only required when a ruleId other than "default" is wanted for the verification.  It is not common for this to be used and it should normally be a hidden field element.
+
+All these fields are expected to be HTML input fields with specific IDs so greenID Web may locate them.  The fields themselves do not need to be visible, though, i.e. they may be hidden form input fields.
+
+The table below summarises the requirements for the HTML input fields.
+
+| **HTML element ID** | **Required?** | **Length or format restrictions**                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accountId           | Yes           | Determined by Vix Verify                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| apiCode             | Yes           | Determined by Vix Verify                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| givenNames          | Yes           | Less than 256 characters                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| middleNames         | No            | Less than 256 characters                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| surname             | Yes           | Less than 256 characters                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| address             |               | As defined for the relevant country, see [Address Handling](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/63543880)                                                                                                                                                                                                                                                                                                                       |
+| dob                 | Yes           | DD/MM/YYYY                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| email               | No            | Valid email address less than 256 characters long May be blank                                                                                                                                                                                                                                                                                                                                                                                      |
+| ruleId              | No            | <p>Contact greenID for the names of the rules configured for your account.  If only one rule is configured, which is the normal situation, then do not set this parameter OR use the string “default”.  Both will automatically select that default rule.</p><p>Customers who are checking watch lists only will have a specific ruleId that will need to be passed in this field. Please confirm this ruleId with your greenID representative.</p> |
+
+The form must also have an ID that is given to greenID Web in the [javascript setup](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880338/Registering+and+Verifying+New+Individuals#RegisteringandVerifyingNewIndividuals-JavascriptSetupforRegisteringaNewPerson).
+
+An [example HTML form for registering a new person](https://test-au.vixverify.com/verification/customers/greenid_simpleui_demo/simpleui-demo.html) is available, which shows all the input fields that are expected, and the [Javascript Inclusions and Setup](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880338#RegisteringandVerifyingNewIndividuals-JavascriptSetupforRegisteringaNewPerson) (discussed below).
+
+Note that in the returning user scenario, the page does not have to contain a form.
+
+Addresses can be made non-mandatory for a customer if required.  Please contact greenID support to discuss this option, as it requires configuration changes to the greenID customer account.
+
+## **Optional parameters**{#Optional-parameters}
+
+There is an extra parameter that can be provided at registration that are required depending on the specific configuration.  For Australian customers that are using the background Credit Header source there is a requirement that consent from the user is obtained before the check is run.  There are two options:  
+
+1. a checkbox with the name "dnbCreditHeaderConsentGiven".  This checkbox should have the consent wording next to it.
+
+2. a hidden input text field with the name "dnbCreditHeaderConsentGiven" and a value of "true" or "false".  This can be used where consent has been has been previously obtained.
+
+3. For customer configured with Visa Entitlement Check, customers can pass the following additional parameters to run **Visa Entitlement checks**:
+
+   1. visaEntitlementPassportCountry: This data must be provided for the check to occur. Three digit country code.
+
+   2. visaEntitlementPassportNumber: This data must be provided for the check to occur.
+
+## **Using HTTPS**{#Using-HTTPS}
+
+greenID Web is an embedded piece of javascript, and hence relies on cross-domain AJAX calls to send and receive information from greenID.  To ensure compatibility across browsers, greenID Web **must** be embedded in a page that is served via HTTPS.
+
+## **Breaking Up Addresses**{#Breaking-Up-Addresses}
+
+GreenID requires addresses in the broken up format specified above.  Note that this does not need to be the format the customer’s website collects the address.  For example, if an automated address entry/sanitising solution (such as [Harmony](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/15466566)) is used, then the customer is responsible for taking the address and populating the fields required by greenID.  This can usually be accomplished by some simple javascript.
+
+The address fields do not need to be visible, i.e. the individual can see a single address field, and there can be hidden form input fields containing the broken up format required by greenID.
+
+The customer can even choose to have the individual input their address on one page, and have greenID Web on another page into which the server injects the broken up components of the individuals address.
+
+## **Create an HTML element in which greenID Web will render UI controls**{#Create-an-HTML-element-in-which-greenID-Web-will-render-UI-controls}
+
+Once greenID Web has been invoked, either by intercepting a form submit event or by being explicitly invoked via a javascript function call, there must be a specific element in the page where greenID Web can render its UI controls.  It is expected that this will simply be an empty HTML div element with an ID that is specified in the greenID Web [Javascript Setup](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880338#RegisteringandVerifyingNewIndividuals-JavascriptSetupforRegisteringaNewPerson) (discussed below).
+
+Below is an example HTML fragment:
+
+```
+<div id="greenid-div"> 
+</div>
+```
+
+Note that this div element is required in both the new and returning person scenarios.
+
+## **Include and setup javascript**
+
+There are several javascript files that must be included.  Example HTML code for the basic inclusions is below:
+
+:::note
+
+Important: You must link directly to the files using the URLs below. Do not take a local copy.
+
+:::
+
+In the Australian \*\*Production \*\*environment: 
+
+```
+<script src="https://simpleui-au.vixverify.com/df/javascripts/greenidConfig.js" type="text/javascript"></script> <script src="https://simpleui-au.vixverify.com/df/javascripts/greenidui.min.js" 
+type="text/javascript"></script>
+```
+
+In the Australian **Test** environment:
+
+```
+<script src="https://simpleui-test-au.vixverify.com/df/javascripts/greenidConfig.js" type="text/javascript"></script> <script src="https://simpleui-test-au.vixverify.com/df/javascripts/greenidui.min.js" 
+type="text/javascript"></script>
+```
+
+:::note
+
+**Important**: Remember to set the "environment" parameter in the greenidUi.setup() function to "test" or "prod" to match these URLs (see "Javascript setup for registering a new person" below).
+
+:::
+
+These files can be included at any point on the page.
+
+All of this code is also available on the example form at [https://test-au.vixverify.com/verification/customers/greenid\_simpleui\_demo/simpleui-demo.html](https://test-au.vixverify.com/verification/customers/greenid_simpleui_demo/simpleui-demo.html) 
+
+Note that the inclusions are the same for the new and returning person scenarios.
+
+## **Javascript Setup for Registering a New Person**{#Javascript-Setup-for-Registering-a-New-Person}
+
+The javascript setup differs slightly depending upon whether a form submit event is being used to trigger greenID Web, or an explicit javascript function call is being used.  This section describes how to use greenID Web to register a new person and attempt to verify them.
+
+An example of the setup required is below:
+
+```
+greenidJQuery("document").ready(function() { 
+greenidUI.setup({ 
+environment: "test", 
+formId: "theform", 
+frameId: "greenid-div", 
+country: "usethiscountry", 
+registerCallback: onRegister, 
+errorCallback: onError, 
+sessionCompleteCallback: onSessionComplete, 
+sourceAttemptCallback: onSourceAttempt, 
+sessionCancelledCallback: onSessionCancel, 
+preSubmitValidationCallback: myValidator 
+});
+```
+
+This function is run when the document is ready, and calls the greenidUI.setup function.  The various parameters are explained below:
+
+- environment – controls whether greenID will call the greenID test or production system.  The value “test” is used to target the test environment, and the value “prod” is used to target the production environment.
+
+- formId – the ID of the form that greenID will use to get all the person’s details, and intercept the “onSubmit” event.
+
+- frameId – the ID of the empty div element that greenID Web will use to render UI elements into.
+
+- country – the ID of an element that specifies which country to use.  In the example form, a hidden HTML input is used with the value “AU”.  ISO 3166-1 alpha-2 country codes are expected (please see [https://www.iso.org/obp/ui/#search](https://www.iso.org/obp/ui/#search)).
+
+- registerCallback – a function that, if supplied, will be called when the registration is completed.
+
+- errorCallback – a function that, if supplied, will be invoked whenever an error is experienced.
+
+- sessionCompleteCallback – a function that, if supplied, will be invoked whenever the verification session is complete.  The session may complete with a successful verification, an incomplete or failed verification or the person may abandon the verification process.
+
+- sourceAttemptCallback – a function that, if supplied, will be invoked whenever the person attempts a source.
+
+- sessionCancelledCallback – a function that, if supplied, will be invoked whenever a person ends a session by clicking on the “save and complete later” button.
+
+- preSubmitValidationCallback - a function that, if supplied, will be invoked before greenID starts processing.  If the function returns false, i.e. one or more fields on the registration form are invalid, then greenID returns control to the customer page in order to remedy the validation errors before proceeding.  This callback is used to prevent submitting invalid data to greenID.
+
+- submitCallback - a function that, if supplied, will be invoked instead of submitting the form. This can be used to receive control back from greenID Web, and prevent the form submit from completing. Two parameters are available to be passed into the submitCallback: verificationToken andoverallCurrentState.
+
+There are other optional parameters that are discussed in [Setup Function Options](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/359040410).
+
+All of the parameters, except the callback functions, are required.  If required parameters are not present, then an error will occur, and the verification session will not begin.
+
+Refer to [Callbacks](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/359204260) for further details. 
+
+The greenidUIJQuery object is defined in the greenID Web javascript, and may be invoked directly.

@@ -1,0 +1,1342 @@
+openapi: 3.0.0
+info:
+  description: |
+    # Overview
+
+    Hosted Web allows customers to apply their preferred configuration (rules, data sources, controlled changes, etc.) to a standardised workflow hosted by GBG.
+
+    This platform offers flexibility to customers who can either use the Hosted site as a standalone URL or invite their end-users through one of our APIs. These APIs provide greater control and customisation compared to static links, enabling seamless integration with existing workflows.
+    
+    For more information on integration options and configurations, please contact your GBG account representative.
+
+    # Environments 
+    ### Test Environment:
+      https://simpleui-test-au.vixverify.com 
+    ### Production Environment:
+      https://simpleui-au.vixverify.com
+    
+  title: Hosted Web API
+  version: 1.0.0
+servers:
+- description: Test environment
+  url: https://simpleui-test-au.vixverify.com
+- description: Production environment
+  url: https://simpleui-au.vixverify.com 
+paths:
+  /registerVerificationAndGenerateHostedInviteURL:
+    post:
+      summary: registerVerificationAndGenerateHostedInviteURL
+      description: |
+        # Request Values
+        | Field Name      | Type            | Required         | Restrictions                                                                                                   |
+        |------------------|-----------------|------------------|---------------------------------------------------------------------------------------------------------------|
+        | `accountId`     | `String`        | Yes              | GreenID issues each customer with an accountId, which is a unique identifier by which GreenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `password`      | `String`        | Yes              | Each customer is issued a password that must be supplied with every call to any web method in the API.        |
+        | `verificationId`| `String`        | No (may be null) | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that GreenID and the caller use to refer to a verification attempt for an individual person. If the caller supplies the `verificationId` then GreenID stores and uses that identifier; otherwise, GreenID will generate a unique `verificationId`. The `verificationId` is returned to the caller. |
+        | `ruleId`        | `String`        | No (may be null) | Callers have a specific rule configured for their GreenID Hosted account. This string must identify a rule. Contact GreenID for the name of the rule configured for your Hosted account. If only one rule is configured, then the string "default" will automatically select that rule. |
+        | `givenNames`    | `String`        | Yes              | Cannot be null. Cannot be the empty string. Max 255 characters.                                               |
+        | `middleNames`   | `String`        | No (may be null) | Max 255 characters.                                                                                           |
+        | `surname`       | `String`        | Yes              | Cannot be null. Cannot be the empty string. Max 255 characters.                                               |
+        | `country`       | `String`        | No (may be null) | The country code. This must be the ISO 3166 country code. The country code can be given in either the alpha-2, alpha-3, or numeric format. Please refer to [ISO 3166 Country Codes](https://url.uk.m.mimecastprotect.com/s/hF_tCyPgDslPpvytQikIxu737?domain=iso.org) for a full list. |
+        | `postcode`      | `String`        | No (may be null) | A 4-digit Australian postcode.                                                                                |
+        | `state`         | `String`        | No (may be null) | A valid abbreviation of an Australian state or territory, i.e., ACT, QLD, NSW, NT, SA, TAS, VIC, or WA.       |
+        | `streetName`    | `String`        | No (may be null) | Max 255 characters.                                                                                           |
+        | `streetNumber`  | `String`        | No (may be null) | Max 255 characters.                                                                                           |
+        | `streetType`    | `String`        | No (may be null) | A valid street type abbreviation, e.g., "ST", "RD", etc.                                                      |
+        | `suburb`        | `String`        | No (may be null) | Max 255 characters.                                                                                           |
+        | `dob`           | `DateOfBirth`   | Yes              | Must be a valid date in the past.                                                                             |
+        | `mobilePhone`   | `String`        | No (may be null) | See [Mobile Phone Validation](https://url.uk.m.mimecastprotect.com/s/8mnNCzpjET0Y7lmIKsmI9-a2e?domain=vixverify.atlassian.net). |
+        | `email`         | `String`        | No (may be null) | Must be a valid email address following standard email validation rules and checking if the Top Level Domain (TLD) is valid. See [TLD List](https://url.uk.m.mimecastprotect.com/s/n1a1CADk2FvK8y1IQt8IGMrAx?domain=data.iana.org). |
+        
+        # Response Values
+        
+        | Field Name                | Type      | Description                                                                                                   |
+        |----------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
+        | `verificationId`          | `String`  |                                                                                                               |
+        | `overallVerificationStatus` | `String` | The overall status of the verification.                                                                       |
+        | `hostedInviteUrl`         | `String`  | ShortUrl generated for this registration for this call.                                                       |
+        | `responseErrorFlag`       | `Boolean` | `True` = an error occurred<br>`False` = no error occurred                                                     |
+        | `responseErrorMessage`    | `String`  | A message providing information regarding the error that occurred.                                            |
+        | `errorReasonCode`         | `String`  | Indicates the type of error that occurred.                                                                    |
+        | `smsID`                   |           | This field should **not** be used in your implementation; it will be removed from the response soon.          |
+        | `smsStatus`               |           | This field should **not** be used in your implementation; it will be removed from the response soon.          |
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterVerificationRequest'
+            example:
+              accountId: "{{accountId}}"
+              password: "{{web-service-password}}"
+              ruleId: "default"
+              givenNames: "GBG"
+              middleNames: ""
+              surname: "Test"
+              country: "AU"
+              postcode: "3000"
+              state: "VIC"
+              streetName: "Collins"
+              streetNumber: "360"
+              streetType: "St"
+              suburb: "Melbourne"
+              dob: "01/01/1981"
+              mobilePhone: "+61411123123"
+              email: "test@email.com"
+      responses:
+        '200':
+          description: Happy Path - Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterVerificationResponse'
+              examples:
+                HappyPath:
+                  summary: Happy Path - 200 Response
+                  value:
+                    faultData: null
+                    verificationId: "dCSPGpt4"
+                    responseErrorFlag: false
+                    responseErrorMessage: ""
+                    errorReasonCode: ""
+                    smsId: null
+                    smsStatus: null
+                    result: null
+                    overallVerificationStatus: "IN_PROGRESS"
+                    hostedInviteUrl: "https://url.uk.m.mimecastprotect.com/s/8JkGCBB02FgXyQlt1uDI2fLSp?domain=gbgid.me"
+                    fault: false
+        '500':
+          description: Internal Server Error - Various Faults
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                InvalidPasswordFault:
+                  summary: Invalid Password Fault - 500 Response
+                  value:
+                    faultData:
+                      faultCode: "env:Server"
+                      faultString: "Invalid Password for customer: {{accountId}}, or customerId does not exist"
+                      code: "InvalidPasswordFault"
+                      details: "{{accountId}}"
+                      faultLogLevel: null
+                    verificationId: null
+                    responseErrorFlag: null
+                    responseErrorMessage: null
+                    errorReasonCode: null
+                    smsId: null
+                    smsStatus: null
+                    result: null
+                    overallVerificationStatus: null
+                    hostedInviteUrl: null
+                    fault: true
+                FieldValidationFault_Email:
+                  summary: Field Validation Fault - Invalid Email - 500 Response
+                  value:
+                    faultData:
+                      faultCode: "env:Server"
+                      faultString: "Invalid input field - email"
+                      code: "FieldValidationFault"
+                      details: "Value of [https://url.uk.m.mimecastprotect.com/s/pZz4CDkn2FRLy2OfRCQIjbUgs?domain=email.com] for email is invalid"
+                      faultLogLevel: null
+                    verificationId: null
+                    responseErrorFlag: null
+                    responseErrorMessage: null
+                    errorReasonCode: null
+                    smsId: null
+                    smsStatus: null
+                    result: null
+                    overallVerificationStatus: null
+                    hostedInviteUrl: null
+                    fault: true
+                FieldValidationFault_VerificationId:
+                  summary: Field Validation Fault - VerificationId In Use - 500 Response
+                  value:
+                    faultData:
+                      faultCode: "env:Server"
+                      faultString: "Invalid input field(s) - VerificationId"
+                      code: "FieldValidationFault"
+                      details: "VerificationId is already in use."
+                      faultLogLevel: null
+                    verificationId: null
+                    responseErrorFlag: null
+                    responseErrorMessage: null
+                    errorReasonCode: null
+                    smsId: null
+                    smsStatus: null
+                    result: null
+                    overallVerificationStatus: null
+                    hostedInviteUrl: null
+                    fault: true
+                UserIdInUseFault:
+                  summary: User ID In Use Fault - 500 Response
+                  value:
+                    faultData:
+                      faultCode: "env:Server"
+                      faultString: "Invalid input field(s) - VerificationId"
+                      code: "FieldValidationFault"
+                      details: "VerificationId is already in use."
+                      faultLogLevel: null
+                    verificationId: null
+                    responseErrorFlag: null
+                    responseErrorMessage: null
+                    errorReasonCode: null
+                    smsId: null
+                    smsStatus: null
+                    result: null
+                    overallVerificationStatus: null
+                    hostedInviteUrl: null
+                    fault: true
+      # Removed security section since authentication is handled via request body
+  /generateHostedInviteURLForOnboarding:
+    post:
+      summary: generateHostedInviteURLForOnboarding
+      description: |
+        # Request Values
+        | Field Name         | Type    | Required         | Restrictions                                                                                                    |
+        |---------------------|---------|------------------|----------------------------------------------------------------------------------------------------------------|
+        | `accountId`        | `String`  | Yes              | greenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `password`         | `String`  | Yes              | Each customer is issued a password that must be supplied with every call to any web method in the API.         |
+        | `verificationId`   | `String`  | No (may be null) | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person. If the caller supplies the `verificationId` then greenID stores and uses that identifier; otherwise, greenID will generate a unique `verificationId`. The `verificationId` is returned to the caller. |
+        | `ruleId`           | `String`  | No (may be null) | Callers have a specific rule configured for their greenID Hosted account. This string must identify a rule. Contact greenID for the name of the rule configured for your Hosted account. If only one rule is configured, then the string “default” will automatically select that rule. |
+        | `extraData`        | `List`    | No               | This parameter allows the customer to send extra data that will need to be agreed upon before implementation. It will be a simple key/value format. If there is no previous agreement for certain keys to be sent in this field then it will be ignored. |
+        
+        # Response Values
+        
+        | Field Name                | Type      | Description                                                                                                   |
+        |----------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
+        | `verificationId`          | `String`  |                                                                                                               |
+        | `overallVerificationStatus` | `String` | The overall status of the verification.                                                                       |
+        | `hostedInviteUrl`         | `String`  | The unique URL linked to the verification ID.                                                                 |
+        | `responseErrorFlag`       | `Boolean` | True = an error occurred  <br>False = no error occurred                                                       |
+        | `responseErrorMessage`    | `String`  | A message providing information regarding the error that occurred.                                            |
+        | `errorReasonCode`         | `String`  | Indicates the type of error that occurred.                                                                    |
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateHostedInviteURLRequest'
+            example:
+              accountId: "{{accountId}}"
+              password: "{{web-service-password}}"
+              verificationId: "{{verificationId}}"
+              ruleId: "{{ruleId}}"
+              extraData:
+                - key: "department"
+                  value: "sales"
+                - key: "region"
+                  value: "APAC"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateHostedInviteURLResponse'
+              examples:
+                HappyPathWithVerificationID:
+                  summary: Happy Path with Verification ID - 200 Response
+                  value:
+                    verificationId: "abc123XYZ"
+                    overallVerificationStatus: "COMPLETED"
+                    hostedInviteUrl: "https://url.uk.m.mimecastprotect.com/s/l0xUCERo2uQ8Yr6txFkI7Uwk1?domain=gbgid.me"
+                    responseErrorFlag: false
+                    responseErrorMessage: ""
+                    errorReasonCode: ""
+                HappyPathNoVerificationID:
+                  summary: Happy Path without Verification ID - 200 Response
+                  value:
+                    verificationId: null
+                    overallVerificationStatus: "COMPLETED"
+                    hostedInviteUrl: "https://url.uk.m.mimecastprotect.com/s/5q3ECG6q2sVN6xLcrHWIBgA3g?domain=gbgid.me"
+                    responseErrorFlag: false
+                    responseErrorMessage: ""
+                    errorReasonCode: ""
+                VerificationIDAlreadyVerified:
+                  summary: Verification ID Already Verified - 200 Response
+                  value:
+                    verificationId: "{{verificationId}}"
+                    overallVerificationStatus: "ALREADY_VERIFIED"
+                    hostedInviteUrl: "https://url.uk.m.mimecastprotect.com/s/h1ShCJ6w2s7WVGQiKIBIydv-i?domain=gbgid.me"
+                    responseErrorFlag: false
+                    responseErrorMessage: "Verification ID has already been verified."
+                    errorReasonCode: "VERIFICATION_ALREADY_COMPLETED"
+        '500':
+          description: Internal Server Error - Various Faults
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                InvalidRuleID:
+                  summary: Invalid Rule ID - 500 Response
+                  value:
+                    faultData:
+                      faultCode: "env:Server"
+                      faultString: "Invalid Rule ID: {{ruleId}}"
+                      code: "InvalidRuleIDFault"
+                      details: "{{ruleId}}"
+                      faultLogLevel: null
+                    verificationId: null
+                    overallVerificationStatus: null
+                    hostedInviteUrl: null
+                    responseErrorFlag: true
+                    responseErrorMessage: "The provided rule ID is invalid."
+                    errorReasonCode: "INVALID_RULE_ID"
+                MissingRequiredFields:
+                  summary: Missing Required Fields - 500 Response
+                  value:
+                    faultData:
+                      faultCode: "env:Server"
+                      faultString: "Missing required fields: accountId, password"
+                      code: "MissingFieldsFault"
+                      details: "accountId, password"
+                      faultLogLevel: null
+                    verificationId: null
+                    overallVerificationStatus: null
+                    hostedInviteUrl: null
+                    responseErrorFlag: true
+                    responseErrorMessage: "Required fields are missing."
+                    errorReasonCode: "MISSING_FIELDS"
+  /generateHostedInviteURLForExistingRegistration:
+    post:
+      summary: generateHostedInviteURLForExistingRegistration
+      description: |
+        # Request Values
+        | Field Name        | Type      | Required | Restrictions                                                                                                   |
+        |--------------------|-----------|----------|---------------------------------------------------------------------------------------------------------------|
+        | `accountId`       | `String`  | Yes      | GreenID issues each customer with an accountId, which is a unique identifier by which GreenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `password`        | `String`  | Yes      | Each customer is issued a password that must be supplied with every call to any web method in the API.         |
+        | `verificationId`  | `String`  | Yes      | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that GreenID and the caller use to refer to a verification attempt for an individual person. |
+        
+        # Response Values
+        
+        | Field Name                | Type      | Description                                                                                                   |
+        |----------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
+        | `verificationId`          | `String`  |                                                                                                               |
+        | `overallVerificationStatus` | `String` | The overall status of the verification.                                                                       |
+        | `hostedInviteUrl`         | `String`  | The short URL to be used to invite a user to complete their verification via the customer's Hosted website.    |
+        | `responseErrorFlag`       | `Boolean` | True = an error occurred  <br>False = no error occurred                                                       |
+        | `responseErrorMessage`    | `String`  | A message providing information regarding the error that occurred.                                            |
+        | `errorReasonCode`         | `String`  | Indicates the type of error that occurred.                                                                    |
+        | `smsStatus`               |           | This field should **not** be used in your implementation; it will be removed from the response soon.          |
+        | `smsId`                   |           | This field should **not** be used in your implementation; it will be removed from the response soon.          |
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateHostedInviteURLForExistingRegistrationRequest'
+            example:
+              accountId: "{{accountId}}"
+              password: "{{web-service-password}}"
+              verificationId: "{{verificationId}}"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateHostedInviteURLResponse'
+              examples:
+                HappyPath:
+                  summary: Happy Path - 200 Response
+                  value:
+                    verificationId: "abc123XYZ"
+                    overallVerificationStatus: "COMPLETED"
+                    hostedInviteUrl: "https://url.uk.m.mimecastprotect.com/s/l0xUCERo2uQ8Yr6txFkI7Uwk1?domain=gbgid.me"
+                    responseErrorFlag: false
+                    responseErrorMessage: ""
+                    errorReasonCode: ""
+                RegistrationAlreadyVerified:
+                  summary: Registration Already Verified - 200 Response
+                  value:
+                    verificationId: "{{verificationId}}"
+                    overallVerificationStatus: "ALREADY_VERIFIED"
+                    hostedInviteUrl: "https://url.uk.m.mimecastprotect.com/s/h1ShCJ6w2s7WVGQiKIBIydv-i?domain=gbgid.me"
+                    responseErrorFlag: false
+                    responseErrorMessage: "Verification ID has already been verified."
+                    errorReasonCode: "VERIFICATION_ALREADY_COMPLETED"
+        '500':
+          description: Invalid Verification ID - 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                InvalidVerificationID:
+                  summary: Invalid Verification ID - 500 Response
+                  value:
+                    faultData:
+                      faultCode: "env:Server"
+                      faultString: "Invalid Verification ID: {{verificationId}}"
+                      code: "InvalidVerificationIDFault"
+                      details: "{{verificationId}}"
+                      faultLogLevel: null
+                    verificationId: null
+                    overallVerificationStatus: null
+                    hostedInviteUrl: null
+                    responseErrorFlag: true
+                    responseErrorMessage: "The provided verification ID is invalid."
+                    errorReasonCode: "INVALID_VERIFICATION_ID"
+  /registerVerificationAndSendHostedSMSInvite:
+    post:
+      summary: registerVerificationAndSendHostedSMSInvite
+      description: |
+        # Request Values
+        | Field Name      | Type      | Required         | Restrictions                                                                                                   |
+        |------------------|-----------|------------------|---------------------------------------------------------------------------------------------------------------|
+        | `accountId`     | `String`  | Yes              | GreenID issues each customer with an accountId, which is a unique identifier by which GreenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `password`      | `String`  | Yes              | Each customer is issued a password that must be supplied with every call to any web method in the API.        |
+        | `verificationId`| `String`  | No (may be null) | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that GreenID and the caller use to refer to a verification attempt for an individual person. If the caller supplies the `verificationId` then GreenID stores and uses that identifier; otherwise, GreenID will generate a unique `verificationId`. The `verificationId` is returned to the caller. |
+        | `ruleId`        | `String`  | No (may be null) | Callers have a specific rule configured for their GreenID Hosted account. This string must identify a rule. Contact GreenID for the name of the rule configured for your Hosted account. If only one rule is configured, then the string "default" will automatically select that rule. |
+        | `givenNames`    | `String`  | Yes              | Cannot be null. Cannot be the empty string.  <br>  <br>Max 255 characters.                                    |
+        | `middleNames`   | `String`  | No (may be null) | Max 255 characters.                                                                                           |
+        | `surname`       | `String`  | Yes              | Cannot be null. Cannot be the empty string.  <br>  <br>Max 255 characters.                                    |
+        | `country`       | `String`  | No (may be null) | The country code. This must be the ISO 3166 country code. The country code can be given in either the alpha-2, alpha-3, or numeric format.  <br>  <br>Please refer to [ISO 3166 Country Codes](https://url.uk.m.mimecastprotect.com/s/hF_tCyPgDslPpvytQikIxu737?domain=iso.org) for a full (and up-to-date) list. |
+        | `postcode`      | `String`  | No (may be null) | A 4-digit Australian postcode.                                                                                |
+        | `state`         | `String`  | No (may be null) | A valid abbreviation of an Australian state or territory, i.e., ACT, QLD, NSW, NT, SA, TAS, VIC, or WA.       |
+        | `streetName`    | `String`  | No (may be null) | Max 255 characters.                                                                                           |
+        | `streetNumber`  | `String`  | No (may be null) | Max 255 characters.                                                                                           |
+        | `streetType`    | `String`  | No (may be null) | A valid street type abbreviation, e.g., "ST", "RD", etc.                                                      |
+        | `suburb`        | `String`  | No (may be null) | Max 255 characters.                                                                                           |
+        | `dob`           | `String`  | Yes              | Must be a valid date in the past.                                                                             |
+        | `mobilePhone`   | `String`  | Yes              | See [Mobile Phone Validation](https://url.uk.m.mimecastprotect.com/s/8mnNCzpjET0Y7lmIKsmI9-a2e?domain=vixverify.atlassian.net). |
+        | `email`         | `String`  | No (may be null) | Must be a valid email address following standard email validation rules and checking if the Top Level Domain (TLD) is valid. See [TLD List](https://url.uk.m.mimecastprotect.com/s/n1a1CADk2FvK8y1IQt8IGMrAx?domain=data.iana.org). |
+        
+        # Response Values
+        
+        | Field Name                | Type      | Description                                                                                                   |
+        |----------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
+        | `verificationId`          | `String`  |                                                                                                               |
+        | `overallVerificationStatus` | `String` | The overall status of the verification.                                                                       |
+        | `smsId`                   | `String`  | A unique identifier of the SMS message sent.                                                                 |
+        | `smsStatus`               | `String`  | Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent.  <br>  <br>Values can be: 'submitted' or 'error'. |
+        | `responseErrorFlag`       | `Boolean` | True = an error occurred  <br>False = no error occurred                                                       |
+        | `responseErrorMessage`    | `String`  | A message providing information regarding the error that occurred.                                            |
+        | `errorReasonCode`         | `String`  | Indicates the type of error that occurred.                                                                    |
+        | `hostedInviteUrl`         |           | This field should **not** be used in your implementation; it will be removed from the response soon.          |
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterVerificationAndSendHostedSMSInviteRequest'
+            example:
+              accountId: "{{accountId}}"
+              password: "{{web-service-password}}"
+              ruleId: "default"
+              givenNames: "John"
+              middleNames: ""
+              surname: "Citizen"
+              country: "AU"
+              postcode: "2000"
+              state: "NSW"
+              streetName: "Elizabeth"
+              streetNumber: "260"
+              streetType: "St"
+              suburb: "Sydney"
+              dob: "01/01/1990"
+              mobilePhone: "+6141112312"
+              email: "j@j.io"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterVerificationAndSendHostedSMSInviteResponse'
+              examples:
+                HappyPath:
+                  summary: Happy Path - 200 Response
+                  value:
+                    verificationId: "abc123XYZ"
+                    overallVerificationStatus: "COMPLETED"
+                    smsId: "sms123456"
+                    smsStatus: "submitted"
+                    responseErrorFlag: false
+                    responseErrorMessage: ""
+                    errorReasonCode: ""
+                    hostedInviteUrl: null
+                SMSDeliveryError:
+                  summary: SMS Delivery Error - 200 Response
+                  value:
+                    verificationId: "abc123XYZ"
+                    overallVerificationStatus: "IN_PROGRESS"
+                    smsId: "sms123456"
+                    smsStatus: "error"
+                    responseErrorFlag: true
+                    responseErrorMessage: "Failed to deliver SMS."
+                    errorReasonCode: "SMS_DELIVERY_ERROR"
+                    hostedInviteUrl: null
+                InvalidMobileNumberForSMS:
+                  summary: Invalid Mobile Number for SMS - 200 Response
+                  value:
+                    verificationId: "abc123XYZ"
+                    overallVerificationStatus: "IN_PROGRESS"
+                    smsId: null
+                    smsStatus: "error"
+                    responseErrorFlag: true
+                    responseErrorMessage: "The mobile number provided is invalid."
+                    errorReasonCode: "INVALID_MOBILE_NUMBER"
+                    hostedInviteUrl: null
+  /getHostedSMSInvitationStatus:
+    get:
+      summary: getHostedSMSInvitationStatus
+      description: |
+        # Request Values
+
+        | Field Name         | Type      | Required | Description                                                                                                   |
+        |---------------------|-----------|----------|---------------------------------------------------------------------------------------------------------------|
+        | `accountId`        | `String`  | Yes      | greenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `apiCode`          | `String`  | Yes      | Each customer is issued a password that must be supplied with every call to any web method in the API.        |
+        | `smsInvitationId`  | `String`  | Yes      | Returns the smsVerificationId defined by the customer in the input. If smsVerificationId is not provided, this will be empty/null. |
+        
+        # Response Values
+        
+        | Field Name                | Type      | Description                                                                                                   |
+        |----------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
+        | `smsInvitationId`         | `String`  | An identifier specifically related to the SMS invitation generated. This identifier can be used to query the status of the SMS and registration via a web service call. |
+        | `smsInvitationStatus`     | `String`  | Values = waiting, expired, or complete.                                                                      |
+        | `verificationId`          | `String`  | The verificationId will be returned if the smsInvitationStatus is "complete". If it is waiting or expired, this field will be empty. |
+        | `overallVerificationStatus` | `String` | The overall status of the verification. For this method, this will only be populated with a value once a user has registered and the SMS Invitation Status is "Complete". Please use geVerificationResult for subsequent verification updates. |
+        | `smsId`                   | `String`  | A unique identifier of the SMS message sent.                                                                 |
+        | `smsStatus`               | `String`  | Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent. Values could be: Submitted, Delivered, Undelivered, Sent, and Failed. |
+        | `responseErrorFlag`       | `Boolean` | True = an error occurred  <br>False = no error occurred                                                       |
+        | `responseErrorMessage`    | `String`  | A message providing information regarding the error that occurred.                                            |
+        | `errorReasonCode`         | `String`  | Indicates the type of error that occurred.                                                                    |
+      parameters:
+        - name: accountId
+          in: query
+          description: greenID issues each customer with an `accountId`, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API.
+          required: true
+          schema:
+            type: string
+        - name: apiCode
+          in: query
+          description: Each customer is issued a password (`apiCode`) that must be supplied with every call to any web method in the API.
+          required: true
+          schema:
+            type: string
+        - name: smsInvitationId
+          in: query
+          description: Returns the `smsInvitationId` defined by the customer in the input. If `smsInvitationId` is not provided, this will be empty/null.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetHostedSMSInvitationStatusResponse'
+              examples:
+                HappyPath:
+                  summary: Happy Path - 200 Response
+                  value:
+                    smsInvitationId: "126932713022986"
+                    smsInvitationStatus: "complete"
+                    verificationId: "verif123456"
+                    overallVerificationStatus: "COMPLETED"
+                    smsId: "sms123456"
+                    smsStatus: "Delivered"
+                    responseErrorFlag: false
+                    responseErrorMessage: ""
+                    errorReasonCode: ""
+                IncorrectSmsInvitationId:
+                  summary: Incorrect smsInvitationId - 200 Response
+                  value:
+                    smsInvitationId: "126932713022986"
+                    smsInvitationStatus: "expired"
+                    verificationId: ""
+                    overallVerificationStatus: ""
+                    smsId: null
+                    smsStatus: "error"
+                    responseErrorFlag: true
+                    responseErrorMessage: "The provided smsInvitationId is invalid."
+                    errorReasonCode: "INVALID_SMS_INVITATION_ID"
+        '400':
+          description: Bad Request - Missing smsInvitationId Parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                faultData:
+                  faultCode: "env:Client"
+                  faultString: "Missing required parameter: smsInvitationId"
+                  code: "MissingParameterFault"
+                  details: "smsInvitationId"
+                  faultLogLevel: null
+                verificationId: null
+                overallVerificationStatus: null
+                hostedInviteUrl: null
+                responseErrorFlag: true
+                responseErrorMessage: "Missing required parameter: smsInvitationId"
+                errorReasonCode: "MISSING_PARAMETER"
+  /sendHostedSMSInviteForExistingRegistration:
+    post:
+      summary: sendHostedSMSInviteForExistingRegistration
+      description: |
+        # Request Values
+        | Field Name         | Type      | Required         | Restrictions                                                                                                   |
+        |---------------------|-----------|------------------|---------------------------------------------------------------------------------------------------------------|
+        | `accountId`        | `String`  | Yes              | greenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `password`         | `String`  | Yes              | Each customer is issued a password that must be supplied with every call to any web method in the API.        |
+        | `verificationId`   | `String`  | Yes              | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person. |
+        | `mobilePhone`      | `String`  | No (can be null if a valid formatted mobile number is present on the existing Registration) | See [Mobile Phone Validation](https://url.uk.m.mimecastprotect.com/s/8mnNCzpjET0Y7lmIKsmI9-a2e?domain=vixverify.atlassian.net). |
+        
+        For further information on the data structures used in this API please refer to [Data Structures V3]().
+        
+        # Response Values
+        
+        | Field Name                | Type      | Description                                                                                                   |
+        |----------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
+        | `verificationID`          | `String`  |                                                                                                               |
+        | `overallVerificationStatus` | `String` | The overall status of the verification.                                                                       |
+        | `smsId`                   | `String`  | A unique identifier of the SMS message sent.                                                                 |
+        | `smsStatus`               | `String`  | Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent. Values can be: 'submitted' or 'error'. |
+        | `responseErrorFlag`       | `Boolean` | True = an error occurred  <br>False = no error occurred                                                       |
+        | `responseErrorMessage`    | `String`  | A message providing information regarding the error that occurred.                                            |
+        | `errorReasonCode`         | `String`  | Indicates the type of error that occurred.                                                                    |
+        | `hostedInviteURL`         |           | This field should **not** be used in your implementation; it will be removed from the response soon.          |
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendHostedSMSInviteForExistingRegistrationRequest'
+            example:
+              accountId: "{{accountId}}"
+              password: "{{web-service-password}}"
+              verificationId: "{{verificationId}}"
+              mobilePhone: "+61411123123"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendHostedSMSInviteForExistingRegistrationResponse'
+              examples:
+                HappyPath:
+                  summary: Happy Path - 200 Response
+                  value:
+                    verificationID: "verif123456"
+                    overallVerificationStatus: "COMPLETED"
+                    smsId: "sms123456"
+                    smsStatus: "submitted"
+                    responseErrorFlag: false
+                    responseErrorMessage: ""
+                    errorReasonCode: ""
+                    hostedInviteURL: null
+                SMSDeliveryError:
+                  summary: SMS Delivery Error - 200 Response
+                  value:
+                    verificationID: "verif123456"
+                    overallVerificationStatus: "IN_PROGRESS"
+                    smsId: "sms123456"
+                    smsStatus: "error"
+                    responseErrorFlag: true
+                    responseErrorMessage: "Failed to deliver SMS."
+                    errorReasonCode: "SMS_DELIVERY_ERROR"
+                    hostedInviteURL: null
+                InvalidMobileNumberForSMS:
+                  summary: Invalid Mobile Number for SMS - 200 Response
+                  value:
+                    verificationID: "verif123456"
+                    overallVerificationStatus: "IN_PROGRESS"
+                    smsId: null
+                    smsStatus: "error"
+                    responseErrorFlag: true
+                    responseErrorMessage: "The mobile number provided is invalid."
+                    errorReasonCode: "INVALID_MOBILE_NUMBER"
+                    hostedInviteURL: null
+        '400':
+          description: Bad Request - Missing or Invalid Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                faultData:
+                  faultCode: "env:Client"
+                  faultString: "Missing required parameter: verificationId"
+                  code: "MissingParameterFault"
+                  details: "verificationId"
+                  faultLogLevel: null
+                verificationId: null
+                overallVerificationStatus: null
+                hostedInviteURL: null
+                responseErrorFlag: true
+                responseErrorMessage: "Missing required parameter: verificationId"
+                errorReasonCode: "MISSING_PARAMETER"
+  /sendHostedSMSInviteForOnboarding:
+    post:
+      summary: sendHostedSMSInviteForOnboarding
+      description: |
+        # Request Values
+        | Field Name         | Type      | Required         | Restrictions                                                                                                   |
+        |---------------------|-----------|------------------|---------------------------------------------------------------------------------------------------------------|
+        | `accountId`        | `String`  | Yes              | greenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `apiCode`          | `String`  | Yes              | Each customer is issued a password that must be supplied with every call to any web method in the API.        |
+        | `smsVerificationId`| `String`  | No (may be null) | smsVerificationId is supplied by the customer and will become the verificationId when the user registers. If smsVerificationId is not supplied by the customer, greenID will generate a verificationId for the registration. (confirm if required or optional). |
+        | `ruleId`           | `String`  | No (may be null) | Callers have a specific rule configured for their greenID Hosted account. This string must identify a rule. Contact greenID for the name of the rule configured for your Hosted account. If only one rule is configured, then the string "default" will automatically select that rule. |
+        | `name`             | `String`  | Yes              |                                                                                                               |
+        | `mobilePhone`      | `String`  | Yes              | See [Mobile Phone Validation](https://url.uk.m.mimecastprotect.com/s/8mnNCzpjET0Y7lmIKsmI9-a2e?domain=vixverify.atlassian.net). |
+        
+        # Response Values
+        
+        | Field Name                | Type      | Notes                                                                                                         |
+        |----------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
+        | `smsInvitationId`         | `String`  | An identifier specifically related to the SMS invitation generated. This identifier can be used to query the status of the SMS and registration via a web service call. |
+        | `smsVerificationId`       | `String`  | Returns the smsVerificationId defined by the customer in the input. If smsVerificationId is not provided, this will be empty / null. |
+        | `smsInvitationStatus`     | `String`  | Values = waiting, expired, or complete. <br>waiting = user has not yet registered <br>complete = user is now registered in greenID <br>expired = link has expired and user is not registered. |
+        | `smsId`                   | `String`  | A unique identifier of the SMS message sent.                                                                 |
+        | `smsStatus`               | `String`  | Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent. Values can be: 'submitted' or 'error'. |
+        | `responseErrorFlag`       | `Boolean` | True = an error occurred  <br>False = no error occurred                                                       |
+        | `responseErrorMessage`    | `String`  | A message providing information regarding the error that occurred.                                            |
+        | `errorReasonCode`         | `String`  | Indicates the type of error that occurred.                                                                    |
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendHostedSMSInviteForOnboardingRequest'
+            example:
+              accountId: "{{accountId}}"
+              apiCode: "{{web-service-password}}"
+              ruleId: "default"
+              name: "FirstName LastName"
+              mobilePhone: "+111111111111"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendHostedSMSInviteForOnboardingResponse'
+              examples:
+                HappyPath:
+                  summary: Happy Path - 200 Response
+                  value:
+                    smsInvitationId: "smsInv123456"
+                    smsVerificationId: "verif123456"
+                    smsInvitationStatus: "complete"
+                    smsId: "sms123456"
+                    smsStatus: "submitted"
+                    responseErrorFlag: false
+                    responseErrorMessage: ""
+                    errorReasonCode: ""
+                    hostedInviteURL: null
+                SMSDeliveryError:
+                  summary: SMS Delivery Error - 200 Response
+                  value:
+                    smsInvitationId: "smsInv123456"
+                    smsVerificationId: "verif123456"
+                    smsInvitationStatus: "waiting"
+                    smsId: "sms123456"
+                    smsStatus: "error"
+                    responseErrorFlag: true
+                    responseErrorMessage: "Failed to deliver SMS."
+                    errorReasonCode: "SMS_DELIVERY_ERROR"
+                    hostedInviteURL: null
+                InvalidMobileNumberForSMS:
+                  summary: Invalid Mobile Number for SMS - 200 Response
+                  value:
+                    smsInvitationId: "smsInv123456"
+                    smsVerificationId: null
+                    smsInvitationStatus: "expired"
+                    smsId: null
+                    smsStatus: "error"
+                    responseErrorFlag: true
+                    responseErrorMessage: "The mobile number provided is invalid."
+                    errorReasonCode: "INVALID_MOBILE_NUMBER"
+                    hostedInviteURL: null
+        '500':
+          description: Invalid Password Fault - 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                faultData:
+                  faultCode: "env:Server"
+                  faultString: "Invalid Password for customer: {{accountId}}, or customerId does not exist"
+                  code: "InvalidPasswordFault"
+                  details: "{{accountId}}"
+                  faultLogLevel: null
+                verificationId: null
+                overallVerificationStatus: null
+                hostedInviteUrl: null
+                responseErrorFlag: true
+                responseErrorMessage: "Invalid Password for customer: {{accountId}}, or customerId does not exist"
+                errorReasonCode: "InvalidPasswordFault"
+components:
+  schemas:
+    RegisterVerificationRequest:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Unique identifier issued by GreenID.
+        password:
+          type: string
+          description: Password issued by GreenID.
+        verificationId:
+          type: string
+          description: Unique identifier for the verification attempt.
+        ruleId:
+          type: string
+          description: Identifier for the configured rule.
+        givenNames:
+          type: string
+          description: Given names of the user.
+        middleNames:
+          type: string
+          description: Middle names of the user.
+        surname:
+          type: string
+          description: Surname of the user.
+        country:
+          type: string
+          description: ISO 3166 country code.
+        postcode:
+          type: string
+          description: 4 digit Australian postcode.
+        state:
+          type: string
+          description: Abbreviation of Australian state or territory.
+        streetName:
+          type: string
+          description: Street name.
+        streetNumber:
+          type: string
+          description: Street number.
+        streetType:
+          type: string
+          description: Abbreviation of street type.
+        suburb:
+          type: string
+          description: Suburb name.
+        dob:
+          type: string
+          format: date
+          description: Date of birth in DD/MM/YYYY format.
+        mobilePhone:
+          type: string
+          description: Mobile phone number.
+        email:
+          type: string
+          format: email
+          description: Email address.
+      required:
+        - accountId
+        - password
+        - givenNames
+        - surname
+        - dob
+    RegisterVerificationResponse:
+      type: object
+      properties:
+        faultData:
+          type: object
+          nullable: true
+        verificationId:
+          type: string
+          nullable: true
+        responseErrorFlag:
+          type: boolean
+          nullable: true
+        responseErrorMessage:
+          type: string
+          nullable: true
+        errorReasonCode:
+          type: string
+          nullable: true
+        smsId:
+          type: string
+          nullable: true
+        smsStatus:
+          type: string
+          nullable: true
+        result:
+          type: object
+          nullable: true
+        overallVerificationStatus:
+          type: string
+          nullable: true
+        hostedInviteUrl:
+          type: string
+          nullable: true
+        fault:
+          type: boolean
+          nullable: true
+    GenerateHostedInviteURLRequest:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Unique identifier issued by GreenID.
+        password:
+          type: string
+          description: Password issued by GreenID.
+        verificationId:
+          type: string
+          description: Unique identifier for the verification attempt.
+        ruleId:
+          type: string
+          description: Identifier for the configured rule.
+        extraData:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Key for extra data.
+              value:
+                type: string
+                description: Value for extra data.
+          description: |
+            Additional key/value pairs for extended functionality. These keys must be pre-agreed upon before implementation.
+      required:
+        - accountId
+        - password
+      example:
+        accountId: "{{accountId}}"
+        password: "{{web-service-password}}"
+        verificationId: "{{verificationId}}"
+        ruleId: "{{ruleId}}"
+        extraData:
+          - key: "department"
+            value: "sales"
+          - key: "region"
+            value: "APAC"
+    GenerateHostedInviteURLResponse:
+      type: object
+      properties:
+        verificationId:
+          type: string
+          nullable: true
+          description: Unique identifier for the verification attempt.
+        overallVerificationStatus:
+          type: string
+          nullable: true
+          description: The overall status of the verification.
+        hostedInviteUrl:
+          type: string
+          nullable: true
+          description: The unique URL linked to the verification ID.
+        responseErrorFlag:
+          type: boolean
+          nullable: true
+          description: "`True` = an error occurred; `False` = no error occurred."
+        responseErrorMessage:
+          type: string
+          nullable: true
+          description: A message providing information regarding the error that occurred.
+        errorReasonCode:
+          type: string
+          nullable: true
+          description: Indicates the type of error that occurred.
+      example:
+        verificationId: "abc123XYZ"
+        overallVerificationStatus: "COMPLETED"
+        hostedInviteUrl: "https://url.uk.m.mimecastprotect.com/s/l0xUCERo2uQ8Yr6txFkI7Uwk1?domain=gbgid.me"
+        responseErrorFlag: false
+        responseErrorMessage: ""
+        errorReasonCode: ""
+    GenerateHostedInviteURLForExistingRegistrationRequest:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Unique identifier issued by GreenID.
+        password:
+          type: string
+          description: Password issued by GreenID.
+        verificationId:
+          type: string
+          description: Unique identifier for the verification attempt.
+      required:
+        - accountId
+        - password
+        - verificationId
+      example:
+        accountId: "{{accountId}}"
+        password: "{{web-service-password}}"
+        verificationId: "{{verificationId}}"
+    RegisterVerificationAndSendHostedSMSInviteRequest:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Unique identifier issued by GreenID.
+        password:
+          type: string
+          description: Password issued by GreenID.
+        verificationId:
+          type: string
+          description: Unique identifier for the verification attempt.
+        ruleId:
+          type: string
+          description: Identifier for the configured rule.
+        givenNames:
+          type: string
+          description: Given names of the user.
+        middleNames:
+          type: string
+          description: Middle names of the user.
+        surname:
+          type: string
+          description: Surname of the user.
+        country:
+          type: string
+          description: ISO 3166 country code.
+        postcode:
+          type: string
+          description: 4 digit Australian postcode.
+        state:
+          type: string
+          description: Abbreviation of Australian state or territory.
+        streetName:
+          type: string
+          description: Street name.
+        streetNumber:
+          type: string
+          description: Street number.
+        streetType:
+          type: string
+          description: Abbreviation of street type.
+        suburb:
+          type: string
+          description: Suburb name.
+        dob:
+          type: string
+          format: date
+          description: Date of birth in DD/MM/YYYY format.
+        mobilePhone:
+          type: string
+          description: Mobile phone number.
+        email:
+          type: string
+          format: email
+          description: Email address.
+      required:
+        - accountId
+        - password
+        - givenNames
+        - surname
+        - dob
+    RegisterVerificationAndSendHostedSMSInviteResponse:
+      type: object
+      properties:
+        verificationId:
+          type: string
+          description: Unique identifier for the verification attempt.
+        overallVerificationStatus:
+          type: string
+          description: The overall status of the verification.
+        smsId:
+          type: string
+          description: A unique identifier of the SMS message sent.
+        smsStatus:
+          type: string
+          description: Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent.
+          enum:
+            - submitted
+            - error
+        responseErrorFlag:
+          type: boolean
+          description: "`True` = an error occurred; `False` = no error occurred."
+        responseErrorMessage:
+          type: string
+          description: A message providing information regarding the error that occurred.
+        errorReasonCode:
+          type: string
+          description: Indicates the type of error that occurred.
+        hostedInviteUrl:
+          type: string
+          nullable: true
+          description: "**Deprecated:** This field should **not** be used in your implementation; it will be removed soon."
+      required: []
+    GetHostedSMSInvitationStatusResponse:
+      type: object
+      properties:
+        smsInvitationId:
+          type: string
+          description: An identifier specifically related to the SMS invitation generated. This identifier can be used to query the status of the SMS and registration via a web service call.
+        smsInvitationStatus:
+          type: string
+          description: Status of the SMS invitation.
+          enum:
+            - waiting
+            - expired
+            - complete
+        verificationId:
+          type: string
+          description: The `verificationId` will be returned if the `smsInvitationStatus` is `complete`. If it is `waiting` or `expired`, this field will be empty.
+          nullable: true
+        overallVerificationStatus:
+          type: string
+          description: The overall status of the verification. For this method, this will only be populated with a value once a user has registered and the SMS Invitation Status is `complete`. Please use `getVerificationResult` for subsequent verification updates.
+          nullable: true
+        smsId:
+          type: string
+          description: A unique identifier of the SMS message sent.
+          nullable: true
+        smsStatus:
+          type: string
+          description: |
+            Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent.
+            Possible values: `Submitted`, `Delivered`, `Undelivered`, `Sent`, `Failed`.
+          enum:
+            - Submitted
+            - Delivered
+            - Undelivered
+            - Sent
+            - Failed
+        responseErrorFlag:
+          type: boolean
+          description: "`True` = an error occurred; `False` = no error occurred."
+        responseErrorMessage:
+          type: string
+          description: A message providing information regarding the error that occurred.
+          nullable: true
+        errorReasonCode:
+          type: string
+          description: Indicates the type of error that occurred.
+          nullable: true
+        hostedInviteUrl:
+          type: string
+          nullable: true
+          description: "**Deprecated:** This field should **not** be used in your implementation; it will be removed soon."
+      required:
+        - smsInvitationId
+        - smsInvitationStatus
+        - responseErrorFlag
+        - responseErrorMessage
+        - errorReasonCode
+    SendHostedSMSInviteForExistingRegistrationRequest:
+          type: object
+          properties:
+            accountId:
+              type: string
+              description: Unique identifier issued by greenID.
+            password:
+              type: string
+              description: Password issued by greenID.
+            verificationId:
+              type: string
+              description: Unique identifier for the verification attempt.
+            mobilePhone:
+              type: string
+              description: Mobile phone number. Can be null if a valid formatted mobile number is present on the existing Registration.
+          required:
+            - accountId
+            - password
+            - verificationId
+    SendHostedSMSInviteForExistingRegistrationResponse:
+          type: object
+          properties:
+            verificationID:
+              type: string
+              description: Unique identifier for the verification attempt.
+            overallVerificationStatus:
+              type: string
+              description: The overall status of the verification.
+            smsId:
+              type: string
+              description: A unique identifier of the SMS message sent.
+              nullable: true
+            smsStatus:
+              type: string
+              description: |
+                Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent.
+                Values can be: 'submitted' or 'error'.
+              enum:
+                - submitted
+                - error
+            responseErrorFlag:
+              type: boolean
+              description: "`True` = an error occurred; `False` = no error occurred."
+            responseErrorMessage:
+              type: string
+              description: A message providing information regarding the error that occurred.
+              nullable: true
+            errorReasonCode:
+              type: string
+              description: Indicates the type of error that occurred.
+              nullable: true
+            hostedInviteURL:
+              type: string
+              nullable: true
+              description: "**Deprecated:** This field should **not** be used in your implementation; it will be removed soon."
+          required:
+            - verificationID
+            - overallVerificationStatus
+            - smsStatus
+            - responseErrorFlag
+            - responseErrorMessage
+            - errorReasonCode
+    SendHostedSMSInviteForOnboardingRequest:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Unique identifier issued by greenID.
+        apiCode:
+          type: string
+          description: Password issued by greenID.
+        smsVerificationId:
+          type: string
+          description: >
+            `smsVerificationId` is supplied by the customer and will become the `verificationId` when the user registers.
+            If `smsVerificationId` is not supplied by the customer, greenID will generate a `verificationId` for the registration.
+          nullable: true
+        ruleId:
+          type: string
+          description: >
+            Identifier for the configured rule. Callers have a specific rule configured for their greenID Hosted account.
+            This string must identify a rule. Contact greenID for the name of the rule configured for your Hosted account.
+            If only one rule is configured, then the string “default” will automatically select that rule.
+          nullable: true
+        name:
+          type: string
+          description: Full name of the user.
+        mobilePhone:
+          type: string
+          description: >
+            Mobile phone number. See [Mobile Phone Validation](https://url.uk.m.mimecastprotect.com/s/8mnNCzpjET0Y7lmIKsmI9-a2e?domain=vixverify.atlassian.net).
+      required:
+        - accountId
+        - apiCode
+        - name
+        - mobilePhone
+    SendHostedSMSInviteForOnboardingResponse:
+      type: object
+      properties:
+        smsInvitationId:
+          type: string
+          description: >
+            An identifier specifically related to the SMS invitation generated.
+            This identifier can be used to query the status of the SMS and registration via a web service call.
+        smsVerificationId:
+          type: string
+          description: >
+            Returns the `smsVerificationId` defined by the customer in the input.
+            If `smsVerificationId` is not provided, this will be empty/null.
+          nullable: true
+        smsInvitationStatus:
+          type: string
+          description: >
+            Status of the SMS invitation.
+            Values: `waiting`, `expired`, `complete`.
+          enum:
+            - waiting
+            - expired
+            - complete
+        smsId:
+          type: string
+          description: A unique identifier of the SMS message sent.
+          nullable: true
+        smsStatus:
+          type: string
+          description: >
+            Indicates whether the SMS has been successfully submitted to the SMS provider,
+            or if an error occurred meaning the SMS will not be sent.
+            Values can be: `submitted` or `error`.
+          enum:
+            - submitted
+            - error
+        responseErrorFlag:
+          type: boolean
+          description: "`True` = an error occurred; `False` = no error occurred."
+        responseErrorMessage:
+          type: string
+          description: A message providing information regarding the error that occurred.
+          nullable: true
+        errorReasonCode:
+          type: string
+          description: Indicates the type of error that occurred.
+          nullable: true
+        hostedInviteURL:
+          type: string
+          nullable: true
+          description: "**Deprecated:** This field should **not** be used in your implementation; it will be removed soon."
+      required:
+        - smsInvitationId
+        - smsInvitationStatus
+        - smsStatus
+        - responseErrorFlag
+        - responseErrorMessage
+        - errorReasonCode
+    ErrorResponse:
+      type: object
+      properties:
+        faultData:
+          type: object
+          properties:
+            faultCode:
+              type: string
+              description: Code representing the fault.
+            faultString:
+              type: string
+              description: Detailed description of the fault.
+            code:
+              type: string
+              description: Specific fault code identifier.
+            details:
+              type: string
+              nullable: true
+              description: Additional details about the fault.
+            faultLogLevel:
+              type: string
+              nullable: true
+              description: Log level for the fault.
+        verificationId:
+          type: string
+          nullable: true
+          description: Unique identifier for the verification attempt.
+        overallVerificationStatus:
+          type: string
+          nullable: true
+          description: The overall status of the verification.
+        hostedInviteUrl:
+          type: string
+          nullable: true
+          description: The unique URL linked to the verification ID.
+        responseErrorFlag:
+          type: boolean
+          nullable: true
+          description: "`True` = an error occurred; `False` = no error occurred."
+        responseErrorMessage:
+          type: string
+          nullable: true
+          description: A message providing information regarding the error that occurred.
+        errorReasonCode:
+          type: string
+          nullable: true
+          description: Indicates the type of error that occurred.
+      example:
+        faultData:
+          faultCode: "env:Server"
+          faultString: "Invalid Rule ID: {{ruleId}}"
+          code: "InvalidRuleIDFault"
+          details: "{{ruleId}}"
+          faultLogLevel: null
+        verificationId: null
+        overallVerificationStatus: null
+        hostedInviteUrl: null
+        responseErrorFlag: true
+        responseErrorMessage: "The provided rule ID is invalid."
+        errorReasonCode: "INVALID_RULE_ID"
+      required:
+        - faultData
+        - responseErrorFlag
+        - responseErrorMessage
+        - errorReasonCode

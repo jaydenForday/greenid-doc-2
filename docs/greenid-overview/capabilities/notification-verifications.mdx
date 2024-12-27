@@ -1,0 +1,22 @@
+---
+id: notification-verifications
+title: Notification of Verifications
+---
+
+# Notification of Verifications
+
+This section outlines how a client organisation can receive notification of the verification of an individual.
+
+The client organisation can trigger a [request for an individuals details](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629476/Web+Method+Details+V2#WebMethodDetailsV2-GetVerificationResult) from a redirection back to the client website after a user centric verification is completed by the user, however, this will not capture verifications caused through the admin panel, nor will it capture users who get verified but do not press the “finish” button.
+
+GreenID provides the ability for a client organisation to receive a notification to a specified URL **whenever** an individual becomes verified.  The URL is called when an individual becomes verified, no matter where or when that verification occurred. This occurs for the Verified, Verified With Changes and Verified By Admin states.  Optionally, it can also occur for the Pending Review state.
+
+The URL will be called as a POST HTTP request with the person’s individual identifier included as a POST parameter. The identifier is also be appended as a URL parameter, for example, if we configure [http://www.example.com/notify.html](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629476/Web+Method+Details+V2#WebMethodDetailsV2-GetVerificationResult) as the notification URL then if the person with userId (verificationId) 123 is verified then the notification URL will be [http://www.example.com/notify.html?userId=123](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629476/Web+Method+Details+V2#WebMethodDetailsV2-GetVerificationResult).  We can, if required, remove the URL parameter.
+
+The POST HTTP request will have a content-type of "application/x-www-form-urlencoded", and the body of the request will only contain the name/value pair of "userId" and "123" in the example above, eg. "userId=123"
+
+We recommend that when a client organisation receives the notification a call to the getVerificationResult web service method be made to check that the individual is truly verified.  This avoids any risk of an attacker faking a call from greenID and tricking the client organisation into believing that a person has been verified.
+
+For a successful notification, greenID by default expects a HTTP 200 response from the URL it calls, otherwise greenID will continue to retry up to 5 times and 30 seconds apart. Optionally we can configure greenID to accept other HTTPS response code as a successful outcome.
+
+Finally, the notification URL is set as a property for a client organisation and can only be configured or changed by greenID staff.

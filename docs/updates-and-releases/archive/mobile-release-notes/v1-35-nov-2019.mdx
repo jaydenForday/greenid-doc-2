@@ -1,0 +1,48 @@
+---
+id: v1-35-nov-2019
+title: V 1.35 November 2019
+sidebar_position: 7
+---
+
+# V 1.35 November 2019
+
+## Release Dates
+
+**Test**: November 26, 2019
+
+**Production**: November 26, 2019
+
+## In This Release
+
+This release includes a new iOS and Android SDK with improvements and bug fixes for both. The new SDKs are available from [http://greenidmobile.vixverify.com/](http://greenidmobile.vixverify.com/)
+
+The SDKs have been updated with the latest AuthenticID (AID) document and selfie capture widgets. This update resolves a display issue where the document capture widget was appearing out of alignment on specific iOS devices and operating systems.
+
+They also include updates to pinning certificates as the current certificates will expire in April 2020.
+
+## iOS SDK{#ReleaseNotes:greenIDMobilev1.35-iOSSDK}
+
+The greenID Mobile iOS SDK v1.35.0 is supported on iOS versions 10.0 – 13.2.3 (At the time of this release, 13.2.3 was the latest production release of iOS available.)
+
+| **iOS SDK**              |                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **SSL Pinning**          | <p>\*\*Update to pinning certificate(s) \*\*</p><p>Certificate pinning is the mechanism greenID uses to ensure server integrity. If the server does not possess an up to date certificate the SDK will not work. These certificates have an expiration date and this will lapse in April, 2020. All existing SDKs will stop working at this time. Customers will need to update to the latest SDK for a valid certificate by March 31st, 2020.</p> |
+| **Accept new AID SDK**   | <p>**AID capture framework update**</p><p>An update has been made to include version 4.10 of AID's document and selfie capture frameworks.</p>                                                                                                                                                                                                                                                                                                     |
+| **Errors and Bug Fixes** | <p>**Document capture widget display issue**</p><p>On specific iOS devices, the document capture widget launched in a misaligned orientation and did not progress further. This is now performing as expected on known devices.</p>                                                                                                                                                                                                                |
+
+## Android SDK{#ReleaseNotes:greenIDMobilev1.35-AndroidSDK}
+
+The greenID Mobile Android SDK v2.9 is supported on Android: 8.0 – 10. (At the time of this release, 10.0 was the latest production release of Android available.)
+
+| **Android SDK**        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **SSL Pinning**        | <p>\*\*Update to pinning certificate(s) \*\*</p><p>Certificate pinning is the mechanism greenID uses to ensure server integrity. If the server does not possess an up to date certificate the SDK will not work. These certificates have an expiration date and this will lapse in April 2020. All existing SDKs will stop working at this time. As a result, customers will need to update to the latest SDK for a valid certificate by March 31st, 2020.</p> |
+| **Accept new AID SDK** | <p>**~~AID capture framework update~~**</p><p>~~An update has been made to include version 4.10 of AID's document and selfie capture frameworks.~~</p><p>*The Release Notes accompanying this release incorrectly identified this as having been done. The document capture framework may be addressed in an upcoming release.*</p>                                                                                                                            |
+
+## Known Issues
+
+An issue was introduced in this release:
+
+- On iOS, the buttons on the Selfie capture screens are blue, instead of green, and they cannot be styled to other colours.  This will be fixed in the next release of greenID Mobile.  If this is causing issues in your product, please contact our customer support team for an interim patch. 
+
+Existing known issues can be found on the [Known issues in greenID Mobile](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/459835177/Known+issues+in+greenID+Mobile) page.

@@ -6,7 +6,7 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
+  --ifm-color-primary: #A7D045;
   --ifm-color-primary-dark: #29784c;
   --ifm-color-primary-darker: #277148;
   --ifm-color-primary-darkest: #205d3b;
@@ -19,7 +19,7 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary: #A7D045;
   --ifm-color-primary-dark: #21af90;
   --ifm-color-primary-darker: #1fa588;
   --ifm-color-primary-darkest: #1a8870;
@@ -27,4 +27,51 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+   /* Adjust the background color for dark mode */
+   --ifm-background-color: rgb(13,17,23);/* Change this to a lighter shade */
+   --ifm-background-color-alt: rgb(13,17,23);
+
+}
+
+
+/* Redoc / Redocusaurus */
+.redoc-wrap {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.redoc-wrap .menu-content {
+  border-right: 1px solid var(--ifm-toc-border-color);
+}
+
+.redoc-wrap .menu-content label:not([type]),
+.redoc-wrap .menu-content label[type="section"] {
+  font-family: var(--ifm-font-family-base) !important;
+  font-size: var(--ifm-font-size-base);
+  line-height: var(--ifm-line-height-base);
+}
+
+.redoc-wrap code {
+  padding: 0px;
+  background-color: transparent;
+}
+
+.redoc-wrap .operation-type.post {
+  background-color: #49CC90;  /* Change the color */
+  font-weight: bold; /* Optional: Make it bold */
+}
+
+.redoc-wrap .http-verb.post {
+  background-color: #49CC90;  /* Change the color */
+  font-weight: bold; /* Optional: Make it bold */
+}
+
+.redoc-wrap .operation-type.get {
+  background-color: #61AFFE;  /* Change the color */
+  font-weight: bold; /* Optional: Make it bold */
+}
+
+.redoc-wrap .http-verb.get {
+  background-color: #61AFFE;  /* Change the color */
+  font-weight: bold; /* Optional: Make it bold */
 }

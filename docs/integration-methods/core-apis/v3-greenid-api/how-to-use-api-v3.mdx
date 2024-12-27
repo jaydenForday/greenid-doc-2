@@ -1,0 +1,127 @@
+---
+id: how-to-use-api-v3
+title: How to use the API V3
+sidebar_position: 2
+---
+
+# How to use the API V3
+
+:::note
+
+**API Versions**
+
+This documentation relates to Version 3, the current version of the greenID API. Version 3 became available to customers as of 03 Apr 2017.
+
+:::
+
+### The API has four main methods:
+
+1. `registerVerification` - this method passes a person's details to greenID.  The person's details are registered with greenID, and background checks may be performed, according to the configuration of the caller's greenID account.  If the verification attempt succeeds, then the details are returned to the caller.  Otherwise a list of data sources that will help the verification attempt succeed is returned (this is the same list returned by the `getSources` method).
+
+2. `getSources` - this method returns a list of data sources that will help the person's verification attempt succeed.
+
+3. `getFields` - this method takes the name of a data source and returns the data fields that need to be collected from the person being verified in order to check their data against the particular data source.  This methods returns data entry fields in two ways:
+
+   1. a list of data requirements including associated labels, validation rules, etc.; and
+
+   2. an XHTML fragment that contains HTML FORM elements that, if displayed directly, will collect the required data.
+
+4. `setFields` - this method takes the data that was collected from the person being verified for a particular data source (see `getFields` above).  The data is checked against the data source and the verification attempt status is updated.  If the verification attempt has succeeded, then the details of the verification are returned.  If not, then the current verification status is returned, along with the same list of data sources that `getSources` would return (this saves the caller a subsequent call to `getSources`).
+
+Please refer to the examples below for some scenarios on how these methods can be strung together to take a person through the verification process.
+
+## Flow Diagrams - Standard API Implementations
+
+### Use Case: Front End direct to greenID API
+
+When the internal website like CRM or staff portal needs to integrate with greenID API to allow staff performing ID verification.
+
+![](/img/api-3-1.webp)
+
+### Use Case: Back End server to greenID API
+
+Typical scenario when the customer portal or mobile app needs to interactive with the backend API for the verification process.
+
+![](/img/api-3-2.webp)
+
+### Use Case: Returning user to greenID API
+
+If the system allows individuals to pause or abandon the process and return later to resume, the verification can be broken down into two sessions.
+
+![](/img/api-3-3.webp)
+
+## Examples
+
+### Complete example
+
+The sequence of calls below illustrates a "full" scenario, where all of the Web Service methods are used.
+
+1. Call `registerVerification` with the person's basic details.  Some background sources may pass, but the person requires further verification.
+
+2. Call `getSources` to fetch a list of sources that will help the person become verified.  The person selects "Medicare card" as the next data source they wish to attempt.
+
+3. Call `getFields` for the "Medicare card" data source (source ID "medicare"), and present the person with input fields for the required data.
+
+4. Call `setFields` for the "Medicare card" data source with the data supplied by the person.  The result indicates the person requires further verification, and includes a list of sources that will help the person complete their verification.  The person selects "NSW drivers' licence" as the next data source they wish to attempt.
+
+5. Call `getFields` for the "NSW driver's licence" data source (source ID `nswrego`), and present the person with input fields for the required data.
+
+6. Call `setFields` for the "NSW driver's licence" data source with the data supplied by the person.  The result indicates the person has completed their verification, so the process ends here.
+
+### Streamlined example
+
+The sequence of calls below illustrates a streamlined scenario, where the customer decides which data sources are offered, and uses their prior knowledge of the required fields in order to collect data from the person.  The scenario is the same as the one above, but with some calls removed.
+
+1. Call `registerVerification` with the person's basic details.  Some background sources may pass, but the person requires further verification.
+
+2. Call `setFields` for the "Medicare card" data source with the data supplied by the person.  The result indicates the person requires further verification, and includes a list of sources that will help the person complete their verification.  The person selects "NSW drivers' licence" as the next data source they wish to attempt.
+
+3. Call `setFields` for the "NSW driver's licence" data source with the data supplied by the person.  The result indicates the person has completed their verification, so the process ends here.
+
+### Complete example with a combination source
+
+The sequence of calls and events below illustrate a full scenario where a combination source is used.  The scenario assumes that the greenID Mobile SDK has been integrated into a customer's native mobile application, and is invoked at the appropriate point in the customer's workflow.
+
+1. The person downloads and installs the customer's application, which includes the greenID Mobile SDK.
+
+2. The person starts the onboarding workflow.
+
+3. The person selects the ID document they wish to photograph.
+
+4. The person captures an image of the front and back of their ID document.  The images are uploaded to greenID and checked for authenticity, integrity and digital tampering.
+
+5. The person captures a selfie.  The selfie is uploaded to greenID and compared against the image extracted from the ID document.
+
+6. The details that were automatically extracted from the ID document are presented to the person for confirmation.  The person corrects any errors and submits the details.
+
+7. The master record is created at greenID and watchlists and background sources (if configured) are checked.  The details from the ID document are also checked.  The level of verification achieved is sufficient to satisfy the rule the customer has configured on their greenID account.
+
+8. The greenID Mobile SDK hands off to the controlling application.
+
+9. The customer's mobile application sends the details to the customer's back-end application, which uses the `verificationToken` (received from the greenID Mobile SDK at handoff) to query the results of the verification process by calling `getVerificationResult`.
+
+10. The customer's back-end application communicates with their native mobile application to determine the next step in the workflow for the person, based on the results of the verification process.
+
+### Complete example with a combination source (returning user)
+
+1. Call `registerVerification` with the person's basic details.  Some background sources may pass, but the person requires further verification.
+
+2. The customer's back-end application stores the `verificationId` and associated it with their record for the person.
+
+3. The customer's back-end application generates some form of token or code and associates it with the `verificationId`.
+
+4. Direct the person to resume the verification process using the customer's native mobile app.
+
+5. The person resumes the verification process using the customer's native mobile app by entering the token or code generated in step 3.
+
+6. The native mobile app sends the token or code to the back-end application, which finds the associated `verificationId` and uses it to call `getVerificationToken`.  The `verificationToken` is passed back to the native mobile app.
+
+7. The native mobile app initialises the greenID Mobile SDK in "returning user" mode and supplies the `verificationToken`.
+
+8. The greenID Mobile SDK guides the person through the rest of the verification process.  The person achieves a level of verification sufficient to satisfy the rule the customer configured on their greenID account.
+
+9. The greenID Mobile SDK hands off to the controlling application.
+
+10. The customer's mobile application sends the details to the customer's back-end application, which uses the `verificationToken` to query the results of the verification process by calling `getVerificationResult`.
+
+11. The customer's back-end application communicates with their native mobile application to determine the next step in the workflow for the person, based on the results of the verification process.

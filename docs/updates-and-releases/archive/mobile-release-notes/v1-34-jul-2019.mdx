@@ -1,0 +1,55 @@
+---
+id: v1-34-jul-2019
+title: V 1.34 July 2019
+sidebar_position: 6
+---
+
+# V 1.34 July 2019
+
+## Release Dates
+
+**Test**: July 23, 2019
+
+**Production**: July 23, 2019
+
+## In This Release
+
+This release includes a new iOS and Android SDK with improvements, including the update of AID Capture tools to support 64-bit versions and bug fixes for each. The new iOS and Android SDK's are available from [http://greenidmobile.vixverify.com/](http://greenidmobile.vixverify.com/)
+
+The iOS SDK release includes an AID capture tools update and a fix for an issue where warning messages were incorrectly displayed 
+
+The Android SDK release includes an AID capture tools update which will rectify multiple capture issues, and updates to improve the customer experience and bug fixes for additional document uploads. 
+
+## iOS SDK{#ReleaseNotes:greenIDMobilev1.34-iOSSDK}
+
+The greenID Mobile iOS SDK v1.34.0 is supported on iOS versions 10.0 – 12.3.x (At the time of this release, v12.3.2 was the latest production release of iOS available.)
+
+| **iOS SDK**                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **AID capture tools updated** | <p>**AID capture tools updated to v4.0.1**</p><p>We have updated the AID Capture tools to V4.0.1 from v3.10.x which included multiple upgrades, new feature and bug fixes. This update is also consistent with the Android SDK version update.</p><p>\*\* \*\*</p>                                                                                                                                                                                                                                                                                                                               |
+| **Errors and Bug Fixes**      | <p>**Face consistency framework update**</p><p>An issue had been identified where the face consistency framework was causing a crash for iOS 10 devices. This issue impacted SDK versions 1.29 and later. As we are still supporting iOS 10 devices the framework has been updated to address the issue.</p><p>**WARN in javascript resulting in Error on iOS devices**</p><p>Fixed a bug that was causing Warning(‘warn’) messages from the greenID JavaScript to report as an Error in the SDK on iOS devices. Warnings will now be correctly reported as 'warn' messages on iOS devices. </p> |
+
+## Android SDK{#ReleaseNotes:greenIDMobilev1.34-AndroidSDK}
+
+The greenID Mobile Android SDK v2.8.2 is supported on Android: 7.0 – 9.x. (At the time of this release, 9.0 was the latest production release of Android available.)
+
+| **Android SDK**               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AID capture tools updated** | <p>**AID capture tools updated to v4.0.1**</p><p>The Android SDK AID capture tools were updated to allow us to provide a 64-bit version of the SDK to our customers as a response to the requirement for all Android apps using native code to provide a 64-bit version as of August 1, 2019 (as detailed in the [Google Android Developer’s Blog](https://android-developers.googleblog.com/2019/01/get-your-apps-ready-for-64-bit.html) from 15 Jan 2019).</p><p>The updated AID capture tools also fixed the following issues:</p><p>Exiting the document capture tool was causing the application to crash,A bug allowed the help text to display on the screen while capturing a document/selfie,A problem with the alignment of buttons (No, Go Back) on older devices.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| **Errors and Bug Fixes**      | <p>**White screen showing when accessing greenID SDK**</p><p>Fixed an issue with a white screen being displayed (fraction of a second) during the transition from the customer's app to the SDK. This issue was only visible for customers not using a white background in their CSS settings. </p><p>**Colours and strings moved to resources module**</p><p>Changes were made to move strings and colours settings from the main greenidsdk strings resources to the resources module. This will allow for greater customer control and customisation of the SDK using the client application. Please see the [Android Integration](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/335479196/Android+Integration) for more information relating to these settings.</p><p>**Additional document upload error**</p><p>Fixed an issue with event synchronisation during the document upload process causing an incorrect result if the upload has not completed when the request is made for the next page.</p><p>**Misleading ‘security’ error returned for network disconnect**</p><p>We have fixed an issue that was returning a network ‘security’ error to a customer when a network disconnect occurred during image upload. The customer will now see a ‘No network’ error.</p><p>**Minimizing app after selfie causing network error**</p><p>We have fixed an issue that was returning a network disconnection error if the application was minimised after capturing the selfie.</p> |
+
+## Known Issues
+
+Known issues that exist in this release:
+
+- **Document review screen stealing focus**
+
+Under certain rare conditions, it is possible for the document review screen to take focus when the document review screen is ready, even when the mobile application is in the background.
+
+The circumstances that allow this to occur have been minimised. However, it is still possible for this behaviour to occur in rare circumstances.
+
+- **Document capture widget in wrong orientation**
+
+Under certain conditions the document capture widget will be in the wrong orientation relative to the position of the mobile device, i.e. portrait edge detection displayed when the device is physically positioned for landscape. This is an issue with the AID capture tools that was identified with the third-party developer and is known to occur on iPhone X and XS Max.
+
+Existing known issues can be found on the [Known issues in greenID Mobile](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/459835177/Known+issues+in+greenID+Mobile) page. 

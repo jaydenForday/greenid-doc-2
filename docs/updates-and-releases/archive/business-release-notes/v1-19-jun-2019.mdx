@@ -1,0 +1,67 @@
+---
+id: v1-19-jun-2019
+title: V 1.19 June 2019
+sidebar_position: 7
+---
+
+# V 1.19 June 2019
+
+## Release Dates
+
+**Test**: May 28, 2019
+
+**Production**: June 11, 2019
+
+## Major updates in this release
+
+### Improvements to the Audit Log display
+
+This release provides refinements to the audit log entries to remove redundant details being displayed. This primarily improves the audit log entry when a new business is created via a lookup from a business register.
+
+Previously, in addition to the entries being logged recording new businesses, individuals, and relationships created, there were also entries recording the creation of specific data items associated with a business or sub-business. This was inconsistent (since the creation of certain data items were being displayed but not others), and caused unnecessarily long audit log entries for the creation of a business.
+
+As a result of this change, the following 'data creation' entries will no longer appear in the audit logs:
+
+- 'A new address was created',
+
+- 'A new entity name was created',
+
+- 'A new trading name was created',
+
+- 'A new business number was created'
+
+There will still be 'data creation' entries for businesses, individuals and relationships.
+
+It should be noted that these changes will be applied to the display of audit logs for both pre-existing and new businesses.
+
+### **'Before' and 'After' Screenshots of Audit Log entries**{#ReleaseNotes:greenIDBusinessv1.19-'Before'and'After'ScreenshotsofAuditLogentries}
+
+#### **Audit Log Entry 'Before' Changes:**{#ReleaseNotes:greenIDBusinessv1.19-AuditLogEntry'Before'Changes:}
+
+The following is an extract of parts of the 'creation of a root verification' audit log entry for 'Renewable Power Limited' BEFORE the changes for this release.
+
+It shows the creation of the root business, 1 of its sub businesses and 1 of its individuals:
+
+![](/img/image1-19.webp)
+
+#### **Audit Log Entry 'After' Changes:**{#ReleaseNotes:greenIDBusinessv1.19-AuditLogEntry'After'Changes:}
+
+The following is an extract of the above 'creation of a root verification' audit log entry for 'Renewable Power Limited' AFTER the changes for this release.
+
+It again shows the creation of the root business, 1 of its sub businesses and 1 of its individuals. It is now however significantly shorter and simpler:
+
+![](/img/image2-19.webp)
+
+## Additional Minor Change to Audit Logs{#ReleaseNotes:greenIDBusinessv1.19-AdditionalMinorChangetoAuditLogs}
+
+Another minor change within the audit log display when a business is created via a register search, is the inclusion of a 'search depth threshold' and a 'ownership percentage threshold' following the name of the register. These have been introduced to support future functionality which will allow customers to restrict the extent of automated searches performed. At present, these will always state 'unrestricted'. (See screenshots in the section above for an example - note the entry by the green magnifying class)
+
+## Other features and updates
+
+There were no other updates included in this release.
+
+## Constraints and Known Issues
+
+No new constraints or issues were introduced in this release.
+
+Existing constraints and known issues can be found on the [Constraints and Known Issues page](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues)

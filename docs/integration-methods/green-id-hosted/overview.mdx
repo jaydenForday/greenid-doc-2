@@ -1,0 +1,39 @@
+---
+id: overview
+title: Overview
+sidebar_position: 1
+---
+
+# Overview
+
+Hosted Web allows customers to apply their preferred configuration (rules, data sources, controlled changes etc.) to a standardised workflow within a website which is hosted by GBG.
+
+Customers have the option of using the Hosted site as a standalone URL or inviting their end users via one of our API’s. For more information on the integration options, please discuss with your GBG account representative.
+
+## **Configuration Options**{#Configuration-Options}
+
+The GBG hosted site can be also configured for a customer with:
+
+- their logo;
+
+- heading / paragraph text on the landing page;
+
+- heading / paragraph text and redirect link on the exit page and
+
+- apply css styling (by referencing a URL provided by the customer).
+
+## **Optional Features**{#Optional-Features}
+
+- SMS Invite service enables customers to invite their users to complete their verification via an SMS. This feature is particularly useful for customers who want to use the document scan / biometric features as attempts submitted via the mobile device have a higher success rate. SMS's can be customised with sender name, SMS text (character limits apply) and expiry period.
+
+- Address type ahead service where address capture and validation is done in one field improving the address capture process (UX) and improving match rates.
+
+## **Security and authentication in greenID Hosted**{#Security-and-authentication-in-greenID-Hosted}
+
+greenID Hosted is designed for use on the open internet.  Use of either integration method does not permit any information already stored in greenID to be accessed.  This means that no Personally Identifying Information about anyone previously verified in greenID can be accessed solely via greenID Hosted.
+
+When verifying people via greenID Hosted, an APICode is needed to tell greenID which greenID customer account should be used for the verification.  Each APICode is unique to a greenID customer account and is designed to be present on the web page that hosts the greenID Hosted javascript object. 
+
+An APICode can only be used to link a page to a greenID account for information to be **added** to that account. 
+
+There is a separate authentication method (password or client side certificate) that is needed to retrieve or give access to any data present in a greenID account.  This means that there is no data protection/privacy risk to use of greenID Hosted.  

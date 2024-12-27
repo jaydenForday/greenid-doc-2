@@ -1,0 +1,85 @@
+---
+id: busines-verification-workflow
+title: Business Verification Workflow
+sidebar_position: 2
+---
+
+# Business Verification Workflow
+
+## 1. Gather information
+
+The business verification process begins with your gathering information about the business to be verified. This information includes the name of the business, the country in which it is established, and the type of entity it is, such as a corporation, a sole proprietorship, a partnership, a trust, etc. Also, the business number\*, if it has one, is important, since greenID can use this number to look up the business in a registry and download other information for you, such as its directors and shareholders. Otherwise you will have to obtain this information and enter it manually. (More about this is discussed in Step [4.2](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=491488112#BusinessVerificationWorkflow-4.2.Enterinformationaboutrequiredparties) below.)
+
+\*Business numbers vary by country. See [Appendix A: Business Registers](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/493912479/Appendix+A+Business+Registers) for a listing of the types of business numbers greenID can look up and the registers it uses.
+
+## 2. Create a business verification record
+
+The business verification record stores pertinent information about the business and tracks the progress of the overall verification process. You create the record on the [Manage Business Verifications](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492470563/Manage+Business+Verifications) screen. (See [Creating a verification record](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492306827/Creating+a+verification+record)).
+
+When you begin, greenID’s [Verify a Business Wizard](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492306827/Creating+a+verification+record#Creatingaverificationrecord-Figure3) collects the information you gathered in [Step 1](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=491488112#BusinessVerificationWorkflow-step1) and creates the verification record. Once the record is created, it is displayed on the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen, and you can complete the verification process there.
+
+A business verification consists of two parts:
+
+- Verifying that the business exists; and
+
+- Verifying the identities of parties associated with the business.
+
+When both of these parts are successfully completed, the business is verified.
+
+## 3. Verify that the business exists
+
+A business’s existence is verified in one of two ways:
+
+- [By looking it up in an official business register](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492830791/Verifying+the+existence+of+a+business); or
+
+- [By obtaining documents that prove it is a business entity](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/491488112/Business+Verification+Workflow#).
+
+In the first method, greenID downloads data from the register. This automatically verifies the business’s existence, since an official source has confirmed it. This is the preferred approach since greenID can also download available information about the business. Such information may include registered officers, shareholders etc., depending on the register and the type of business. Associated businesses (such as shareholder businesses) may also be searched for and their information downloaded. How far the search goes into the business structure is controlled by the [Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions) configured on your account. 
+
+In the second method, you upload copies of official documents, such as a certificate of incorporation, as evidence that the business exists. Then you (or another administrator) must verify the documents manually.
+
+This step is performed on the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen. The process is described in detail under [Verifying the existence of a business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492830791/Verifying+the+existence+of+a+business).
+
+## 4. Verify the associated parties
+
+Associated parties are individuals or business entities that are connected with the business. Typically, associated parties include directors, shareholders, beneficial owners, trustees, office holders, or similar roles, depending on the type of business.
+
+In this step, you must (1) identify which associated parties require verification; (2) if necessary, gather and enter information about them into the business verification record; and (3) perform verification checks on them or indicate that they were already verified.
+
+Associated parties are verified on the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen. The activities involved are discussed in more detail below. 
+
+### 4.1. Identify which associated parties require verification
+
+Generally, parties that require verification are those that have a significant relationship with the business — e.g., they hold a controlling or beneficial interest or they impact its management and operations. Associated parties that do not have a significant relationship do not need to be verified. What constitutes “significant” is determined by your organisation — its legal obligations, policies, protocols (e.g., “Know Your Customer (KYC)”) or other requirements. 
+
+Once you decide which associated parties require verification and which don’t, make sure the required parties are entered into the verification record, and that all parties in the record are designated appropriately. If your account has [Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions) configured you may need to run a search on associated businesses which have been 'search restricted' to satisfy your verification criteria. 
+
+This activity is performed on the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen. More details about the process, and the procedures involved are discussed under [Identifying required parties](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492732659/Identifying+required+parties).
+
+### 4.2. Enter information about required parties
+
+When a business is looked up in a business register, greenID automatically downloads information about associated parties, along with other details about the business (also see [greenID Business Search Restrictions](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/514261448/greenID+Business+Search+Restrictions)).
+
+When information can’t be downloaded, or if the downloaded records are incomplete, you must enter the details about required parties yourself. The [Add an Associated Party Wizard](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492863966/Adding+an+associated+party#Addinganassociatedparty-Figure8) and the [Edit an Associated Party Wizard](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492831345/Editing+an+associated+party#Editinganassociatedparty-Figure9) walk you through the process, but you should have the necessary details available before you begin. Those details differ depending on whether the associated party is an individual or a business.
+
+Instructions on adding or editing associated party records on the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen, along with examples of the types of information you need, are described under [Entering details about associated parties](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492863772/Entering+details+about+associated+parties).
+
+### 4.3. Run verification checks or confirm that required parties are verified
+
+In most cases, you will use greenID Business to verify associated parties. But there are situations in which a party has already been verified. In that case, you can mark the party as externally verified or link the party to an existing greenID personal verification record.
+
+If you use greenID Business for verification, the process differs depending on whether an associated party is an individual or a business. 
+
+**If the associated party is a business**, the same rules apply as for the primary business, i.e., it must undergo a two-part verification process:
+
+- [Verifying that the business exists](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492830791/Verifying+the+existence+of+a+business); and
+
+- Verifying the identities of parties associated with the business.
+
+**If the associated party is an individual**, you can run personal identity verification checks. The [Run Verification Wizard](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/494043306/Externally+verified+associated+parties#Externallyverifiedassociatedparties-Figure10) walks you through the process. The checks involve confirming personal details with external data sources, and tallying the results against the minimum requirements defined in your configuration. When all the requirements are met, the individual is verified.
+
+Personal verification records are registered separately in greenID for each individual using greenID’s personal identity verification service, and you can look up them up on the [Admin Panel](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/491488112/Business+Verification+Workflow#). The records indicate which data sources were checked and the results. (You can also link a previously verified personal verification record in your account to an associated party, instead of running new verification checks.)
+
+This activity is performed on the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen. More information on the verification process, how to run verification checks, and how to mark parties as previously verified are discussed in [Performing associated party verifications](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492798542/Performing+associated+party+verifications).
+
+The business verification process ends when these 4 steps are completed, or you decide to abandon or fail the verification manually. There may be times, when you can’t complete the process in one session — e.g., you need to gather more information. If so, you may stop and resume the verification later, or assign the work to another administrator. These functions are done on the [Manage Business Verifications](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492470563/Manage+Business+Verifications) screen.

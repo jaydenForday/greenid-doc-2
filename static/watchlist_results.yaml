@@ -1,0 +1,2110 @@
+openapi: 3.0.0
+info:
+  title: Watchlist Results (Comprehensive Watchlist)
+  description: |
+    # Overview
+    This SOAP API allows customers to retrieve detailed watchlist results for comprehensive watchlist screening (via ComplyAdvantage)
+    
+    # Environments
+    ### Test: 
+     https://test-au.vixverify.com/Registrations-Registrations/WatchlistServiceV1?wsdl
+    ### Production: 
+    https://au.vixverify.com/Registrations-Registrations/WatchlistServiceV1?wsdl
+
+  version: "1.0.0"
+servers:
+  - url: https://test-au.vixverify.com/Registrations-Registrations/WatchlistServiceV1?wsdl
+    description: Test Environment
+  - url: https://au.vixverify.com/Registrations-Registrations/WatchlistServiceV1?wsdl
+    description: Production Environment
+paths:
+  /getWatchlistResult:
+    post:
+      summary: Retrieve watchlist results
+      description: |
+        Retrieves detailed watchlist results using a verification ID.
+        Supports pagination for results.
+
+        # Input Parameters
+
+        This method supports pagination. Please ensure that all results are retrieved by using the pagination parameters when using this method.
+
+        | Name           | Type    | Required | Restrictions                                                                                                                                                       |
+        | -------------- | ------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+        | `accountId`      | `String`  | Yes      | GreenID issues each customer with an `accountId`, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API. |
+        | `password`       | `String`  | Yes      | Each customer is issued a password that must be supplied with every call to any web method in this API.                                                             |
+        | `verificationId` | `String`  | Yes      | This parameter must be a valid `verificationId` that has been previously registered, via the `registerVerification` web method, with greenID. If the `verificationId` cannot be found in the greenID database, then an `InvalidTokenException` will be thrown. |
+        | `pageSize`       | `String`  | No       | Default is 25.<br><br>Must be a positive integer.<br><br>Max page size is 100.                                                                                     |
+        | `pageNumber`     | `String`  | No       | Must be a positive integer.                                                                                                                                            |
+
+        # Faults & Exceptions
+
+        | **Type**                             | **FaultCode**              | **Detail**                                |
+        | ------------------------------------ | -------------------------- | ----------------------------------------- |
+        | accountId is missing                 | `FieldValidationFault`       | accountID is missing                      |
+        | verificationId is missing            | `FieldValidationFault`       | verificationId is missing                 |
+        | verificationId is not found          | `VerificationIdNotFoundFault`|                                           |
+        | Invalid password or invalid accountId| `InvalidPasswordFault`       |                                           |
+        | Invalid page size                    | `FieldValidationFault`       | Invalid page size                         |
+        | Invalid page number                  | `FieldValidationFault`       | Invalid page number                       |
+        | Page number does not exist           | `FieldValidationFault`       | An unexpected problem occurred. Invalid page number. |
+        | Invalid certificates (when certificates are used)| `InvalidCertificateFault`|                                           |
+        | Invalid Source IP Address            | `InvalidIPAddressFault`      | IP address                                |
+        | System exception                     | `SystemFault`                | Details will vary based on exception type.|
+
+        # Return Value
+
+        This method returns a [WatchlistCheckDetails](https://confluence.gbgplc.com/display/GIDT/WatchlistCheckDetails) object. The following members will be populated:
+
+        - [Verification](https://url.uk.m.mimecastprotect.com/s/_TOZCQWE2U51LyOtMi5IGzFCh?domain=vixverify.atlassian.net) – this field contains the results of checks that have been performed to date, and the person’s current verification status.
+        - [ProfileMatch](https://url.uk.m.mimecastprotect.com/s/p4wMCR6G0sADXzECOsgI1_Vks?domain=vixverify.atlassian.net) – this field will contain a list of individual person profile matches returned from a watchlist provider.
+      operationId: getWatchlistResult
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/EnvelopeGetWatchlistResultRequest'
+            examples:
+              GetWatchlistResultRequestExample:
+                summary: Example Request
+                value: |
+                  <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org">
+                    <Body>
+                      <getWatchlistResult>
+                        <accountId>{{accountId}}</accountId>
+                        <password>{{password}}</password>
+                        <verificationId>{{verificationId}}</verificationId>
+                        <pageNumber>1</pageNumber>
+                        <pageSize>25</pageSize>
+                      </getWatchlistResult>
+                    </Body>
+                  </Envelope>
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/xml:
+              schema:
+                type: string
+              examples:
+                MatchFound:
+                  summary: Example with matches found
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/'>
+                    <env:Header></env:Header>
+                    <env:Body>
+                        <ns2:getWatchlistResultResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/-CJsCW6NlsAL8WOCpu3IouhG-?domain=watchlist.services.registrations.edentiti.com">
+                            <watchlistCheckDetails>
+                                <verification>
+                                    <dateCreated>2024-11-06T14:10:09.082+1100</dateCreated>
+                                    <registrationDetails>
+                                        <currentResidentialAddress>
+                                            <country>AU</country>
+                                            <flatNumber></flatNumber>
+                                            <postcode>2000</postcode>
+                                            <propertyName></propertyName>
+                                            <state>NSW</state>
+                                            <streetName>BOND</streetName>
+                                            <streetNumber>20</streetNumber>
+                                            <streetType>ST</streetType>
+                                            <suburb>SYDNEY</suburb>
+                                        </currentResidentialAddress>
+                                        <dob>
+                                            <day>2</day>
+                                            <month>3</month>
+                                            <year>1963</year>
+                                        </dob>
+                                        <email></email>
+                                        <name>
+                                            <givenName>Anthony</givenName>
+                                            <middleNames></middleNames>
+                                            <surname>Albanese</surname>
+                                        </name>
+                                        <previousResidentialAddress>
+                                            <country>AU</country>
+                                            <flatNumber></flatNumber>
+                                            <postcode>2000</postcode>
+                                            <propertyName></propertyName>
+                                            <state>NSW</state>
+                                            <streetName>BOND</streetName>
+                                            <streetNumber>20</streetNumber>
+                                            <streetType>ST</streetType>
+                                            <suburb>SYDNEY</suburb>
+                                        </previousResidentialAddress>
+                                    </registrationDetails>
+                                    <verificationId>qX9T947L</verificationId>
+                                </verification>
+                                <dateChecked>2024-11-06T14:10:09.162+1100</dateChecked>
+                                <lastActionDate>2024-11-06T14:10:13.515+1100</lastActionDate>
+                                <watchlistProduct>comprehensive</watchlistProduct>
+                                <overallWatchlistStatus>MATCH_REVIEW_REQUIRED</overallWatchlistStatus>
+                                <customerIdentifier>0192ff73-752f-7129-8c7e-d6dc8ad89c8d</customerIdentifier>
+                                <numberOfProfileMatches>3</numberOfProfileMatches>
+                                <watchlistCheckDetailsCurrentPage>1</watchlistCheckDetailsCurrentPage>
+                                <watchlistCheckDetailsPageTotal>1</watchlistCheckDetailsPageTotal>
+                                <watchlistCheckDetailsPageSize>25</watchlistCheckDetailsPageSize>
+                                <profileMatch>
+                                    <personName>Anthony F. Albanese</personName>
+                                    <personMatchType>[&quot;name_exact&quot;]</personMatchType>
+                                    <personWatchlistStatus>MATCH_REVIEW_REQUIRED</personWatchlistStatus>
+                                    <personMatchSummary>
+                                        <associatesCount>0</associatesCount>
+                                        <sanctionsCount>0</sanctionsCount>
+                                        <warningsAndOtherListsCount>0</warningsAndOtherListsCount>
+                                        <PEPCount>0</PEPCount>
+                                        <adverseMediaCount>1</adverseMediaCount>
+                                    </personMatchSummary>
+                                    <listOfAlternateNames>
+                                        <name>Anthony F. Albanese</name>
+                                    </listOfAlternateNames>
+                                    <listOfDetailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/PmD-CXDO0FxPZz2C7C2IWhTBY?domain=leagle.com</watchlistUrl>
+                                            <watchlistName>ALBANESE v. WCI COMMUNITI | 530 F.Supp.2d 752 (2007) | p2d75211210 | https://url.uk.m.mimecastprotect.com/s/w7BYCYEPnhzWX4MUjFqIx9yLX?domain=leagle.com</watchlistName>
+                                            <watchlistDescription>ALBANESE v. WCI COMMUNITI | 530 F.Supp.2d 752 (2007) | p2d75211210 | https://url.uk.m.mimecastprotect.com/s/w7BYCYEPnhzWX4MUjFqIx9yLX?domain=leagle.com</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>He subsequently filed an Amended Complaint on September 27, 2007. Mr. Albanese's action alleged breach of contract (Count I), actual fraud and fraud in the inducement (Count II), and constructive fraud (Count III), which are further delineated below. Mr. Albanese requested compensatory and past and future pecuniary damages on each of Counts I, II, and III.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2007-12-07T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                    </listOfDetailedCheckResults>
+                                </profileMatch>
+                                <profileMatch>
+                                    <personName>Albanese Anthony</personName>
+                                    <personMatchType>[&quot;name_exact&quot;,&quot;year_of_birth&quot;]</personMatchType>
+                                    <personWatchlistStatus>MATCH_REVIEW_REQUIRED</personWatchlistStatus>
+                                    <personMatchSummary>
+                                        <associatesCount>8</associatesCount>
+                                        <sanctionsCount>0</sanctionsCount>
+                                        <warningsAndOtherListsCount>0</warningsAndOtherListsCount>
+                                        <PEPCount>8</PEPCount>
+                                        <adverseMediaCount>13</adverseMediaCount>
+                                    </personMatchSummary>
+                                    <listOfAlternateNames>
+                                        <name>Anthony Albanse</name>
+                                        <name>Anthony Albanese</name>
+                                        <name>Anthony Albanase</name>
+                                        <name>安東尼·阿爾巴尼西</name>
+                                        <name>アンソニー・アルバネーゼ</name>
+                                        <name>Albanese Anthony</name>
+                                        <name>أنتوني ألبانيز</name>
+                                    </listOfAlternateNames>
+                                    <listOfDateOfBirth>
+                                        <dob>1963</dob>
+                                        <dob>1963-02-03</dob>
+                                        <dob>1963-03-02</dob>
+                                    </listOfDateOfBirth>
+                                    <listOfAssociates>
+                                        <associate>
+                                            <name>Carmel Mary Tebbutt</name>
+                                            <type>spouse</type>
+                                        </associate>
+                                        <associate>
+                                            <name>Carmel Tebbutt</name>
+                                            <type>former spouse</type>
+                                        </associate>
+                                        <associate>
+                                            <name>Carmel Tebbutt</name>
+                                            <type>partner</type>
+                                        </associate>
+                                        <associate>
+                                            <name>Carmel Tebbutt</name>
+                                            <type>spouse</type>
+                                        </associate>
+                                        <associate>
+                                            <name>Jodie Haydon</name>
+                                            <type>partner</type>
+                                        </associate>
+                                        <associate>
+                                            <name>Maryanne Albanese</name>
+                                            <type>child</type>
+                                        </associate>
+                                        <associate>
+                                            <name>Maryanne Albanese</name>
+                                            <type>parent</type>
+                                        </associate>
+                                        <associate>
+                                            <name>Nathan Albanese</name>
+                                            <type>child</type>
+                                        </associate>
+                                    </listOfAssociates>
+                                    <listOfDetailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>PEP</watchlistCategory>
+                                            <watchlistName>ComplyAdvantage PEP Data</watchlistName>
+                                            <watchlistDescription>ComplyAdvantage PEP Data</watchlistDescription>
+                                            <pepClass>pep-class-1</pepClass>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>Nationality</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Place of Birth Text</name>
+                                                    <value>Sydney</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Country</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Gender</name>
+                                                    <value>male</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Chamber</name>
+                                                    <value>House of Representatives</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Email</name>
+                                                    <value>A.Albanese.MP@aph.gov.au</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Family Name</name>
+                                                    <value>Albanese</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Given Name</name>
+                                                    <value>Anthony</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Legislative Period</name>
+                                                    <value>38th Parliament, 39th Parliament, 40th Parliament, 41st Parliament, 42nd Parliament, 43rd Parliament, 44th Parliament, 45th Parliament</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Legislature</name>
+                                                    <value>House of Representatives</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Party</name>
+                                                    <value>Australian Labor Party</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Profile</name>
+                                                    <value>Australian Member of Parliament: Australian Labor Party, Grayndler</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/2YpSCZ6Qos3qYplCMHEIBiCav?domain=dbpedia.org</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/uneTC1wAnt7AX93iAIvIVD9rx?domain=fr.wikipedia.org</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/S3KMC2kBoFN2Q91tpS2I5bsBe?domain=google.com</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/5TAyC31Dpt5gvEqt9TLIQiU9U?domain=google.com</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/e1SfC4x0qcp2xvgtoU5I4KMIZ?domain=google.com</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Active Start Date</name>
+                                                    <value>1996-03-02</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Date of Birth</name>
+                                                    <value>1963</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Date of Birth</name>
+                                                    <value>1963-03-02</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Australian politician</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Deputy Prime Minister Of Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Leader Of The House</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Manager Of Opposition Business In The House</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Member Of The Australian House Of Representatives</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Minister For Infrastructure And Transport</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Politician</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/fJOaC5yGrhVP1DEFwcjIk6o0-?domain=commons.wikimedia.org</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/UgszC68JvTn6JBztNfkI5FPPP?domain=t2.gstatic.com</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/lUZYC73KwtOXYJltQhMIoT-uP?domain=aph.gov.au</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/e6eBC82Lxs75gK1i6iYIyGaTe?domain=openaustralia.org.au</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/1juuC9rMyT5WjpQtps2Iqg2EE?domain=upload.wikimedia.org</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Party</name>
+                                                    <value>Australian Labor Party</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Region</name>
+                                                    <value>Grayndler</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>PEP</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/SoqGC0RzmuRXzLVsVt0I9ZodI?domain=cia.gov</watchlistUrl>
+                                            <watchlistName>Central Intelligence Agency Foreign Governments Leadership</watchlistName>
+                                            <watchlistDescription>Central Intelligence Agency Foreign Governments Leadership</watchlistDescription>
+                                            <pepClass>pep-class-1</pepClass>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>International</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Country</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Chamber</name>
+                                                    <value>National Government</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Institution Type</name>
+                                                    <value>National Cabinet</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Other Info</name>
+                                                    <value>Prime Minister</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/8AZ1CgJ4GFL1J79iBuZI4BPYB?domain=cia.gov</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>PEP</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/jSkgCjR4ku740v8iBCYImf5N_?domain=directory.gov.au</watchlistUrl>
+                                            <watchlistName>Australia National Cabinet</watchlistName>
+                                            <watchlistDescription>Australia National Cabinet</watchlistDescription>
+                                            <pepClass>pep-class-1</pepClass>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>Country</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Chamber</name>
+                                                    <value>Australia National Cabinet</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Function</name>
+                                                    <value>Prime Minister</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Institution Type</name>
+                                                    <value>National Cabinet</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/jSkgCjR4ku740v8iBCYImf5N_?domain=directory.gov.au</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Member of the National Cabinet</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>PEP</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/jmTfCkR4luMyvp9inFNIGAwSg?domain=alp.org.au</watchlistUrl>
+                                            <watchlistName>Australia Australian Labor Party National Executive</watchlistName>
+                                            <watchlistDescription>Australia Australian Labor Party National Executive</watchlistDescription>
+                                            <pepClass>pep-class-1</pepClass>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>Country</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Chamber</name>
+                                                    <value>Australian Labor Party</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Function</name>
+                                                    <value>Leader, Federal Parliamentary Labor Party</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Institution Type</name>
+                                                    <value>Political Party</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/jmTfCkR4luMyvp9inFNIGAwSg?domain=alp.org.au/</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Senior Political Party Official</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <listingEndDate>2022-06-17T00:00:00Z</listingEndDate>
+                                            <watchlistCategory>PEP</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/6EABClY4mcBwlvxuWHkIz-lVV?domain=aph.gov.au</watchlistUrl>
+                                            <watchlistName>Australia Shadow Cabinet Members</watchlistName>
+                                            <watchlistDescription>Australia Shadow Cabinet Members</watchlistDescription>
+                                            <pepClass>pep-class-1</pepClass>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>Country</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Place of Birth</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Place of Birth Text</name>
+                                                    <value>Sydney, Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Chamber</name>
+                                                    <value>Shadow Cabinet</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Function</name>
+                                                    <value>Leader of the Opposition</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Institution Type</name>
+                                                    <value>Shadow Cabinet</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/c9bjCmZ4nTmoqrzSZIlIR5erg?domain=parlinfo.aph.gov.au2</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Active Start Date</name>
+                                                    <value>2021-01-28</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Date of Birth</name>
+                                                    <value>1963-02-03</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Senior Government Official</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/-lb0Cn54oIJZVYvTGS9IJWyaW?domain=parlinfo.aph.gov.au</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Party</name>
+                                                    <value>Australian Labor Party</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Region</name>
+                                                    <value>Grayndler (NSW)</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>PEP</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/vxevCo240s7Vm0EigTDIpxnzq?domain=forumsec.org</watchlistUrl>
+                                            <watchlistName>Pacific Islands Forum Leadership</watchlistName>
+                                            <watchlistDescription>Pacific Islands Forum Leadership</watchlistDescription>
+                                            <pepClass>pep-class-2</pepClass>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>Nationality</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>International</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Country</name>
+                                                    <value>Fiji</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>Fiji</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Chamber</name>
+                                                    <value>Pacific Islands Forum Leadership</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Institution Type</name>
+                                                    <value>International Organization</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Other Info</name>
+                                                    <value>Prime Minister of Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/2itlCpY5qcj0ZBmijUVIG-jFE?domain=forumsec.org</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Active Start Date</name>
+                                                    <value>2022-05-23</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Member of the Pacific Islands Forum Leadership</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/HzYACqx4rcpyvoZtycAIE-SUR?domain=forumsec.org</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>PEP</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/eyC0Crk4vF5ROGEtofQI4cT4e?domain=aph.gov.au</watchlistUrl>
+                                            <watchlistName>Australia National Parliament House of Representatives</watchlistName>
+                                            <watchlistDescription>Australia National Parliament House of Representatives</watchlistDescription>
+                                            <pepClass>pep-class-1</pepClass>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>Country</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Place of Birth</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Place of Birth Text</name>
+                                                    <value>Sydney, Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Chamber</name>
+                                                    <value>Australia National Parliament House of Representatives</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Institution Type</name>
+                                                    <value>National Legislature Lower House</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Other Info</name>
+                                                    <value>Prime Minister</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/6Z3GCv24zsDnZ3xhOh0IQsO8D?domain=aph.gov.au</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Date of Birth</name>
+                                                    <value>1963-02-03</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Member of the National Legislature</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/ROLlCwp4ATDEnWKhOiJIJ4pyK?domain=aph.gov.au</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Party</name>
+                                                    <value>Australian Labor Party</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Region</name>
+                                                    <value>Grayndler, New South Wales</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>PEP</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/5tMiCxk4BF25j3kI1sBIy19Pu?domain=pmc.gov.au</watchlistUrl>
+                                            <watchlistName>Australia Department of the Prime Minister and Cabinet Officials</watchlistName>
+                                            <watchlistDescription>Australia Department of the Prime Minister and Cabinet Officials</watchlistDescription>
+                                            <pepClass>pep-class-1</pepClass>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>Country</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Original Country Text</name>
+                                                    <value>Australia</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Chamber</name>
+                                                    <value>Department of the Prime Minister and Cabinet</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Function</name>
+                                                    <value>Prime Minister</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Institution Type</name>
+                                                    <value>Ministry</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Locationurl</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/O0EXCyPgDslP3RZT2tkIxnD-Y?domain=pm.gov.au</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Political Position</name>
+                                                    <value>Senior Government Official</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>Picture URL</name>
+                                                    <value>https://url.uk.m.mimecastprotect.com/s/3Ru2CzpjET0YzA6IjumI92-sn?domain=ministers.pmc.gov.au</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/rXWfCADk2FvK5z4IxC8IGygpU?domain=couriermail.com.au</watchlistUrl>
+                                            <watchlistName>'Blood on hands': Albo centre of protest fury</watchlistName>
+                                            <watchlistDescription>'Blood on hands': Albo centre of protest fury</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>PROTESTERS In speeches made earlier in the day, Anthony Albanese was accused of being &quot;complicit in the continued genocide&quot; of Palestinians in Gaza. First Nations activist Lizzie Jarrett addressed thousands of pro-Palestine protesters in Sydney's Hyde Park, comparing Israel's military action against Islamist group Hamas to the plight of Indigenous Australians.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-10-06T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/_ivwCBB02FgXNOjCxFDI2NBp3?domain=theguardian.com</watchlistUrl>
+                                            <watchlistName>Albanese says Dutton thinks politics is 'all about testosterone' as character attacks escalate | Australian foreign policy | The Guardian</watchlistName>
+                                            <watchlistDescription>Albanese says Dutton thinks politics is 'all about testosterone' as character attacks escalate | Australian foreign policy | The Guardian</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>&quot;I just think every reasonable Australian at the moment is looking to their prime minister for leadership and what they're seeing is weakness,&quot; Dutton said. He accused Albanese and the government of failing to appropriately condemn Hezbollah, a designated terrorist organisation, for its attacks on Israel, and said Australia should help provide &quot;support and stability&quot; on Israel's northern border with Lebanon. &quot;It seems to me that the prime minister and Penny Wong at the moment are making decisions that are of political benefit to them domestically, which are not in our national interest,&quot; Dutton said.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-10-02T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/u7zOCDkn2FRLZkqsrHQIjS51s?domain=dailymail.co.uk</watchlistUrl>
+                                            <watchlistName>Anthony Albanese answers the election question on everyone's mind - as his insane spending on advertising emerges | Daily Mail Online</watchlistName>
+                                            <watchlistDescription>Anthony Albanese answers the election question on everyone's mind - as his insane spending on advertising emerges | Daily Mail Online</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>It wasn't successful, and I think that was disappointing,' Mr Albanese said. It comes as the Albanese government is accused of spending hundreds of millions of dollars on taxpayer-funded advertising campaigns. A total of $172million will be spent on peddling an array of government initiatives across a range of portfolios as Australians battle a cost of living crisis.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-05-21T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/fSNACERo2uQ8jNLf7IkI7gxTj?domain=jonesborosun.com</watchlistUrl>
+                                            <watchlistName>Australian prime minister defends himself from an accusation that he asked for free flight upgrades | World | https://url.uk.m.mimecastprotect.com/s/d4cSCG6q2sVN9QkFzSWIBtc-a?domain=jonesborosun.com</watchlistName>
+                                            <watchlistDescription>Australian prime minister defends himself from an accusation that he asked for free flight upgrades | World | https://url.uk.m.mimecastprotect.com/s/d4cSCG6q2sVN9QkFzSWIBtc-a?domain=jonesborosun.com</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Australian Prime Minister Anthony Albanese on Tuesday said he had always &quot;acted in a transparent and appropriate way&quot; after a new book claimed that he had repeatedly requested free upgrades for personal flights on Qantas Airways. Albanese, who was transport minister in a previous government, was accused in a book released Monday of developing an inappropriately close relationship with Alan Joyce, who was Qantas chief executive for 15 years until 2023. Qantas is Australia's largest airline and was state-owned until the 1990s.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-10-29T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/yJm9CJ6w2s7WoDZilTBIyHXra?domain=newcastleherald.com.au</watchlistUrl>
+                                            <watchlistName>Gang and drug problems on the rise in Tonga | Newcastle Herald | Newcastle, NSW</watchlistName>
+                                            <watchlistDescription>Gang and drug problems on the rise in Tonga | Newcastle Herald | Newcastle, NSW</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Tonga is hosting the Pacific Islands Forum (PIF) Leaders Meeting this week, the region's biggest summit. Days before leaders including Anthony Albanese land in Nuku'alofa, Tongan police arrested 17 people as part of an international investigation into the drug trade. &quot;There's been a clear intent for the Comancheros to expand their reach and in so doing to start up a chapter, a standalone chapter of the Comancheros in Tonga,&quot; Tonga Police Commissioner Shane McLennan told TVNZ.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-08-24T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/SYuCCKrx2TjykGOiBUNI5kWyp?domain=dailymail.co.uk</watchlistUrl>
+                                            <watchlistName>Generational war erupts over Australia Day: Baby boomer issues scathing message to Aussies who oppose January 26 - as Gen Z woman pushes 'change the date' and cuts off her mates who voted No to the V</watchlistName>
+                                            <watchlistDescription>Generational war erupts over Australia Day: Baby boomer issues scathing message to Aussies who oppose January 26 - as Gen Z woman pushes 'change the date' and cuts off her mates who voted No to the V</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Then, over 80 councils across the country decided not to hold citizenship ceremonies on January 26 this year because of perceived negative connotations, with one councillor even blaming the heat. Anthony Albanse was accused of a 'cop-out' in burdening council's with the politically-sensitive decision after his government scrapped a rule forcing councils to hold Australia Day citizenship ceremonies. And then this week the fall-out reached corporate Australia when the Woolworths Group, which owns both Woolies and Big W, announced it would not be stocking Australia Day merchandise, blaming a 'gradual decline in demand'.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-01-14T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/-Hh5CL9y2TJD2ZKTwcmIyavwp?domain=br.de</watchlistUrl>
+                                            <watchlistName>Julian Assange als freier Mann zurück in Australien | BR24</watchlistName>
+                                            <watchlistDescription>Julian Assange als freier Mann zurück in Australien | BR24</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>&quot;Ich bitte Sie, geben Sie uns Raum, geben Sie uns Privatsphäre, damit wir unseren Platz finden, lassen Sie unsere Familie eine Familie sein, bevor er zu einem Zeitpunkt seiner Wahl wieder sprechen kann.&quot; Über die australische Menschenrechtsanwältin Jennifer Robinson dankte Assange insbesondere dem australischen Regierungschef Anthony Albanese dafür, ihm das &quot;Leben gerettet&quot; zu haben. Gleich nach seiner Landung habe der Wikileaks-Gründer mit dem australischen Regierungschef telefoniert, so Robinson.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-06-26T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/c9oGCM8z2TQyYAXfBfrI8eaT2?domain=valor.globo.com</watchlistUrl>
+                                            <watchlistName>Medibank Private: importância do compliance digital | Legislação | Valor Econômico</watchlistName>
+                                            <watchlistDescription>Medibank Private: importância do compliance digital | Legislação | Valor Econômico</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Medibank Private. Consolidada no mercado concorrencial e com forte atuação em seguro privado de saúde, a empresa australiana anunciou a invasão de hackers em suas plataformas e confirmou o vazamento dos dados sensíveis de mais de 9,7 milhões de clientes (atuais e antigos), incluindo o primeiro-ministro Anthony Albanase, em fóruns ocultos na internet conhecido como &quot;Darknet&quot; -</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2022-12-19T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/xN44CNkA2F2qpG7ImNhBIyIgmU?domain=theage.com.au</watchlistUrl>
+                                            <watchlistName>Political insults: Australian politicians are terrible at them</watchlistName>
+                                            <watchlistDescription>Political insults: Australian politicians are terrible at them</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>&quot;Only the most wicked and cynical of individuals would foist such a blight on an earnest community like Australia,&quot; he added. And lest anybody think Dutton himself was above a spot of casual mudslinging, he also spent the weekend accusing Prime Minister Anthony Albanese of being a fraud, an appeaser and a &quot;child in a man's body&quot;, after the latter promised to pull rank on premiers opposed to the construction of nuclear power plants in their state. As anyone who has accidentally tuned into question time will attest, there is no point lamenting the glory days of politics, when Keating was at the peak of his oratory powers, describing then opposition leader John Hewson as &quot;a shiver looking for a spine to run up&quot;, whilst Peter Costello was &quot;all tip and no iceberg&quot;.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-06-24T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/LNeUCOYB2c6LkynTEEiPIGwAC0?domain=news.com.au</watchlistUrl>
+                                            <watchlistName>Senator Lidia Thorpe Accuses Police Of Failing To Protect Her 06/10/23 | https://url.uk.m.mimecastprotect.com/s/ygM-CPND9u71nkWiz0sjIxNKYh?domain=news.com.au — Australia's leading news site</watchlistName>
+                                            <watchlistDescription>Senator Lidia Thorpe Accuses Police Of Failing To Protect Her 06/10/23 | https://url.uk.m.mimecastprotect.com/s/ygM-CPND9u71nkWiz0sjIxNKYh?domain=news.com.au — Australia's leading news site</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Senator Lidia Thorpe Accuses Police Of Failing To Protect Her 06/10/23 Senator Lidia Thorpe has accused Prime Minister Anthony Albanese and police of failing to protect her, the man who attempted to assassinate Queen Elizabeth II in 2021 has been sentenced to 9 years in prison for treason, three people have been punished for hurling abuse at the Australian men's cricket team during this year's Ashes Test at Lord's,Matildas star Hayley Raso has made history at new club Real Madrid,Julia Ormond is suing disgraced film producer Harvey Weinstein for sexual battery.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2023-10-05T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/Qz4wCQWE2U51LyOtxMt5IGL0iA?domain=theage.com.au</watchlistUrl>
+                                            <watchlistName>Thousands of union members join CFMEU rally in Sydney</watchlistName>
+                                            <watchlistDescription>Thousands of union members join CFMEU rally in Sydney</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>The scandal-plagued CFMEU has vowed to fight Commonwealth legislation which sacked the union's leadership and appointed an administrator, as an estimated 8000-strong protest descended on the heart of Sydney's CBD to denounce the federal and state Labor governments. Hours after his lawyers appeared for him in court over allegations of corruption, former CFMEU NSW branch secretary Darren Greenfield delivered a broadside against Prime Minister Anthony Albanese, Australian Council of Trade Unions president Michele O'Neil and secretary Sally McManus, calling them traitors who were selling the militant union out. Macquarie Street in Sydney's CBD ground to a standstill on Tuesday morning as workers clad in high-vis and brandishing union paraphernalia poured in.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-08-27T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/yP-ICR6G0sADXzEC9OugI1lmbU?domain=dailymail.co.uk</watchlistUrl>
+                                            <watchlistName>Two key words Cricket Australia will refuse to say on January 26 during the second Test against the West Indies | Daily Mail Online</watchlistName>
+                                            <watchlistDescription>Two key words Cricket Australia will refuse to say on January 26 during the second Test against the West Indies | Daily Mail Online</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Then, over 80 councils across the country decided not to hold citizenship ceremonies on January 26 this year because of perceived negative connotations, with one councillor even blaming the heat. Anthony Albanse was accused of a 'cop-out' in burdening council's with the politically-sensitive decision after his government scrapped a rule forcing councils to hold Australia Day citizenship ceremonies. And then in early January the fall-out reached corporate Australia when the Woolworths Group, which owns both Woolies and Big W, announced it would not be stocking Australia Day merchandise, blaming a 'gradual decline in demand'.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-01-21T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/MilbCVOMkhDn8R3hGQClIE4082?domain=de.euronews.com</watchlistUrl>
+                                            <watchlistName>WikiLeaks-Gründer Assange ist frei: Anwältin warnt vor &quot;gefährlichem Präzedenzfall&quot; | Euronews</watchlistName>
+                                            <watchlistDescription>WikiLeaks-Gründer Assange ist frei: Anwältin warnt vor &quot;gefährlichem Präzedenzfall&quot; | Euronews</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Dies schafft einen gefährlichen Präzedenzfall&quot;, warnte Robinson. Der australische Ministerpräsident Anthony Albanese begrüßte Assanges Freilassung. &quot;Unabhängig von Ihren Meinungen zu seinen Aktivitäten, die sicher unterschiedlich ausfallen, hat sich der Fall von Herrn Assange zu lange hingezogen.</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2024-06-26T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                    </listOfDetailedCheckResults>
+                                </profileMatch>
+                                <profileMatch>
+                                    <personName>Tony Albanese</personName>
+                                    <personMatchType>[&quot;equivalent_aka&quot;]</personMatchType>
+                                    <personWatchlistStatus>MATCH_REVIEW_REQUIRED</personWatchlistStatus>
+                                    <personMatchSummary>
+                                        <associatesCount>0</associatesCount>
+                                        <sanctionsCount>0</sanctionsCount>
+                                        <warningsAndOtherListsCount>0</warningsAndOtherListsCount>
+                                        <PEPCount>0</PEPCount>
+                                        <adverseMediaCount>2</adverseMediaCount>
+                                    </personMatchSummary>
+                                    <listOfAlternateNames>
+                                        <name>Tony Albanese</name>
+                                    </listOfAlternateNames>
+                                    <listOfDetailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/cQEACW6NlsAL8WOC6pF3IocYFx?domain=reviewjournal.com</watchlistUrl>
+                                            <watchlistName>Topless club mogul Jack Galardi dead at 81 | Las Vegas Review-Journal</watchlistName>
+                                            <watchlistDescription>Topless club mogul Jack Galardi dead at 81 | Las Vegas Review-Journal</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Galardi took over as the owner of the Crazy Horse on Paradise Road after the violent death of the club's previous owner, Tony Albanese, in May 1981. Authorities thought Albanese had ties to the Bonanno crime family, and his slaying was unrelated to the Crazy Horse. Teri Galardi said her father was &quot;not mafia-connected in any way.&quot;</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2012-12-04T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                        <detailedCheckResults>
+                                            <watchlistCategory>AdverseMedia</watchlistCategory>
+                                            <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/OY2PCXDO0FxPZz2C67H2IWTfTM?domain=syracuse.com</watchlistUrl>
+                                            <watchlistName>Vito's Ristorante to open in former Rico's in East Syracuse - https://url.uk.m.mimecastprotect.com/s/wjgxCYEPnhzWX4MU0jhqIxKUEN?domain=syracuse.com</watchlistName>
+                                            <watchlistDescription>Vito's Ristorante to open in former Rico's in East Syracuse - https://url.uk.m.mimecastprotect.com/s/wjgxCYEPnhzWX4MU0jhqIxKUEN?domain=syracuse.com</watchlistDescription>
+                                            <listOfMatchDataItems>
+                                                <matchDataItems>
+                                                    <name>snippet</name>
+                                                    <value>Nothing at Tony 's, a family restaurant on Burnet Avenue, will change, Albanese said. It will still be open for breakfast, lunch and dinner, with Tony Albanese in charge. Vito 's will be much like Rico 's</value>
+                                                </matchDataItems>
+                                                <matchDataItems>
+                                                    <name>publishing_date</name>
+                                                    <value>2019-01-04T00:00:00Z</value>
+                                                </matchDataItems>
+                                            </listOfMatchDataItems>
+                                        </detailedCheckResults>
+                                    </listOfDetailedCheckResults>
+                                </profileMatch>
+                            </watchlistCheckDetails>
+                        </ns2:getWatchlistResultResponse>
+                    </env:Body>
+                    </env:Envelope>
+                NoMatchFound:
+                  summary: Example with no matches found
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <ns2:getWatchlistResultResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/-CJsCW6NlsAL8WOCpu3IouhG-?domain=watchlist.services.registrations.edentiti.com/">
+                                <watchlistCheckDetails>
+                                    <verification>
+                                        <dateCreated>2024-11-06T14:15:10.449+1100</dateCreated>
+                                        <registrationDetails>
+                                            <currentResidentialAddress>
+                                                <country>AU</country>
+                                                <flatNumber></flatNumber>
+                                                <postcode>2000</postcode>
+                                                <propertyName></propertyName>
+                                                <state>NSW</state>
+                                                <streetName>BOND</streetName>
+                                                <streetNumber>20</streetNumber>
+                                                <streetType>ST</streetType>
+                                                <suburb>SYDNEY</suburb>
+                                            </currentResidentialAddress>
+                                            <dob>
+                                                <day>1</day>
+                                                <month>1</month>
+                                                <year>2000</year>
+                                            </dob>
+                                            <email></email>
+                                            <name>
+                                                <givenName>Hello</givenName>
+                                                <middleNames></middleNames>
+                                                <surname>World</surname>
+                                            </name>
+                                            <previousResidentialAddress>
+                                                <country>AU</country>
+                                                <flatNumber></flatNumber>
+                                                <postcode>2000</postcode>
+                                                <propertyName></propertyName>
+                                                <state>NSW</state>
+                                                <streetName>BOND</streetName>
+                                                <streetNumber>20</streetNumber>
+                                                <streetType>ST</streetType>
+                                                <suburb>SYDNEY</suburb>
+                                            </previousResidentialAddress>
+                                        </registrationDetails>
+                                        <verificationId>XaQbMxJF</verificationId>
+                                    </verification>
+                                    <dateChecked>2024-11-06T14:15:10.527+1100</dateChecked>
+                                    <lastActionDate>2024-11-06T14:15:10.527+1100</lastActionDate>
+                                    <watchlistProduct>comprehensive</watchlistProduct>
+                                    <overallWatchlistStatus>NOT_FOUND_ON_LIST</overallWatchlistStatus>
+                                    <customerIdentifier>0192ff78-0d93-7f22-8d18-3ba8828a6462</customerIdentifier>
+                                    <numberOfProfileMatches>0</numberOfProfileMatches>
+                                    <watchlistCheckDetailsCurrentPage>0</watchlistCheckDetailsCurrentPage>
+                                    <watchlistCheckDetailsPageTotal>0</watchlistCheckDetailsPageTotal>
+                                    <watchlistCheckDetailsPageSize>0</watchlistCheckDetailsPageSize>
+                                </watchlistCheckDetails>
+                            </ns2:getWatchlistResultResponse>
+                        </env:Body>
+                    </env:Envelope>
+                PaginatedResults:
+                  summary: Example with paginated results
+                  value: |
+                    <env:Envelope xmlns:env='https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/'>
+                        <env:Header></env:Header>
+                        <env:Body>
+                            <ns2:getWatchlistResultResponse xmlns:ns2="https://url.uk.m.mimecastprotect.com/s/-CJsCW6NlsAL8WOCpu3IouhG-?domain=watchlist.services.registrations.edentiti.com/">
+                                <watchlistCheckDetails>
+                                    <verification>
+                                        <dateCreated>2024-11-06T14:10:09.082+1100</dateCreated>
+                                        <registrationDetails>
+                                            <currentResidentialAddress>
+                                                <country>AU</country>
+                                                <flatNumber></flatNumber>
+                                                <postcode>2000</postcode>
+                                                <propertyName></propertyName>
+                                                <state>NSW</state>
+                                                <streetName>BOND</streetName>
+                                                <streetNumber>20</streetNumber>
+                                                <streetType>ST</streetType>
+                                                <suburb>SYDNEY</suburb>
+                                            </currentResidentialAddress>
+                                            <dob>
+                                                <day>2</day>
+                                                <month>3</month>
+                                                <year>1963</year>
+                                            </dob>
+                                            <email></email>
+                                            <name>
+                                                <givenName>Anthony</givenName>
+                                                <middleNames></middleNames>
+                                                <surname>Albanese</surname>
+                                            </name>
+                                            <previousResidentialAddress>
+                                                <country>AU</country>
+                                                <flatNumber></flatNumber>
+                                                <postcode>2000</postcode>
+                                                <propertyName></propertyName>
+                                                <state>NSW</state>
+                                                <streetName>BOND</streetName>
+                                                <streetNumber>20</streetNumber>
+                                                <streetType>ST</streetType>
+                                                <suburb>SYDNEY</suburb>
+                                            </previousResidentialAddress>
+                                        </registrationDetails>
+                                        <verificationId>qX9T947L</verificationId>
+                                    </verification>
+                                    <dateChecked>2024-11-06T14:10:09.162+1100</dateChecked>
+                                    <lastActionDate>2024-11-06T14:10:13.515+1100</lastActionDate>
+                                    <watchlistProduct>comprehensive</watchlistProduct>
+                                    <overallWatchlistStatus>MATCH_REVIEW_REQUIRED</overallWatchlistStatus>
+                                    <customerIdentifier>0192ff73-752f-7129-8c7e-d6dc8ad89c8d</customerIdentifier>
+                                    <numberOfProfileMatches>3</numberOfProfileMatches>
+                                    <watchlistCheckDetailsCurrentPage>1</watchlistCheckDetailsCurrentPage>
+                                    <watchlistCheckDetailsPageTotal>1</watchlistCheckDetailsPageTotal>
+                                    <watchlistCheckDetailsPageSize>10</watchlistCheckDetailsPageSize>
+                                    <profileMatch>
+                                        <personName>Anthony F. Albanese</personName>
+                                        <personMatchType>[&quot;name_exact&quot;]</personMatchType>
+                                        <personWatchlistStatus>MATCH_REVIEW_REQUIRED</personWatchlistStatus>
+                                        <personMatchSummary>
+                                            <associatesCount>0</associatesCount>
+                                            <sanctionsCount>0</sanctionsCount>
+                                            <warningsAndOtherListsCount>0</warningsAndOtherListsCount>
+                                            <PEPCount>0</PEPCount>
+                                            <adverseMediaCount>1</adverseMediaCount>
+                                        </personMatchSummary>
+                                        <listOfAlternateNames>
+                                            <name>Anthony F. Albanese</name>
+                                        </listOfAlternateNames>
+                                        <listOfDetailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/PmD-CXDO0FxPZz2C7C2IWhTBY?domain=leagle.com</watchlistUrl>
+                                                <watchlistName>ALBANESE v. WCI COMMUNITI | 530 F.Supp.2d 752 (2007) | p2d75211210 | https://url.uk.m.mimecastprotect.com/s/w7BYCYEPnhzWX4MUjFqIx9yLX?domain=leagle.com</watchlistName>
+                                                <watchlistDescription>ALBANESE v. WCI COMMUNITI | 530 F.Supp.2d 752 (2007) | p2d75211210 | https://url.uk.m.mimecastprotect.com/s/w7BYCYEPnhzWX4MUjFqIx9yLX?domain=leagle.com</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>He subsequently filed an Amended Complaint on September 27, 2007. Mr. Albanese's action alleged breach of contract (Count I), actual fraud and fraud in the inducement (Count II), and constructive fraud (Count III), which are further delineated below. Mr. Albanese requested compensatory and past and future pecuniary damages on each of Counts I, II, and III.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2007-12-07T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                        </listOfDetailedCheckResults>
+                                    </profileMatch>
+                                    <profileMatch>
+                                        <personName>Albanese Anthony</personName>
+                                        <personMatchType>[&quot;name_exact&quot;,&quot;year_of_birth&quot;]</personMatchType>
+                                        <personWatchlistStatus>MATCH_REVIEW_REQUIRED</personWatchlistStatus>
+                                        <personMatchSummary>
+                                            <associatesCount>8</associatesCount>
+                                            <sanctionsCount>0</sanctionsCount>
+                                            <warningsAndOtherListsCount>0</warningsAndOtherListsCount>
+                                            <PEPCount>8</PEPCount>
+                                            <adverseMediaCount>13</adverseMediaCount>
+                                        </personMatchSummary>
+                                        <listOfAlternateNames>
+                                            <name>Anthony Albanse</name>
+                                            <name>Anthony Albanese</name>
+                                            <name>Anthony Albanase</name>
+                                            <name>安東尼·阿爾巴尼西</name>
+                                            <name>アンソニー・アルバネーゼ</name>
+                                            <name>Albanese Anthony</name>
+                                            <name>أنتوني ألبانيز</name>
+                                        </listOfAlternateNames>
+                                        <listOfDateOfBirth>
+                                            <dob>1963</dob>
+                                            <dob>1963-02-03</dob>
+                                            <dob>1963-03-02</dob>
+                                        </listOfDateOfBirth>
+                                        <listOfAssociates>
+                                            <associate>
+                                                <name>Carmel Mary Tebbutt</name>
+                                                <type>spouse</type>
+                                            </associate>
+                                            <associate>
+                                                <name>Carmel Tebbutt</name>
+                                                <type>former spouse</type>
+                                            </associate>
+                                            <associate>
+                                                <name>Carmel Tebbutt</name>
+                                                <type>partner</type>
+                                            </associate>
+                                            <associate>
+                                                <name>Carmel Tebbutt</name>
+                                                <type>spouse</type>
+                                            </associate>
+                                            <associate>
+                                                <name>Jodie Haydon</name>
+                                                <type>partner</type>
+                                            </associate>
+                                            <associate>
+                                                <name>Maryanne Albanese</name>
+                                                <type>child</type>
+                                            </associate>
+                                            <associate>
+                                                <name>Maryanne Albanese</name>
+                                                <type>parent</type>
+                                            </associate>
+                                            <associate>
+                                                <name>Nathan Albanese</name>
+                                                <type>child</type>
+                                            </associate>
+                                        </listOfAssociates>
+                                        <listOfDetailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>PEP</watchlistCategory>
+                                                <watchlistName>ComplyAdvantage PEP Data</watchlistName>
+                                                <watchlistDescription>ComplyAdvantage PEP Data</watchlistDescription>
+                                                <pepClass>pep-class-1</pepClass>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Nationality</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Place of Birth Text</name>
+                                                        <value>Sydney</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Country</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Gender</name>
+                                                        <value>male</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Chamber</name>
+                                                        <value>House of Representatives</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Email</name>
+                                                        <value>A.Albanese.MP@aph.gov.au</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Family Name</name>
+                                                        <value>Albanese</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Given Name</name>
+                                                        <value>Anthony</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Legislative Period</name>
+                                                        <value>38th Parliament, 39th Parliament, 40th Parliament, 41st Parliament, 42nd Parliament, 43rd Parliament, 44th Parliament, 45th Parliament</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Legislature</name>
+                                                        <value>House of Representatives</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Party</name>
+                                                        <value>Australian Labor Party</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Profile</name>
+                                                        <value>Australian Member of Parliament: Australian Labor Party, Grayndler</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/2YpSCZ6Qos3qYplCMHEIBiCav?domain=dbpedia.org</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/uneTC1wAnt7AX93iAIvIVD9rx?domain=fr.wikipedia.org</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/S3KMC2kBoFN2Q91tpS2I5bsBe?domain=google.com</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/5TAyC31Dpt5gvEqt9TLIQiU9U?domain=google.com</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/e1SfC4x0qcp2xvgtoU5I4KMIZ?domain=google.com</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Active Start Date</name>
+                                                        <value>1996-03-02</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Date of Birth</name>
+                                                        <value>1963</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Date of Birth</name>
+                                                        <value>1963-03-02</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Australian politician</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Deputy Prime Minister Of Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Leader Of The House</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Manager Of Opposition Business In The House</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Member Of The Australian House Of Representatives</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Minister For Infrastructure And Transport</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Politician</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/fJOaC5yGrhVP1DEFwcjIk6o0-?domain=commons.wikimedia.org</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/UgszC68JvTn6JBztNfkI5FPPP?domain=t2.gstatic.com</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/lUZYC73KwtOXYJltQhMIoT-uP?domain=aph.gov.au</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/e6eBC82Lxs75gK1i6iYIyGaTe?domain=openaustralia.org.au</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/1juuC9rMyT5WjpQtps2Iqg2EE?domain=upload.wikimedia.org</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Party</name>
+                                                        <value>Australian Labor Party</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Region</name>
+                                                        <value>Grayndler</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>PEP</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/SoqGC0RzmuRXzLVsVt0I9ZodI?domain=cia.gov/</watchlistUrl>
+                                                <watchlistName>Central Intelligence Agency Foreign Governments Leadership</watchlistName>
+                                                <watchlistDescription>Central Intelligence Agency Foreign Governments Leadership</watchlistDescription>
+                                                <pepClass>pep-class-1</pepClass>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>International</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Country</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Chamber</name>
+                                                        <value>National Government</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Institution Type</name>
+                                                        <value>National Cabinet</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Other Info</name>
+                                                        <value>Prime Minister</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/8AZ1CgJ4GFL1J79iBuZI4BPYB?domain=cia.gov</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>PEP</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/jSkgCjR4ku740v8iBCYImf5N_?domain=directory.gov.au</watchlistUrl>
+                                                <watchlistName>Australia National Cabinet</watchlistName>
+                                                <watchlistDescription>Australia National Cabinet</watchlistDescription>
+                                                <pepClass>pep-class-1</pepClass>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Country</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Chamber</name>
+                                                        <value>Australia National Cabinet</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Function</name>
+                                                        <value>Prime Minister</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Institution Type</name>
+                                                        <value>National Cabinet</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/jSkgCjR4ku740v8iBCYImf5N_?domain=directory.gov.au</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Member of the National Cabinet</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>PEP</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/jmTfCkR4luMyvp9inFNIGAwSg?domain=alp.org.au/</watchlistUrl>
+                                                <watchlistName>Australia Australian Labor Party National Executive</watchlistName>
+                                                <watchlistDescription>Australia Australian Labor Party National Executive</watchlistDescription>
+                                                <pepClass>pep-class-1</pepClass>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Country</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Chamber</name>
+                                                        <value>Australian Labor Party</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Function</name>
+                                                        <value>Leader, Federal Parliamentary Labor Party</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Institution Type</name>
+                                                        <value>Political Party</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/jmTfCkR4luMyvp9inFNIGAwSg?domain=alp.org.au/</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Senior Political Party Official</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <listingEndDate>2022-06-17T00:00:00Z</listingEndDate>
+                                                <watchlistCategory>PEP</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/6EABClY4mcBwlvxuWHkIz-lVV?domain=aph.gov.au</watchlistUrl>
+                                                <watchlistName>Australia Shadow Cabinet Members</watchlistName>
+                                                <watchlistDescription>Australia Shadow Cabinet Members</watchlistDescription>
+                                                <pepClass>pep-class-1</pepClass>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Country</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Place of Birth</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Place of Birth Text</name>
+                                                        <value>Sydney, Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Chamber</name>
+                                                        <value>Shadow Cabinet</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Function</name>
+                                                        <value>Leader of the Opposition</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Institution Type</name>
+                                                        <value>Shadow Cabinet</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/c9bjCmZ4nTmoqrzSZIlIR5erg?domain=parlinfo.aph.gov.au2</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Active Start Date</name>
+                                                        <value>2021-01-28</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Date of Birth</name>
+                                                        <value>1963-02-03</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Senior Government Official</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/-lb0Cn54oIJZVYvTGS9IJWyaW?domain=parlinfo.aph.gov.au</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Party</name>
+                                                        <value>Australian Labor Party</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Region</name>
+                                                        <value>Grayndler (NSW)</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>PEP</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/vxevCo240s7Vm0EigTDIpxnzq?domain=forumsec.org/</watchlistUrl>
+                                                <watchlistName>Pacific Islands Forum Leadership</watchlistName>
+                                                <watchlistDescription>Pacific Islands Forum Leadership</watchlistDescription>
+                                                <pepClass>pep-class-2</pepClass>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Nationality</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>International</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Country</name>
+                                                        <value>Fiji</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>Fiji</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Chamber</name>
+                                                        <value>Pacific Islands Forum Leadership</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Institution Type</name>
+                                                        <value>International Organization</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Other Info</name>
+                                                        <value>Prime Minister of Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/2itlCpY5qcj0ZBmijUVIG-jFE?domain=forumsec.org</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Active Start Date</name>
+                                                        <value>2022-05-23</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Member of the Pacific Islands Forum Leadership</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/HzYACqx4rcpyvoZtycAIE-SUR?domain=forumsec.org</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>PEP</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/eyC0Crk4vF5ROGEtofQI4cT4e?domain=aph.gov.au</watchlistUrl>
+                                                <watchlistName>Australia National Parliament House of Representatives</watchlistName>
+                                                <watchlistDescription>Australia National Parliament House of Representatives</watchlistDescription>
+                                                <pepClass>pep-class-1</pepClass>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Country</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Place of Birth</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Place of Birth Text</name>
+                                                        <value>Sydney, Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Chamber</name>
+                                                        <value>Australia National Parliament House of Representatives</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Institution Type</name>
+                                                        <value>National Legislature Lower House</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Other Info</name>
+                                                        <value>Prime Minister</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/6Z3GCv24zsDnZ3xhOh0IQsO8D?domain=aph.gov.au</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Date of Birth</name>
+                                                        <value>1963-02-03</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Member of the National Legislature</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/ROLlCwp4ATDEnWKhOiJIJ4pyK?domain=aph.gov.au</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Party</name>
+                                                        <value>Australian Labor Party</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Region</name>
+                                                        <value>Grayndler, New South Wales</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>PEP</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/5tMiCxk4BF25j3kI1sBIy19Pu?domain=pmc.gov.au</watchlistUrl>
+                                                <watchlistName>Australia Department of the Prime Minister and Cabinet Officials</watchlistName>
+                                                <watchlistDescription>Australia Department of the Prime Minister and Cabinet Officials</watchlistDescription>
+                                                <pepClass>pep-class-1</pepClass>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Country</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Original Country Text</name>
+                                                        <value>Australia</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Chamber</name>
+                                                        <value>Department of the Prime Minister and Cabinet</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Function</name>
+                                                        <value>Prime Minister</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Institution Type</name>
+                                                        <value>Ministry</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Locationurl</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/O0EXCyPgDslP3RZT2tkIxnD-Y?domain=pm.gov.au/</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Political Position</name>
+                                                        <value>Senior Government Official</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>Picture URL</name>
+                                                        <value>https://url.uk.m.mimecastprotect.com/s/3Ru2CzpjET0YzA6IjumI92-sn?domain=ministers.pmc.gov.au</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/rXWfCADk2FvK5z4IxC8IGygpU?domain=couriermail.com.au</watchlistUrl>
+                                                <watchlistName>'Blood on hands': Albo centre of protest fury</watchlistName>
+                                                <watchlistDescription>'Blood on hands': Albo centre of protest fury</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>PROTESTERS In speeches made earlier in the day, Anthony Albanese was accused of being &quot;complicit in the continued genocide&quot; of Palestinians in Gaza. First Nations activist Lizzie Jarrett addressed thousands of pro-Palestine protesters in Sydney's Hyde Park, comparing Israel's military action against Islamist group Hamas to the plight of Indigenous Australians.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-10-06T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/_ivwCBB02FgXNOjCxFDI2NBp3?domain=theguardian.com</watchlistUrl>
+                                                <watchlistName>Albanese says Dutton thinks politics is 'all about testosterone' as character attacks escalate | Australian foreign policy | The Guardian</watchlistName>
+                                                <watchlistDescription>Albanese says Dutton thinks politics is 'all about testosterone' as character attacks escalate | Australian foreign policy | The Guardian</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>&quot;I just think every reasonable Australian at the moment is looking to their prime minister for leadership and what they're seeing is weakness,&quot; Dutton said. He accused Albanese and the government of failing to appropriately condemn Hezbollah, a designated terrorist organisation, for its attacks on Israel, and said Australia should help provide &quot;support and stability&quot; on Israel's northern border with Lebanon. &quot;It seems to me that the prime minister and Penny Wong at the moment are making decisions that are of political benefit to them domestically, which are not in our national interest,&quot; Dutton said.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-10-02T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/u7zOCDkn2FRLZkqsrHQIjS51s?domain=dailymail.co.uk</watchlistUrl>
+                                                <watchlistName>Anthony Albanese answers the election question on everyone's mind - as his insane spending on advertising emerges | Daily Mail Online</watchlistName>
+                                                <watchlistDescription>Anthony Albanese answers the election question on everyone's mind - as his insane spending on advertising emerges | Daily Mail Online</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>It wasn't successful, and I think that was disappointing,' Mr Albanese said. It comes as the Albanese government is accused of spending hundreds of millions of dollars on taxpayer-funded advertising campaigns. A total of $172million will be spent on peddling an array of government initiatives across a range of portfolios as Australians battle a cost of living crisis.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-05-21T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/fSNACERo2uQ8jNLf7IkI7gxTj?domain=jonesborosun.com</watchlistUrl>
+                                                <watchlistName>Australian prime minister defends himself from an accusation that he asked for free flight upgrades | World | https://url.uk.m.mimecastprotect.com/s/d4cSCG6q2sVN9QkFzSWIBtc-a?domain=jonesborosun.com</watchlistName>
+                                                <watchlistDescription>Australian prime minister defends himself from an accusation that he asked for free flight upgrades | World | https://url.uk.m.mimecastprotect.com/s/d4cSCG6q2sVN9QkFzSWIBtc-a?domain=jonesborosun.com</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Australian Prime Minister Anthony Albanese on Tuesday said he had always &quot;acted in a transparent and appropriate way&quot; after a new book claimed that he had repeatedly requested free upgrades for personal flights on Qantas Airways. Albanese, who was transport minister in a previous government, was accused in a book released Monday of developing an inappropriately close relationship with Alan Joyce, who was Qantas chief executive for 15 years until 2023. Qantas is Australia's largest airline and was state-owned until the 1990s.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-10-29T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/yJm9CJ6w2s7WoDZilTBIyHXra?domain=newcastleherald.com.au/</watchlistUrl>
+                                                <watchlistName>Gang and drug problems on the rise in Tonga | Newcastle Herald | Newcastle, NSW</watchlistName>
+                                                <watchlistDescription>Gang and drug problems on the rise in Tonga | Newcastle Herald | Newcastle, NSW</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Tonga is hosting the Pacific Islands Forum (PIF) Leaders Meeting this week, the region's biggest summit. Days before leaders including Anthony Albanese land in Nuku'alofa, Tongan police arrested 17 people as part of an international investigation into the drug trade. &quot;There's been a clear intent for the Comancheros to expand their reach and in so doing to start up a chapter, a standalone chapter of the Comancheros in Tonga,&quot; Tonga Police Commissioner Shane McLennan told TVNZ.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-08-24T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/SYuCCKrx2TjykGOiBUNI5kWyp?domain=dailymail.co.uk</watchlistUrl>
+                                                <watchlistName>Generational war erupts over Australia Day: Baby boomer issues scathing message to Aussies who oppose January 26 - as Gen Z woman pushes 'change the date' and cuts off her mates who voted No to the V</watchlistName>
+                                                <watchlistDescription>Generational war erupts over Australia Day: Baby boomer issues scathing message to Aussies who oppose January 26 - as Gen Z woman pushes 'change the date' and cuts off her mates who voted No to the V</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Then, over 80 councils across the country decided not to hold citizenship ceremonies on January 26 this year because of perceived negative connotations, with one councillor even blaming the heat. Anthony Albanse was accused of a 'cop-out' in burdening council's with the politically-sensitive decision after his government scrapped a rule forcing councils to hold Australia Day citizenship ceremonies. And then this week the fall-out reached corporate Australia when the Woolworths Group, which owns both Woolies and Big W, announced it would not be stocking Australia Day merchandise, blaming a 'gradual decline in demand'.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-01-14T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/-Hh5CL9y2TJD2ZKTwcmIyavwp?domain=br.de</watchlistUrl>
+                                                <watchlistName>Julian Assange als freier Mann zurück in Australien | BR24</watchlistName>
+                                                <watchlistDescription>Julian Assange als freier Mann zurück in Australien | BR24</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>&quot;Ich bitte Sie, geben Sie uns Raum, geben Sie uns Privatsphäre, damit wir unseren Platz finden, lassen Sie unsere Familie eine Familie sein, bevor er zu einem Zeitpunkt seiner Wahl wieder sprechen kann.&quot; Über die australische Menschenrechtsanwältin Jennifer Robinson dankte Assange insbesondere dem australischen Regierungschef Anthony Albanese dafür, ihm das &quot;Leben gerettet&quot; zu haben. Gleich nach seiner Landung habe der Wikileaks-Gründer mit dem australischen Regierungschef telefoniert, so Robinson.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-06-26T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/c9oGCM8z2TQyYAXfBfrI8eaT2?domain=valor.globo.com</watchlistUrl>
+                                                <watchlistName>Medibank Private: importância do compliance digital | Legislação | Valor Econômico</watchlistName>
+                                                <watchlistDescription>Medibank Private: importância do compliance digital | Legislação | Valor Econômico</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Medibank Private. Consolidada no mercado concorrencial e com forte atuação em seguro privado de saúde, a empresa australiana anunciou a invasão de hackers em suas plataformas e confirmou o vazamento dos dados sensíveis de mais de 9,7 milhões de clientes (atuais e antigos), incluindo o primeiro-ministro Anthony Albanase, em fóruns ocultos na internet conhecido como &quot;Darknet&quot; -</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2022-12-19T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/xN44CNkA2F2qpG7ImNhBIyIgmU?domain=theage.com.au</watchlistUrl>
+                                                <watchlistName>Political insults: Australian politicians are terrible at them</watchlistName>
+                                                <watchlistDescription>Political insults: Australian politicians are terrible at them</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>&quot;Only the most wicked and cynical of individuals would foist such a blight on an earnest community like Australia,&quot; he added. And lest anybody think Dutton himself was above a spot of casual mudslinging, he also spent the weekend accusing Prime Minister Anthony Albanese of being a fraud, an appeaser and a &quot;child in a man's body&quot;, after the latter promised to pull rank on premiers opposed to the construction of nuclear power plants in their state. As anyone who has accidentally tuned into question time will attest, there is no point lamenting the glory days of politics, when Keating was at the peak of his oratory powers, describing then opposition leader John Hewson as &quot;a shiver looking for a spine to run up&quot;, whilst Peter Costello was &quot;all tip and no iceberg&quot;.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-06-24T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/LNeUCOYB2c6LkynTEEiPIGwAC0?domain=news.com.au</watchlistUrl>
+                                                <watchlistName>Senator Lidia Thorpe Accuses Police Of Failing To Protect Her 06/10/23 | https://url.uk.m.mimecastprotect.com/s/ygM-CPND9u71nkWiz0sjIxNKYh?domain=news.com.au — Australia's leading news site</watchlistName>
+                                                <watchlistDescription>Senator Lidia Thorpe Accuses Police Of Failing To Protect Her 06/10/23 | https://url.uk.m.mimecastprotect.com/s/ygM-CPND9u71nkWiz0sjIxNKYh?domain=news.com.au — Australia's leading news site</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Senator Lidia Thorpe Accuses Police Of Failing To Protect Her 06/10/23 Senator Lidia Thorpe has accused Prime Minister Anthony Albanese and police of failing to protect her, the man who attempted to assassinate Queen Elizabeth II in 2021 has been sentenced to 9 years in prison for treason, three people have been punished for hurling abuse at the Australian men's cricket team during this year's Ashes Test at Lord's,Matildas star Hayley Raso has made history at new club Real Madrid,Julia Ormond is suing disgraced film producer Harvey Weinstein for sexual battery.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2023-10-05T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/Qz4wCQWE2U51LyOtxMt5IGL0iA?domain=theage.com.au</watchlistUrl>
+                                                <watchlistName>Thousands of union members join CFMEU rally in Sydney</watchlistName>
+                                                <watchlistDescription>Thousands of union members join CFMEU rally in Sydney</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>The scandal-plagued CFMEU has vowed to fight Commonwealth legislation which sacked the union's leadership and appointed an administrator, as an estimated 8000-strong protest descended on the heart of Sydney's CBD to denounce the federal and state Labor governments. Hours after his lawyers appeared for him in court over allegations of corruption, former CFMEU NSW branch secretary Darren Greenfield delivered a broadside against Prime Minister Anthony Albanese, Australian Council of Trade Unions president Michele O'Neil and secretary Sally McManus, calling them traitors who were selling the militant union out. Macquarie Street in Sydney's CBD ground to a standstill on Tuesday morning as workers clad in high-vis and brandishing union paraphernalia poured in.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-08-27T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/yP-ICR6G0sADXzEC9OugI1lmbU?domain=dailymail.co.uk</watchlistUrl>
+                                                <watchlistName>Two key words Cricket Australia will refuse to say on January 26 during the second Test against the West Indies | Daily Mail Online</watchlistName>
+                                                <watchlistDescription>Two key words Cricket Australia will refuse to say on January 26 during the second Test against the West Indies | Daily Mail Online</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Then, over 80 councils across the country decided not to hold citizenship ceremonies on January 26 this year because of perceived negative connotations, with one councillor even blaming the heat. Anthony Albanse was accused of a 'cop-out' in burdening council's with the politically-sensitive decision after his government scrapped a rule forcing councils to hold Australia Day citizenship ceremonies. And then in early January the fall-out reached corporate Australia when the Woolworths Group, which owns both Woolies and Big W, announced it would not be stocking Australia Day merchandise, blaming a 'gradual decline in demand'.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-01-21T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/MilbCVOMkhDn8R3hGQClIE4082?domain=de.euronews.com</watchlistUrl>
+                                                <watchlistName>WikiLeaks-Gründer Assange ist frei: Anwältin warnt vor &quot;gefährlichem Präzedenzfall&quot; | Euronews</watchlistName>
+                                                <watchlistDescription>WikiLeaks-Gründer Assange ist frei: Anwältin warnt vor &quot;gefährlichem Präzedenzfall&quot; | Euronews</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Dies schafft einen gefährlichen Präzedenzfall&quot;, warnte Robinson. Der australische Ministerpräsident Anthony Albanese begrüßte Assanges Freilassung. &quot;Unabhängig von Ihren Meinungen zu seinen Aktivitäten, die sicher unterschiedlich ausfallen, hat sich der Fall von Herrn Assange zu lange hingezogen.</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2024-06-26T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                        </listOfDetailedCheckResults>
+                                    </profileMatch>
+                                    <profileMatch>
+                                        <personName>Tony Albanese</personName>
+                                        <personMatchType>[&quot;equivalent_aka&quot;]</personMatchType>
+                                        <personWatchlistStatus>MATCH_REVIEW_REQUIRED</personWatchlistStatus>
+                                        <personMatchSummary>
+                                            <associatesCount>0</associatesCount>
+                                            <sanctionsCount>0</sanctionsCount>
+                                            <warningsAndOtherListsCount>0</warningsAndOtherListsCount>
+                                            <PEPCount>0</PEPCount>
+                                            <adverseMediaCount>2</adverseMediaCount>
+                                        </personMatchSummary>
+                                        <listOfAlternateNames>
+                                            <name>Tony Albanese</name>
+                                        </listOfAlternateNames>
+                                        <listOfDetailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/cQEACW6NlsAL8WOC6pF3IocYFx?domain=reviewjournal.com/</watchlistUrl>
+                                                <watchlistName>Topless club mogul Jack Galardi dead at 81 | Las Vegas Review-Journal</watchlistName>
+                                                <watchlistDescription>Topless club mogul Jack Galardi dead at 81 | Las Vegas Review-Journal</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Galardi took over as the owner of the Crazy Horse on Paradise Road after the violent death of the club's previous owner, Tony Albanese, in May 1981. Authorities thought Albanese had ties to the Bonanno crime family, and his slaying was unrelated to the Crazy Horse. Teri Galardi said her father was &quot;not mafia-connected in any way.&quot;</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2012-12-04T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                            <detailedCheckResults>
+                                                <watchlistCategory>AdverseMedia</watchlistCategory>
+                                                <watchlistUrl>https://url.uk.m.mimecastprotect.com/s/OY2PCXDO0FxPZz2C67H2IWTfTM?domain=syracuse.com</watchlistUrl>
+                                                <watchlistName>Vito's Ristorante to open in former Rico's in East Syracuse - https://url.uk.m.mimecastprotect.com/s/wjgxCYEPnhzWX4MU0jhqIxKUEN?domain=syracuse.com</watchlistName>
+                                                <watchlistDescription>Vito's Ristorante to open in former Rico's in East Syracuse - https://url.uk.m.mimecastprotect.com/s/wjgxCYEPnhzWX4MU0jhqIxKUEN?domain=syracuse.com</watchlistDescription>
+                                                <listOfMatchDataItems>
+                                                    <matchDataItems>
+                                                        <name>snippet</name>
+                                                        <value>Nothing at Tony 's, a family restaurant on Burnet Avenue, will change, Albanese said. It will still be open for breakfast, lunch and dinner, with Tony Albanese in charge. Vito 's will be much like Rico 's</value>
+                                                    </matchDataItems>
+                                                    <matchDataItems>
+                                                        <name>publishing_date</name>
+                                                        <value>2019-01-04T00:00:00Z</value>
+                                                    </matchDataItems>
+                                                </listOfMatchDataItems>
+                                            </detailedCheckResults>
+                                        </listOfDetailedCheckResults>
+                                    </profileMatch>
+                                </watchlistCheckDetails>
+                            </ns2:getWatchlistResultResponse>
+                        </env:Body>
+                    </env:Envelope>
+        "500":
+          description: Server error
+          content:
+            application/xml:
+              schema:
+                type: string
+              examples:
+                AccountIdMissing:
+                  summary: accountId is missing
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>FieldValidationFault</faultcode>
+                          <faultstring>accountID is missing</faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                VerificationIdMissing:
+                  summary: verificationId is missing
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>FieldValidationFault</faultcode>
+                          <faultstring>verificationId is missing</faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                VerificationIdNotFound:
+                  summary: verificationId is not found
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>VerificationIdNotFoundFault</faultcode>
+                          <faultstring></faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                InvalidPassword:
+                  summary: Invalid password or invalid accountId
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>InvalidPasswordFault</faultcode>
+                          <faultstring></faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                InvalidPageSize:
+                  summary: Invalid page size
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>FieldValidationFault</faultcode>
+                          <faultstring>Invalid page size</faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                InvalidPageNumber:
+                  summary: Invalid page number
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>FieldValidationFault</faultcode>
+                          <faultstring>Invalid page number</faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                PageNumberDoesNotExist:
+                  summary: Page number does not exist
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>FieldValidationFault</faultcode>
+                          <faultstring>An unexpected problem occurred. Invalid page number.</faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                InvalidCertificate:
+                  summary: Invalid certificates (when certificates are used)
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>InvalidCertificateFault</faultcode>
+                          <faultstring></faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                InvalidIPAddress:
+                  summary: Invalid Source IP Address
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>InvalidIPAddressFault</faultcode>
+                          <faultstring>IP address</faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+                SystemException:
+                  summary: System exception
+                  value: |
+                    <Envelope xmlns="https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/">
+                      <Body>
+                        <Fault>
+                          <faultcode>SystemFault</faultcode>
+                          <faultstring>Details will vary based on exception type.</faultstring>
+                        </Fault>
+                      </Body>
+                    </Envelope>
+components:
+  schemas:
+    EnvelopeGetWatchlistResultRequest:
+      type: object
+      xml:
+        name: Envelope
+        namespace: "https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/"
+        prefix: soapenv
+      properties:
+        Body:
+          type: object
+          xml:
+            name: Body
+          properties:
+            getWatchlistResult:
+              type: object
+              xml:
+                name: getWatchlistResult
+                namespace: "https://url.uk.m.mimecastprotect.com/s/-CJsCW6NlsAL8WOCpu3IouhG-?domain=watchlist.services.registrations.edentiti.com/"
+                prefix: wl
+              properties:
+                accountId:
+                  type: string
+                  description: |
+                    Unique identifier issued by greenID for each customer.
+                password:
+                  type: string
+                  description: |
+                    Password issued to the customer for API access.
+                verificationId:
+                  type: string
+                  description: |
+                    A valid verification ID that has been previously registered.
+                pageNumber:
+                  type: string
+                  description: |
+                    Positive integer for pagination. Default is 1.
+                pageSize:
+                  type: string
+                  description: |
+                    Positive integer for results per page. Default is 25, maximum is 100.
+              required:
+                - accountId
+                - password
+                - verificationId
+    Fault:
+      type: object
+      xml:
+        name: Fault
+        namespace: "https://url.uk.m.mimecastprotect.com/s/agp8CVOMkhDn8R3hQtlIEKu2M?domain=schemas.xmlsoap.org/"
+      properties:
+        faultcode:
+          type: string
+          description: |
+            The fault code that identifies the fault.
+        faultstring:
+          type: string
+          description: |
+            A human-readable explanation of the fault.

@@ -1,0 +1,33 @@
+---
+id: terminology
+title: Terminology
+sidebar_position: 2
+---
+
+# Terminology
+
+Terms you may need to be familiar with when using greenID Web
+
+## Verification Tokens
+
+When a verification session is initiated, a unique verification token is fetched from greenID, and is used to identify that session.
+
+When the verification session is complete or abandoned, the verification token is appended to the form as a hidden HTML input field.  The token is also passed to javascript callbacks, if they are implemented.
+
+In order to call the SOAP or RESTful Web Service to securely query the outcome of the verification process, the web service password is required; note this is not the same as the verification token.
+
+A verification token is a SHA-1 hash, and so will always be 40 alphanumeric characters long, with no special characters.  For example:
+
+```
+4a1f2fb3f26a5bf16263901b3238b98e734a2c7f
+```
+
+## Verification IDs
+
+When an individual is registered with greenID, the verification attempt is assigned a unique identifier, referred to below as the verificationId.  This verificationId is required whenever a call is made to any of the greenID web services.  greenID Web will track the verificationId for the verification session, and it is passed to the customer’s page via a callback (see [Callbacks](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/359204260/Callbacks)).  The verificationId should be stored.
+
+## Sessions and Timeouts
+
+As mentioned above, unique tokens are used to identify verification sessions, and these tokens expire 30 minutes after the last activity seen from the session.  Put another way, if a person with a current verification session has a period of inactivity greater than 30 minutes, then the next action they take will fail with a timeout error.
+
+If a timeout is encountered, then the verification process may be re-started, as per the returning person scenario.

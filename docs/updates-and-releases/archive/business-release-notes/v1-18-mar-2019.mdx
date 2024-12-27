@@ -1,0 +1,48 @@
+---
+id: v1-8-mar-2019
+title: V 1.18 March 2019
+sidebar_position: 6
+---
+
+# V 1.18 March 2019
+
+## Release Dates
+
+**Test**: Feb 19, 2019
+
+**Production**: March 5, 2019
+
+## Major updates in this release
+
+### Ability to input a business number when manually creating a business
+
+This release provides the ability to specify a business number when creating a business via manual entry (i.e. when the business is not available for retrieval from a business register). An example of when this may be used, is when manually adding a foreign company (i.e. non Australia / New Zealand company). In this case, you may wish to record a business number for the company even though it cannot be searched for on a business register. It should be noted that only a single business number can be captured, and it will be recorded with a generic type of 'business number'. This feature is available both when adding a new verification, and when adding a sub-business (such as a shareholder that is a business) to a verification.
+
+It is now also possible to specify a single business number when requesting the creation of a manual entry business via the greenID Business API.
+
+The following screenshot shows the capture of a manual business now includes business number:
+
+![](/img/image1-18.webp)
+
+This screenshot shows that the manual business created includes the business number:
+
+![](/img/image2-18.webp)
+
+As a result of the change to be able to capture a business number when manually adding a business, the wording on the screen for choosing the method of creating a New Zealand business has been amended. (This change was required since previous wording referred to 'has a business number' and 'does not have a business number' which would now be misleading). The new wording is as follows:
+
+![](/img/image3-18.webp)
+
+## Other features and updates
+
+The following outlines the minor updates delivered in this release:
+
+| **Business Verification**      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Functionality Improvements** | Validation is now performed to ensure only numeric values can be entered into relationship fields which should be numeric - for example number of shares, ownership percentage, shareholding id.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| **Errors and Bug Fixes**       | Minor issues with the changes made to the shareholder display in v1.17 have been remediated. These include ensuring the values in the tooltips on certain shareholder fields update immediately if the shareholder details are edited, ensuring the tooltip pointer does not hide any of the tooltip text, ensuring the shareholding id does not display 'undefined' if no value is provided for manually added shareholders. The API call to create a business 'manually' (i.e. by providing details of the business rather than by searching for it on a register) was failing. This has been remediated and the fix included into v1.17.Minor issues with the creation of manual businesses via the API have been corrected - the country name is now populated as well as the country code, and a country code of either 'UK' or 'GB' are translated as 'United Kingdom'. |
+
+## Constraints and Known Issues
+
+No new constraints or known issues.
+
+Existing constraints and known issues can be found on the [Constraints and Known Issues page](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues)

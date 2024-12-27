@@ -1,0 +1,356 @@
+openapi: 3.0.0
+info:
+  title: Verification Result 
+  description: |
+    # Overview
+    ### Use the RESTful web service to retrieve the result of a verification attempt from greenID
+
+    After the verification session is complete, it is highly recommended that you make a call from your application to greenID to retrieve the result of the verification attempt.
+
+    The `overallState` value returned to any of the callback functions (from greenID web) should not be trusted as the authoritative source of truth because they are just JavaScript functions, and third-party JavaScript could call those same functions with any values.
+
+    **Note**: This is a high-level result only and does not provide details on individual sources. If this is required, please use the SOAP `/getVerificationResult` API.
+    # Environments
+    ### Test:
+    https://simpleui-test-au.vixverify.com
+    ### Prod:
+    https://simpleui-au.vixverify.com
+
+  version: "1.0.0"
+servers:
+  - url: https://simpleui-test-au.vixverify.com/
+    description: Test Environment
+  - url: https://simpleui-au.vixverify.com/
+    description: Production Environment
+paths:
+  /df/verificationResult:
+    get:
+      summary: Retrieve Verification Result
+      description: |
+        ## Making the Request
+
+        The simplest way to query the outcome is to use the RESTful web service provided by greenID. The web service can be invoked by performing an HTTP GET against the base URL being used plus `/df/verificationResult` with the following query parameters:
+    
+        - `accountid` – the customer’s greenID account ID. Issued by greenID.
+        - `webServicePassword` – the customer’s web service password. Note that this is not the same as the `apiCode`.
+        - `verificationToken` – identifies which verification session to fetch the result for. Must be current, within 30 minutes of verification session.
+        - `verificationid` – if the `verificationToken` for a user has expired and the `verificationid` is known, then this can be used to identify the user to fetch the result for.
+    
+        Only one of the `verificationToken` or `verificationid` is required; if both are provided, then `verificationid` is used.
+        ### Example Request
+        ```bash
+        curl --location --globoff 'https://simpleui-test-au.vixverify.com/df/verificationResult?accountId={{your-accountId}}&webServicePassword={{your-web-service-password}}&verificationToken={{verificationToken}}'
+        ```
+        ### Ways to Obtain `verificationToken`:
+    
+        1. From the form that was submitted when the verification session completed. When the form is finally allowed to submit, greenID Web will add a hidden input field called `verificationToken` to the form.
+        2. When the `sessionCompleteCallback` function is invoked, the `verificationToken` is passed as a parameter.
+        3. If `verificationid` is known, you can make a call to `getVerificationToken`.
+    
+        ## Fields Returned
+    
+        The web service will return a JSON fragment with all the details of the person and the overall status of the verification attempt. The following fields are returned:
+    
+        - `error` – indicates if an error was encountered; normally this will be `false`.
+        - `errorMessage` – contains an error message if the `error` element is `true`. If there was no error, then this element will be absent from the JSON fragment.
+        - `verificationResult` – the overall state of the verification attempt.
+        - `verificationId` – the unique identifier for this verification attempt (note that this is different from the `verificationToken`, which identifies a single session related to the verification attempt).
+        - `verificationToken` – an echo of the `verificationToken` passed to the web service.
+        - `givenName` – the given name that was registered. This field may be blank.
+        - `middleNames` – the middle names that were registered. This field may be blank.
+        - `surname` – the surname that was registered.
+        - `email` – the email that was registered. This field may be blank.
+        - `dob` – the date of birth that was registered.
+        - `homePhone` – the home phone number that was registered. This field may be blank.
+        - `workPhone` – the work phone number that was registered. This field may be blank.
+        - `mobilePhone` – the mobile phone number that was registered. This field may be blank.
+        - `flatNumber` – the flat number that was registered. This field may be blank.
+        - `streetNumber` – the street number that was registered. This field may be blank.
+        - `streetName` – the street name that was registered. This field may be blank.
+        - `streetType` – the street type that was registered. This field may be blank.
+        - `suburb` – the suburb that was registered. This field may be blank.
+        - `state` – the state that was registered. This field may be blank.
+        - `postcode` – the postcode that was registered. This field may be blank.
+        - `country` – the country that was registered. This field may be blank.
+    
+      operationId: getVerificationResult
+      parameters:
+        - in: query
+          name: accountid
+          schema:
+            type: string
+          required: true
+          description: |
+            GreenID issues each customer with an `accountid`, which is a unique identifier by which greenID knows the caller. This `accountid` must be supplied with every call to any method in this API.
+          example: "{{accountId}}"
+        - in: query
+          name: webServicePassword
+          schema:
+            type: string
+          required: true
+          description: |
+            Each customer is issued a password that must be supplied with every call to any web method in this API.
+          example: "{{webServicePassword}}"
+        - in: query
+          name: verificationToken
+          schema:
+            type: string
+          required: false
+          description: |
+            Identifies which verification session to fetch the result for. Must be current, within 30 minutes of verification session.
+          example: "{{verificationToken}}"
+        - in: query
+          name: verificationid
+          schema:
+            type: string
+          required: false
+          description: |
+            If the `verificationToken` for a user has expired and the `verificationid` is known, then this can be used to identify the user to fetch the result for.
+          example: "{{verificationId}}"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationResultResponse'
+              examples:
+                HappyPathVerificationToken200:
+                  $ref: '#/components/examples/HappyPathVerificationToken200'
+                HappyPathVerificationId200:
+                  $ref: '#/components/examples/HappyPathVerificationId200'
+                InvalidToken200:
+                  $ref: '#/components/examples/InvalidToken200'
+                InvalidPassword200:
+                  $ref: '#/components/examples/InvalidPassword200'
+                InvalidVerificationId200:
+                  $ref: '#/components/examples/InvalidVerificationId200'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AccountIdMissing400:
+                  $ref: '#/components/examples/AccountIdMissing400'
+                VerificationIdMissing400:
+                  $ref: '#/components/examples/VerificationIdMissing400'
+                VerificationIdNotFound400:
+                  $ref: '#/components/examples/VerificationIdNotFound400'
+                InvalidPassword400:
+                  $ref: '#/components/examples/InvalidPassword400'
+                InvalidPageSize400:
+                  $ref: '#/components/examples/InvalidPageSize400'
+                InvalidPageNumber400:
+                  $ref: '#/components/examples/InvalidPageNumber400'
+                PageNumberDoesNotExist400:
+                  $ref: '#/components/examples/PageNumberDoesNotExist400'
+                InvalidCertificate400:
+                  $ref: '#/components/examples/InvalidCertificate400'
+                InvalidIPAddress400:
+                  $ref: '#/components/examples/InvalidIPAddress400'
+                SystemException400:
+                  $ref: '#/components/examples/SystemException400'
+components:
+  schemas:
+    VerificationResultResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          description: Indicates if an error was encountered.
+        errorMessage:
+          type: string
+          nullable: true
+          description: Contains an error message if the `error` element is `true`.
+        verificationResult:
+          type: string
+          description: The overall state of the verification attempt.
+        verificationId:
+          type: string
+          description: The unique identifier for this verification attempt.
+        verificationToken:
+          type: string
+          description: An echo of the `verificationToken` passed to the web service.
+        givenName:
+          type: string
+          nullable: true
+          description: The given name that was registered. This field may be blank.
+        middleNames:
+          type: string
+          nullable: true
+          description: The middle names that were registered. This field may be blank.
+        surname:
+          type: string
+          description: The surname that was registered.
+        email:
+          type: string
+          nullable: true
+          description: The email that was registered. This field may be blank.
+        dob:
+          type: string
+          format: date
+          description: The date of birth that was registered.
+        homePhone:
+          type: string
+          nullable: true
+          description: The home phone number that was registered. This field may be blank.
+        workPhone:
+          type: string
+          nullable: true
+          description: The work phone number that was registered. This field may be blank.
+        mobilePhone:
+          type: string
+          nullable: true
+          description: The mobile phone number that was registered. This field may be blank.
+        flatNumber:
+          type: string
+          nullable: true
+          description: The flat number that was registered. This field may be blank.
+        streetNumber:
+          type: string
+          nullable: true
+          description: The street number that was registered. This field may be blank.
+        streetName:
+          type: string
+          nullable: true
+          description: The street name that was registered. This field may be blank.
+        streetType:
+          type: string
+          nullable: true
+          description: The street type that was registered. This field may be blank.
+        suburb:
+          type: string
+          nullable: true
+          description: The suburb that was registered. This field may be blank.
+        state:
+          type: string
+          nullable: true
+          description: The state that was registered. This field may be blank.
+        postcode:
+          type: string
+          nullable: true
+          description: The postcode that was registered. This field may be blank.
+        country:
+          type: string
+          nullable: true
+          description: The country that was registered. This field may be blank.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          description: Indicates if an error was encountered.
+        errorMessage:
+          type: string
+          description: Contains an error message if the `error` element is `true`.
+  examples:
+    HappyPathVerificationToken200:
+      summary: Happy Path verificationToken - 200 Response
+      value:
+        error: false
+        verificationResult: "VERIFIED"
+        verificationId: "L4XmKCHa"
+        verificationToken: "52cbc31f6618c4b70a6b5dd7df8e5975e95498f8"
+        givenName: "GBG"
+        middleNames: "TWOPASS"
+        surname: "Lastname"
+        email: ""
+        dob: "2000-01-01"
+        flatNumber: ""
+        streetNumber: "20"
+        streetName: "Bond"
+        streetType: "ST"
+        suburb: "Sydney"
+        state: "NSW"
+        postcode: "2000"
+        propertyName: ""
+        country: "AU"
+    HappyPathVerificationId200:
+      summary: Happy Path verificationid - 200 Response
+      value:
+        error: false
+        verificationResult: "VERIFIED"
+        verificationId: "L4XmKCHa"
+        givenName: "GBG"
+        middleNames: "TWOPASS"
+        surname: "Lastname"
+        email: ""
+        dob: "2000-01-01"
+        flatNumber: ""
+        streetNumber: "20"
+        streetName: "Bond"
+        streetType: "ST"
+        suburb: "Sydney"
+        state: "NSW"
+        postcode: "2000"
+        propertyName: ""
+        country: "AU"
+    InvalidToken200:
+      summary: Invalid Token - 200 Response
+      value:
+        error: true
+        errorMessage: "[env:Server] An unexpected problem occurred: Invalid token!"
+        verificationToken: "233d955711ec0ef8a97305c072e871a3c4fa5257"
+    InvalidPassword200:
+      summary: Invalid Password - 200 Response
+      value:
+        error: true
+        errorMessage: "[env:Server] Invalid Password for customer: {{accountId}}, or customerId does not exist"
+        verificationToken: "233d955711ec0ef8a97305c072e871a3c4fa5257"
+    InvalidVerificationId200:
+      summary: Invalid verificationID - 200 Response
+      value:
+        error: true
+        errorMessage: "[env:Server] An unexpected problem occurred: Verification ID not found"
+    AccountIdMissing400:
+      summary: accountid is missing
+      value:
+        error: true
+        errorMessage: "accountID is missing"
+    VerificationIdMissing400:
+      summary: verificationid is missing
+      value:
+        error: true
+        errorMessage: "verificationid is missing"
+    VerificationIdNotFound400:
+      summary: verificationid is not found
+      value:
+        error: true
+        errorMessage: ""
+    InvalidPassword400:
+      summary: Invalid password or invalid accountid
+      value:
+        error: true
+        errorMessage: ""
+    InvalidPageSize400:
+      summary: Invalid page size
+      value:
+        error: true
+        errorMessage: "Invalid page size"
+    InvalidPageNumber400:
+      summary: Invalid page number
+      value:
+        error: true
+        errorMessage: "Invalid page number"
+    PageNumberDoesNotExist400:
+      summary: Page number does not exist
+      value:
+        error: true
+        errorMessage: "An unexpected problem occurred. Invalid page number."
+    InvalidCertificate400:
+      summary: Invalid certificates (when certificates are used)
+      value:
+        error: true
+        errorMessage: ""
+    InvalidIPAddress400:
+      summary: Invalid Source IP Address
+      value:
+        error: true
+        errorMessage: "IP address"
+    SystemException400:
+      summary: System exception
+      value:
+        error: true
+        errorMessage: "Details will vary based on exception type."

@@ -1,0 +1,22 @@
+.features {
+  display: flex;
+  align-items: flex-start;
+  padding: 2rem 0;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.featureImageContainer {
+  width: 250px; /* Set a fixed width */
+  height: 250px; /* Set a fixed height for consistency */
+  display: flex;
+  align-items: center; /* Center the image vertically */
+  justify-content: center; /* Center the image horizontally */
+  margin: 0 auto 1rem auto; /* Center container and add space below image */
+}
+
+.featureSvg, .featureImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensure the image retains its aspect ratio */
+}

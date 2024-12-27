@@ -1,0 +1,47 @@
+---
+id: overview
+title: Overview - greenID API V3
+sidebar_position: 1
+---
+
+# Overview - greenID API V3
+
+:::note
+
+**API Versions**
+
+This documentation relates to Version 3, the current version of the greenID API. Version 3 became available to customers as of 03 Apr 2017.
+
+:::
+
+In order to start using the greenID API, there are several key requirements:
+
+1. A greenID account must be established.  This includes specifying the rules to be used, the data sources that will be available, and a range of other configuration options.
+
+2. Get the Web Service credentials.  These consist of an "account ID" and a Web Service password.  These must be obtained from greenID, and used in every Web Service call.
+
+3. Consume the WSDL (see [Web Service Endpoints](https://vixverify.atlassian.net/wiki/display/GREEN/Web+Service+Endpoints)), create client side artefacts and connect.  The greenID API requires that the client makes SNI ([Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication)) enabled requests, all modern clients will do this by default.
+
+GreenID offers two separate environments: test and production.  Customers start out in test, where they may carry out their development activities, performing as many test verifications as they like.  Once the customer is satisfied with their integration, their account can be activated in the production environment.  
+
+To help our customers get going, greenID provides a SoapUI project that will call the greenID API in the greenID test environment.  Customers are free to use this project to start making calls immediately, familiarising themselves with the API without having to write any code or set up any environments.
+
+To start using the project, simply open it in SoapUI, and replace the following placeholders:
+
+- YOUR\_ACCOUNT\_ID - replace this with the account ID you have obtained from greenID.
+
+- YOUR\_WEB\_SERVICE\_PASSWORD - replace this with the Web Service password you have obtained from greenID.
+
+- A\_VERIFICATION\_ID - replace this with the "userId" returned from the registerVerification Web Service method.  This field isn't required in order to register a verification, but it is required for subsequent calls for that verification attempt (see below).
+
+The SoapUI project is configured to allow customers to:
+
+- register verifications;
+
+- fetch a list of sources;
+
+- fetch a list of fields required for the NSW driver's licence and Australian Passport data sources; and
+
+- submit data to be checked against the NSW driver's licence data source and the Australian Passport data source.
+
+For details on the web service endpoints and sample SoapUI files, please refer to [Web Service Endpoints](https://vixverify.atlassian.net/wiki/display/GREEN/Web+Service+Endpoints).

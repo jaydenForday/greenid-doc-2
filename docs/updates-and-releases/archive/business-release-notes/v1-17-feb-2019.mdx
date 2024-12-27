@@ -1,0 +1,121 @@
+---
+id: v1-17-feb-2019
+title: V 1.17 Feb 2019
+sidebar_position: 5
+---
+
+# V 1.17 Feb 2019
+
+## Release Dates
+
+**Test**: Feb 5, 2019
+
+**Production**: Feb 19, 2019
+
+## Major updates in this release
+
+### Improved shareholder information
+
+This release sees a rework of the shareholder information displayed for companies. The way in which the information is presented has been improved, and additional details are now available.
+
+### For Australian businesses{#ReleaseNotes:greenIDBusinessv1.17-ForAustralianbusinesses}
+
+The following information is now available for shareholdings on **new verifications created via an ACN lookup:**
+
+- share class
+
+- number of shares (new)
+
+- % of class (now clearly labelled as such. Previously just a percentage was shown with no label)
+
+- beneficially held
+
+- % of total shares (new) - note: this is the % of total shares represented by the single shareholding only
+
+- number of shares in the share class (new - available via a tooltip)
+
+- number of shares in the business (new - available via a tooltip)
+
+- a clearer indication that the shareholding is a joint shareholding
+
+Please note that for pre-existing verifications the 'new' fields will not be available.
+
+Note too, that the calculation of the "verification not required" status for each sub-business will continue to be calculated based on the percentage of share class, as it always has been.  This may be changed in the future after consulting further with customers on their expectations here.
+
+The following screenshot is an example of the revised display for Australian businesses:
+
+![](/img/image1-17.webp)
+
+These screenshots show how tooltips are now used to provide even more complete information:
+
+![](/img/image2-17.webp)
+
+![](/img/image3-17.webp)
+
+This screenshot shows how AU joint shareholders are now more clearly visible as such:
+
+![](/img/image4-17.webp)
+
+### For New Zealand businesses{#ReleaseNotes:greenIDBusinessv1.17-ForNewZealandbusinesses}
+
+The following information is now available for shareholdings on **new verifications created via an NZBN Register lookup:**
+
+- number of shares (new)
+
+- % of total shares - note: this is the % of total shares represented by the single shareholding only
+
+- number of shares in the business (new - available via a tooltip)
+
+- a clearer indication that the shareholding is a joint shareholding
+
+Please note that for pre-existing verifications the 'new' fields will not be available.
+
+The following screenshot is an example of the revised display for NZ businesses:
+
+![](/img/image5-17.webp)
+
+This screenshot shows how tooltips are now used to provide even more complete information:
+
+![](/img/image6-17.webp)
+
+This screenshot shows how NZ joint shareholders are now more clearly visible as such:
+
+![](/img/image7-17.webp)
+
+### Points to note{#ReleaseNotes:greenIDBusinessv1.17-Pointstonote}
+
+**When manually adding a shareholder**
+
+When manually adding a shareholder, all the detail outlined above for each country can be captured, with the exception of these fields:
+
+- Total number of shares in class (relevant to Australian businesses only)
+
+- Total number of shares in the business
+
+Here's a screenshot of the new fields on the manual shareholder data capture screen (click it to view full-size):
+
+![](/img/image8-17.webp)
+
+**When editing a shareholder captured from an automatic lookup**
+
+If a shareholder captured from an automatic lookup is edited, then none of the data captured from the register can be changed.  However, any of the fields that were *not* automatically populated from the register can be completed.  This may be useful for business created before this change was made, as these fields will be available for completion.
+
+## Other features and updates
+
+The following outlines the minor updates delivered in this release:
+
+| **Business Verification**      |                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| **New Functionality**          | No other additional new functionality                                                                  |
+| **Functionality Improvements** | Validation is now performed to ensure only numeric values are entered for the share percentage fields. |
+| **Errors and Bug Fixes**       | No bug fixes implemented.                                                                              |
+
+## Constraints and Known Issues
+
+The following constraint was introduced in this release.
+
+| **Constraint**                      | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                           | **Workaround**                                      |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| **Data validation of share totals** | When manually entering shareholder details, we don't validate the integrity or accuracy of values entered for share percentages and number of shares. The onus is on the user to ensure accurate figures are entered. For example - we don't automatically validate that percentages added for share totals don't exceed 100%, or that number of shares across the shareholdings don't exceed the total number of shares in the business. | User must ensure that accurate figures are captured |
+
+Existing constraints and known issues can be found on the [Constraints and Known Issues page](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues)

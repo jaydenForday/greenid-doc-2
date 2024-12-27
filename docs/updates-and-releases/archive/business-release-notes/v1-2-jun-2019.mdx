@@ -1,0 +1,66 @@
+---
+id: v1-2-jun-2019
+title: V 1.2 Jun 2019
+sidebar_position: 8
+---
+
+# V 1.2 Jun 2019
+
+## Release Dates
+
+**Test**: June 11, 2019
+
+**Production**: June 25, 2019
+
+## Major updates in this release
+
+### User Confirmation of 'Verified'
+
+This release sees the introduction of an additional step in the business verification process for the user to confirm they have completed all activities they wish to carry out for the verification, prior to it being marked as 'verified'.
+
+### **Functionality prior to this release:**{#ReleaseNotes:greenIDBusinessv1.20-Functionalitypriortothisrelease:}
+
+Once the last 'task' within the system was completed, the business automatically changed to a status of 'verified'. However, there could be cases where the user needs to perform additional activities before they are happy that their business process requirements have been met, and that the business is indeed 'verified'. For example:
+
+- All beneficial owners may not have been identified if they are hidden within numerous small shareholdings defaulted to 'verification not required'
+
+- Additional documents may need to be uploaded 
+
+- For manual businesses, the minimum number of controllers and beneficiaries may have been added and verified, but there could still be more to add for the business in question.
+
+### **Functionality after this release:**{#ReleaseNotes:greenIDBusinessv1.20-Functionalityafterthisrelease:}
+
+Once the user completes the final system 'task', they will be presented with a pop-up **'Is verification complete?' modal** asking them to confirm they have completed all activity and that the business can be 'verified'. The 'Tell me more' link expands the text to provide examples of activities which may still be outstanding. A note can be captured to provide an explanation for the response (optional).
+
+![](/img/image1-20.webp)
+
+If the user responds **'Yes - mark this business "verified"'**, then the business is updated to 'Verified'. 
+
+![](/img/image2-20.webp)
+
+**A 'Revert' link** is displayed for the 'verified' business, and can be used to 'undo' the user's confirmation that they have completed all required activity and revert the business back to 'not yet verified'. When clicked, the user is asked to confirm the reversion, and a note can be captured to provide an explanation (optional).
+
+![](/img/image3-20.webp)
+
+If the user responds\*\* 'No - don't verify this business yet'\*\* from the **'Is verification complete'** modal, then the business remains as 'not yet verified', and a *'Mark as verified'* button is provided at the top of the page for use once they are complete. When this is clicked, the 'Is verification complete' modal is presented again for the user to provide the required confirmation.
+
+![](/img/image4-20.webp)
+
+The **'Mark as verified'** button will only be visible while there are no other outstanding tasks to complete. If the user performs an action which results in more tasks being created (e.g. uploads a document, adds a shareholder, changes a shareholder from 'verification not required' to 'requires verification'), then the button will disappear. Once all new tasks are completed, then the pop-up modal to confirm the business can be verified will automatically be presented again.
+
+**Audit Logs:** An audit log entry records the user's response to the new 'is verification complete' question as follows: 'Verification activity was indicated as complete/incomplete for root business \<business name>'
+
+## Other features and updates
+
+The following outlines the minor updates delivered in this release:
+
+| **Business Verification** |                                                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Presentation Changes**  | Minor wording changes on the screens for creating an Australian business via a lookup using an ACN, ARSN, or ARBN. |
+| **Errors and Bug Fixes**  | Corrected display issues encountered with IE11 browsers.                                                           |
+
+## Constraints and Known Issues
+
+No new constraints or issues were introduced in this release.
+
+Existing constraints and known issues can be found on the [Constraints and Known Issues page](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues)

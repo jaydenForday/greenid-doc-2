@@ -1,0 +1,56 @@
+---
+id: retrieving-verification
+title: Retrieving Verification State
+sidebar_position: 4
+---
+
+# Retrieving Verification State
+
+greenID has a web service method that returns the verification details for an individual. **getVerificationResult** can be called at any time after a person has been registered to return the current verification details for a person.
+
+Verification results are returned in a complex SOAP type called [**RichVerificationResult**](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-RichVerificationResult) this structure contains information about whether a person has completed their online verification, and if so, whether the verification was successful, and any changes to the original data supplied that were made during the verification process. 
+
+## getVerificationResult
+
+### Method Summary
+
+The getVerificationResult method is used by a client application to determine whether a given user has completed their verification process, and if so, what the outcome was. The original data as well as differences between the original data and the data that was actually verified are also included.
+
+### Method Signature
+
+| <p>`VerificationResult getVerificationResult( String customerId, `</p><p>`          String userId)`</p> |
+| ------------------------------------------------------------------------------------------------------- |
+
+### Parameters
+
+|                                |                               |                         |                                                                                                                                                                                                                                                                                       |
+| ------------------------------ | ----------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**                       | **Type**                      | **Required?**           | \*\*Description \*\*                                                                                                                                                                                                                                                                  |
+| <p>customerId</p><p> </p><p /> | <p>String</p><p>255 Chars</p> | <p>Yes</p><p> </p><p /> | <p>This parameter is GreenID's identifier for the client application. The value is supplied by GreenID, and must be included with each registration request.</p><p> </p><p />                                                                                                         |
+| <p>userId</p><p> </p><p />     | <p>String</p><p>255 Chars</p> | <p>Yes</p><p />         | <p>This parameter is an identifier that the client uses for the individual being verified. GreenID does not use it as an identifier, but in order to easily locate individual's for a particular client application, the userId is used. This must match a registered userId</p><p /> |
+
+### Return Value
+
+- [RichVerificationResult](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-RichVerificationResult)
+
+- [RichCheckResult](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-RichCheckResult)
+
+- [RichFieldResult](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-RichFieldResult)
+
+- [PostOfficeData](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-PostOfficeData)
+
+- [DetailRecordHeader](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-DetailRecordHeader)
+
+- [DocumentRecord](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880477/Data+Structures#DataStructures-DocumentRecord)
+
+#### Faults
+
+This method may raise a FaultDetails, inside which can be the following codes: 
+
+- InvalidCustomerIdFault
+
+- UserIdNotFoundFault
+
+- InvalidCertificateException
+
+- SystemFault

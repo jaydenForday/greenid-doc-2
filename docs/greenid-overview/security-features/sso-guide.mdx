@@ -1,0 +1,97 @@
+---
+id: sso-guide
+title: SSO Guide
+---
+
+# SSO Guide{#greenIDOverview-Summary}
+
+## **What is happening?**{#What-is-happening?}
+
+Single Sign On (SSO) is being added as an **optional** feature to access the **greenID Admin Panel**.
+
+***Note:** This feature is independent and does not impact your customer journey through greenID API or Web channel.*
+
+## **What do you need to do?**{#What-do-you-need-to-do?}
+
+If your company currently uses SSO and would like to extend this functionality to the greenID Admin Panel, **please get in touch with your GBG Account Executive/Manager**. **NOTE: This is not enabled automatically or by default.**
+
+To connect to the greenID Admin Panel SSO services you will need to provide the following: ​
+
+- Your SSO Client Organisation Name​
+
+- Your SSO Client ID​
+
+- Your SSO Client secret​
+
+- Your SSO discovery document URL (also referred to as a metadata endpoint)​
+
+- Your organisation domain(s) that require SSO login
+
+​This data will need to be encrypted and sent via a secure file transfer.
+
+## **SSO for greenID**{#SSO-for-greenID}
+
+Implementation of SSO can vary, for greenID we have focused on giving you control over your user account access, including:
+
+1. You control who can have access, and when that access is removed.
+
+2. You control your password rules & enforcement of security features including 2FA.
+
+## **How will the login process work if I am using SSO to login to greenID admin panel?**{#How-will-the-login-process-work-if-I-am-using-SSO-to-login-to-greenID-admin-panel?}
+
+**Prior to logging with SSO your organisation’s domains must be configured to use SSO for greenID admin panel login.**
+
+1. Select login with SSO.
+
+2. Enter your email address on the GBG login screen.
+
+3. Perform authentication checks (password, 2-FA etc.) with your organisation’s identity provider.
+
+4. Login to the greenID admin panel.
+
+
+
+![](/img/sso-login1.jfif)
+
+**1. Select login with SSO**
+
+
+
+![](/img/sso-login2.png)
+
+**2.Enter your email address on the GBG login screen.**\
+
+
+![](/img/enter-password.png)
+
+**3. Perform authentication checks (note: this is an example only and will vary for each customer)**
+
+![](/img/logged-in.png)
+
+**4. greenID Admin Panel Logged In**
+
+## **Important points to note**{#Important-points-to-note}
+
+- User accounts will need to be created and roles assigned within the greenID Admin Panel prior to first login via SSO.
+
+- SSO implementation is based on email domain,
+
+  - any user logging on with an SSO configured domain, must use SSO,
+
+  - email address must be used as login ID.
+
+- SSO logins will not fall-back to non-SSO logins if there is a technical problem, GBG Customer Support will be there to help if any issues arise.​
+
+- The SSO service is managed globally in accordance with GDPR. Login ID’s (user work email addresses) will be encrypted and transmitted to the UK​. For more information on our privacy approach please see [GBG Plc](https://www.gbgplc.com/en/legal-and-regulatory/privacy-approach/)
+
+- GBG support users will retain support account access.​
+
+## **When is it happening?**{#When-is-it-happening?}
+
+SSO will be available in Production on **Wednesday, 4th September 2024.**
+
+**Please contact your GBG Account Executive/Manager** is you are interested in connecting SSO.
+
+## **Will SSO impact your greenID API Integration?**{#Will-SSO-impact-your-greenID-API-Integration?}
+
+No. SSO is a security feature to access your greenID Administration Panel.

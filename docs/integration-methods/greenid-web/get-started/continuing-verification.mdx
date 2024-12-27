@@ -1,0 +1,43 @@
+---
+id: continuing-verification
+title: Continuing Verification
+sidebar_position: 2
+---
+
+# Continuing Verification
+
+###### Continuing the Verification of Previously Registered Individuals
+
+The same setup function as new users is called for the returning person scenario, but not all of the parameters are required
+
+## Javascript Function
+
+The same process as [Registering and Verifying New Individuals](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880338/Using+greenID+Web#UsinggreenIDWeb-RegisteringandVerifyingNewIndividuals) may be used for the returning person scenario, but there may not always be a natural point for a form submission to occur.  In this case, the form is not required, and simply calling a javascript function will trigger greenID Web.  
+
+## Javascript Setup 
+
+The same setup function  as [Registering and Verifying New Individuals](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880338/Using+greenID+Web#UsinggreenIDWeb-RegisteringandVerifyingNewIndividuals) is called for the returning person scenario, but not all of the parameters are required.  An example is below:
+
+| <p>`greenidUI.setup({`</p><p>`    environment: "test",`</p><p>`    frameId: "greenid-div",`</p><p>`    errorCallback: onError,`</p><p>`    sessionCompleteCallback: onSessionComplete,`</p><p>`    sourceAttemptCallback: onSourceAttempt,`</p><p>`    sessionCancelledCallback: onSessionCancel,`</p><p>`    preSubmitValidationCallback: myValidator`</p><p>`});`</p> |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+Note that the registerCallback parameter is not required, because no registration is performed.   Also, in this particular example, a form submit event is not used, therefore the formId parameter is not required.  Also, the country parameter is not required, since the verification attempt has already been registered, and the country has already been set.
+
+In this scenario, the callbacks are the mechanism by which control is returned to the customer.  When the session is complete or cancelled, then the callback will be invoked and greenID will perform no further actions.
+
+After the setup has been done, greenID Web can be invoked by calling the greenidUI.show function, as illustrated below:
+
+```
+greenidUI.show("sample-customer", "ABC-def-123-456", 
+"4a1f2fb3f26a5bf16263901b3238b98e734a2c7f");
+```
+
+The show function requires the following parameters:
+
+- The customer’s accountID, in this example it’s “sample-customer”.
+
+- The customer’s apiCode, in this example it’s “ABC-def-123-456”.
+
+- The verification token.  Because a verification attempt already exists, the customer must fetch a new verification token to give to the show function.  
+
+To get a verification token, a customer needs to call the getVerificationToken SOAP Web Service offered via the greenID API (there is a deprecated call 'getUserToken' which should no longer be used).

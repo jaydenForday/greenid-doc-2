@@ -1,0 +1,155 @@
+---
+id: background-checks-v2
+title: Background Checks V2
+sidebar_position: 8
+---
+
+# Background Checks V2
+
+:::note
+
+**API Versions**
+
+This documentation relates to an old version of the greenID API. [Version 2](https://vixverify.atlassian.net/wiki/display/GREEN/Version+2+greenID+API) was deprecated in October 2017. See [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API) for the current version.
+
+:::
+
+Background checks are those checks that are performed upon initial registration of a verification attempt, whether via the regular greenID web services, or the newer greenID API. Some of the checks are configured for the greenID account being used, but others, such as drivers licence checks, require additional data, but can still be run in background mode.
+
+Background checks must be enabled for your greenID account; please contact greenID to enable the background checks you wish to use.
+
+The types of checks that can be run in background mode are:
+
+- Some drivers licence checks (not all states).
+
+- Most DVS checks - driver's licences, passport, visa and Medicare.
+
+- illion Credit Header.
+
+The rest of this page discusses these types of checks, and what is required to cause them to be run upon registration.
+
+Common to all the checks is the requirement to pass additional data fields in the "extraData" or "optionalData" element of the web service method. The extraData or optionalData element contains a list of name-value pairs, and if the correct entries are present, then additional background checks will be performed.
+
+## Background DVS Checks
+
+There are four different kinds of DVS checks that can be performed in background mode:
+
+- Driver's licence checks (all states);
+
+- Medicare card checks;
+
+- Australian Passport checks; and
+
+- Visa checks.
+
+The sections below provide details on how to initiate each of these checks in background mode.
+
+### Background DVS Driver's Licence Checks
+
+To initiate a background DVS driver's licence check, the following fields must be passed in the extraData or optionalData element:
+
+- driversLicenceState - the driver's licence state; must be one of: ACT, NSW, NT, QLD, SA, TAS, VIC or WA. This field is required.
+
+- driversLicenceNumber - the driver's licence number, exactly as it appears on the licence. This field is required. This field must have the value as shown on the drivers licence.
+
+- driversCardNumber - the driver's licence card number, exactly as it appears on the licence. This field should only be passed if you have driver's licence card number enabled for your account. Please note that checking the drivers's licence card number is not supported by the DVS for all states at the moment, please contact your integration consultant for more information.
+
+The person's name details, as provided in the other parameters to the registration web service method, are used, so passing an additional name is not required.
+
+### Background DVS Medicare Card Checks
+
+To initiate a background DVS Medicare card check, the following fields must be passed in the extraData or optionalData element:
+
+- medicareCardNumber - the Medicare card number. This field is required. This field must have the value as shown on the Medicare card.
+
+- medicareIndividualReferenceNumber - the person's individual reference number on their Medicare card. This field is required. This field must have the value as shown on the Medicare card.
+
+- medicareCardExpiryDate - the Medicare card expiry date. The expected format for regular green Medicare cards is MM/YYYY, and for blue and yellow Medicare cards, the expected format is DD/MM/YY. This field is required. This field must have the value as shown on the Medicare card.
+
+- medicareCardColour - the colour of the Medicare card. For regular green Medicare cards, the expected value is "G". For blue Medicare cards, the expected value is "B", and for yellow Medicare cards, the expected value is "Y". This field is required.
+
+- medicareNameOnCard - the person's name as it appears on the Medicare card. This field is optional; if it is not provided, then the person's name details from the other parameters are used, and will be converted the usual Medicare format of given name followed by the first letter of the middle name(s) followed by the surname. This field must have the value as shown on the Medicare card.
+
+Medicare card can only be used as a background source if the name is on one line. Names that wrap across more than one line will not pass as a background check.
+
+### Background DVS Australian Passport Checks
+
+To initiate a background DVS Australian Passport check, the following fields must be passed in the extraData or optionalData element:
+
+- passportNumber - the Passport number. This field is required. This field must have the value as shown on the passport.
+
+The person's name details from the other parameters are used.
+
+### Background DVS Visa Checks
+
+To initiate a background DVS Visa check, the following fields must be passed in the extraData or optionalData element:
+
+- visaPassportNumber - the Passport number. This field is required. This field must have the value as shown on the passport.
+
+- visaCountryOfIssue - the country that issued the Passport - the 3 letter country code of the country that issued the passport, except Germany, which is denoted by the single character "D". This field is required. The list of valid country codes is attached to the [greenID API DVS Visa Data Source Reference](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880634/Australian+Data+Sources#AustralianDataSources-visadvs\(version1\)); please look at the attachment in this section to find the list. This field must have the value as shown on the passport.
+
+The person's name details from the other parameters are used.
+
+## illion Credit Header
+
+ If the illion Credit Header is configured for an account there are two ways it can be run in the background:
+
+1. The default setting is to run the Credit Header for all registrations. This can only be done when all people registered with greenID have given explicit approval for their details to be tested against the Credit header. This consent must be obtained by the customer.
+
+2. We can receive a flag via the extraData or optionalData element to indicate that the person has given explicit approval to be run against the Credit Header. Add an extraData or optionalData element with the name "dnb-credit-header-consent-given" with the value "true" to indicate that consent has been given. If you require this option, please contact us.
+
+### Background NZ Driver's Licence Checks
+
+To initiate a background NZ driver's licence check, the following fields must be passed in the extraData or optionalData element:
+
+- driversLicenceNumber - the driver's licence number, exactly as it appears on the licence.  This field is required.  This field must have the value as shown on the drivers licence.
+
+- driversLicenceVersion - the driver's licence version number, exactly as it appears on the licence.  This field is required.  This field must have the value as shown on the drivers licence.
+
+The person's name details, as provided in the other parameters to the registration web service method, are used, so passing an additional name is not required.
+
+### Background NZ Passport Checks
+
+To initiate a background NZ Passport check, the following fields must be passed in the extraData or optionalData element:
+
+- passportNumber - the passport number, exactly as it appears on the document.  This field is required.  This field must have the value as shown on the NZ issued passport.
+
+- passportExpiryDate - the expiry date, exactly as it appears on the document.  This field is required.  This field must have the value as shown on the NZ issued passport.
+
+The person's name details, as provided in the other parameters to the registration web service method, are used, so passing an additional name is not required.
+
+## Legacy Background Driver's Licence Checks (non-DVS)
+
+To perform background driver's license checks, greenID needs to know the driver's license information, which can be passed along with the rest of the information sent in registration web service call. The extra driver's licence information is passed in the list of name-value pairs in the "extraData" or "optionalData" field. The extra fields that can be passed are:
+
+- driversLicenceNumber
+
+- driversLicenceState
+
+- driversLicenceExpiryDate
+
+- driversLicenceRTANumber
+
+The first two fields, namely driversLicenceNumber and driversLicenceState are mandatory; if either or both are missing, then the check will not be performed. The driversLicenceExpiryDate field is optional for all states except Western Australian driver's licenses. The driversLicenceRTANumber field is mandatory for NSW drivers licence checks only.
+
+The driversLicenceNumber field is used directly for the check, it is not modified in any way, so it must be provided exactly as it appears on the licence.
+
+The driversLicenceState fields must be one of:
+
+- NSW
+
+- VIC
+
+- ACT
+
+- QLD
+
+- SA
+
+- WA
+
+Any other values are ignored; if a valid state is not present, then a driver's licence check will not be performed.
+
+The driversLicenceExpiryDate field is also used directly for the check, and is not modified in any way. It is expected that it will be a string of the form DD/MM/YYYY. If a valid date is not found, then none will be used, which may cause the check to fail.
+
+The result of the background driver's licence check will be returned in the standard [RichVerificationResult](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629484/Data+Structures+V2#DataStructuresV2-RichVerificationResult) element returned by the web service call (either the regular greenID web services, or the greenID API).

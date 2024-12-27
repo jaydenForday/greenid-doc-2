@@ -1,0 +1,61 @@
+---
+id: how-to-use-api-v2
+title: How to use API V2
+sidebar_position: 2
+---
+
+# How to use API V2
+
+:::note
+
+**API Versions**
+
+This documentation relates to an old version of the greenID API. [Version 2](https://vixverify.atlassian.net/wiki/display/GREEN/Version+2+greenID+API) was deprecated in October 2017. See [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API) for the current version.
+
+:::
+
+The API has four main methods:
+
+1. `registerVerification` - this method passes a person's details to greenID.  The person's details are registered with greenID, and background checks may be performed, according to the configuration of the caller's greenID account.  If the verification attempt succeeds, then the details are returned to the caller.  Otherwise a list of data sources that will help the verification attempt succeed is returned (this is the same list returned by the `getSources` method).
+
+2. `getSources` - this method returns a list of data sources that will help the person's verification attempt succeed.
+
+3. `getFields` - this method takes the name of a data source and returns the data fields that need to be collected from the person being verified in order to check their data against the particular data source.  This methods returns data entry fields in two ways:
+
+   1. a list of data requirements including associated labels, validation rules, etc.; and
+
+   2. an XHTML fragment that contains HTML FORM elements that, if displayed directly, will collect the required data.
+
+4. `setFields` - this method takes the data that was collected from the person being verified for a particular data source (see `getFields` above).  The data is checked against the data source and the verification attempt status is updated.  If the verification attempt has succeeded, then the details of the verification are returned.  If not, then the current verification status is returned, along with the same list of data sources that `getSources` would return (this saves the caller a subsequent call to `getSources`).
+
+Please refer to the examples below for some scenarios on how these methods can be strung together to take a person through the verification process.
+
+## Examples
+
+### Complete example
+
+The sequence of calls below illustrates a "full" scenario, where all of the Web Service methods are used.
+
+1. Call `registerVerification` with the person's basic details.  Some background sources may pass, but the person requires further verification.
+
+2. Call `getSources` to fetch a list of sources that will help the person become verified.  The person selects "Medicare card" as the next data source they wish to attempt.
+
+3. Call `getFields` for the "Medicare card" data source (source ID "medicare"), and present the person with input fields for the required data.
+
+4. Call `setFields` for the "Medicare card" data source with the data supplied by the person.  The result indicates the person requires further verification, and includes a list of sources that will help the person complete their verification.  The person selects "NSW drivers' licence" as the next data source they wish to attempt.
+
+5. Call `getFields` for the "NSW driver's licence" data source (source ID "nswrego"), and present the person with input fields for the required data.
+
+6. Call `setFields` for the "NSW driver's licence" data source with the data supplied by the person.  The result indicates the person has completed their verification, so the process ends here.
+
+### Streamlined example
+
+The sequence of calls below illustrates a streamlined scenario, where the customer decides which data sources are offered, and uses their prior knowledge of the required fields in order to collect data from the person.  The scenario is the same as the one above, but with some calls removed.
+
+ 
+
+1. Call `registerVerification` with the person's basic details.  Some background sources may pass, but the person requires further verification.
+
+2. Call `setFields` for the "Medicare card" data source with the data supplied by the person.  The result indicates the person requires further verification, and includes a list of sources that will help the person complete their verification.  The person selects "NSW drivers' licence" as the next data source they wish to attempt.
+
+3. Call `setFields` for the "NSW driver's licence" data source with the data supplied by the person.  The result indicates the person has completed their verification, so the process ends here.

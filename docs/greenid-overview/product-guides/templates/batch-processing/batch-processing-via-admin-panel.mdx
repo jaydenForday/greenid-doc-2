@@ -1,0 +1,89 @@
+---
+id: batch-processing-via-admin-panel
+title: Batch Processing via Admin Panel
+sidebar_position: 1
+---
+
+# Batch Processing via Admin Panel
+
+Administrators have the ability to process a small batch file (up to 20,000 records) via the greenID admin panel where you can upload a file containing the individuals Name and Address and DoB information to be checked against non consent data sources / watchlists and or against the Australian Death Check service.
+
+1. You can start the batch process by clicking on the IMPORTS menu, followed by IMPORT FILE.
+
+*(If the IMPORTS menu option is not available to you, please contact [customer.support@gbgplc.com](mailto\:customer.support@gbgplc.com) to enable this).*
+
+![](/img/import.png)
+
+2\. Next step is to upload the file.  We have several batch formats that can be uploaded and they can be downloaded from here:
+
+[AU\_greenID\_import\_template.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/AU_greenID_import_template.csv?version=1\&modificationDate=1583887942179\&cacheVersion=1\&api=v2)
+
+[AU\_greenID\_import\_template\_DVS\_drivers\_licence\_with\_card\_number.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/AU_greenID_import_template_DVS_drivers_licence_with_card_number.csv?version=1\&modificationDate=1627341846707\&cacheVersion=1\&api=v2)
+
+[AU\_greenID\_import\_template\_Australian\_death\_check.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/AU_greenID_import_template_Australian_death_check.csv?version=1\&modificationDate=1583887935003\&cacheVersion=1\&api=v2)
+
+[NZ\_greenID\_import\_template.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/NZ_greenID_import_template.csv?version=1\&modificationDate=1583887942399\&cacheVersion=1\&api=v2)
+
+[AU\_greenID\_import\_template\_split\_address.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/AU_greenID_import_template_split_address.csv?version=1\&modificationDate=1583887941953\&cacheVersion=1\&api=v2)
+
+[NZ\_greenID\_import\_template\_split\_address.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/NZ_greenID_import_template_split_address.csv?version=1\&modificationDate=1583887941716\&cacheVersion=1\&api=v2) 
+
+[GB\_greenID\_import\_template\_split\_address.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/GB_greenID_import_template_split_address.csv?version=1\&modificationDate=1583887938055\&cacheVersion=1\&api=v2)
+
+[batch\_upload\_sample\_watchlistonly.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/batch_upload_sample_watchlistonly.csv?version=1\&modificationDate=1583887938970\&cacheVersion=1\&api=v2)
+
+[batch\_upload\_sample\_watchlistonly\_country.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/batch_upload_sample_watchlistonly_country.csv?version=1\&modificationDate=1583887938759\&cacheVersion=1\&api=v2)
+
+[Single\_rule\_and\_address\_configured\_ADC.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/greenID_import_template_NO_ruleid_with_address_ADC.csv?version=1\&modificationDate=1583887934739\&cacheVersion=1\&api=v2)
+
+[Single\_rule\_and\_no\_address\_configured\_ADC.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/greenID_import_template_NO_ruleid_NO_address_ADC.csv?version=1\&modificationDate=1583887934509\&cacheVersion=1\&api=v2)
+
+[Multi\_rule\_and\_address\_configured\_ADC.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/greenID_import_template_with_ruleid_with_address_ADC.csv?version=1\&modificationDate=1583887934303\&cacheVersion=1\&api=v2)
+
+[Multi\_rule\_and\_no\_address\_configured\_ADC.csv](https://vixverify.atlassian.net/wiki/download/attachments/702808200/greenID_import_template_with_ruleid_NO_address_ADC.csv?version=1\&modificationDate=1583887934091\&cacheVersion=1\&api=v2)
+
+*It’s important that the template column headers are not modified as greenID has been programmed to look for these column names and process the file accordingly.*
+
+\<check links>
+
+- [Instructions: greenID\_import\_template](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/702808374/Instructions+greenID_import_template)
+
+- [Instructions: greenID\_import\_template\_split\_address](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/702808394/Instructions+greenID_import_template_split_address)
+
+- [Instructions: greenID\_import\_template\_with\_ruleid\_NO\_address\_ADC](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/702808422/Instructions+greenID_import_template_with_ruleid_NO_address_ADC)
+
+3\. Once the file is completed and ready to upload, please ensure that the file has a unique file name.
+
+![](/img/choose-file.png)
+
+
+
+4\. If you upload a file with a similar name as a previous file, greenID will show an alert to advise that a file with that name has already been imported eg below:
+
+![](/img/choose-file2.png)
+
+5\. Once you have selected the right file, click on the Import button.
+
+![](/img/choose-file3.png)
+
+6\. If the file has been imported correctly, you should see the number of records imported.  If you see a zero (0), that means that there was an error with your file and you should open and check to see if the format is correct and all columns are completed.
+
+![](/img/imported.png)
+
+7\. Once you are ready, click on “Start processing’ button to begin the batch process. Depending on the number of records, this may take some time.
+
+![](/img/3of3.png)
+
+8\. Once greenID has finished processing the file, you will see a completed message and also links to two options:
+
+1. **Download Summary** – clicking on this will open a summary page that requires further development work from our team and should be ignored for now.
+
+![](/img/completed.png)
+
+2\. **View imported files** – will display a page that shows all files uploaded to greenID and a summary showing how many were verified in accordance with the overall verification rule. Click on a File Summary for a summary of each verification for that specific batch.
+
+![](/img/uploaded.png)
+
+![](/img/xcel.png)
+
+9\. To export a report of the batch showing each record and what they matched on, you will need to go back to the main home screen and click on Show Filter and set the date period to the day you performed the back.  Once the results are populated you can then export the results to excel or CSV file format.

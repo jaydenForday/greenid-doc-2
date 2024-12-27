@@ -1,0 +1,44 @@
+---
+id: gbg-trust-alert-results
+title: GBG Trust Alert Results
+---
+
+# GBG Trust: Alert Results
+
+## **GBG Trust: Alert API Results (v5)**{#GBG-Trust:-Alert-API-Results-(v5)}
+
+[GBG Alert](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2278621351) results will appear in a separate ‘gbgAlert’ section on the API result including the rule name and description. Details of the results are available here: [Data Structures v5](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111363#DataStructuresV5-gbgAlertV5)
+
+## **API Examples (v5)**{#API-Examples-(v5)}
+
+![](/img/api-1.png)
+
+## **GBG Trust: Alert API Results (v1-v3)**{#GBG-Trust:-Alert-API-Results-(v1-v3)}
+
+[GBG Trust Alert](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2278621351) results will appear in a similar way to watchlist results where:
+
+- If no configured GBG Trust: Alert rules are raised, the result will be ‘NOT\_FOUND\_ON\_LIST’
+
+- If one or more configured GBG Trust: Alert rules are raised each rule will be listed with a ‘FOUND\_ON\_LIST’ result.
+
+- If a rule is triggered more than once, it will only be listed once.
+
+- If using the lockout functionality, an unlocked rules will not be displayed in the result but any new configured rules are raised after unlock, they will be displayed.
+
+### API Examples{#API-Examples}
+
+![](/img/api-2.png)
+
+**Example: No GBG Trust: Alert Rule Raised**
+
+
+
+![](/img/api-3.png)
+
+**Example: One GBG Trust: Alert Rule Raised**
+
+ 
+
+![](/img/api-4.png)
+
+**Example: Multiple GBG Trust: Alert Rules Raised**

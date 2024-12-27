@@ -1,0 +1,58 @@
+---
+id: v1-32-feb-2019
+title: V 1.32 February 2019
+sidebar_position: 4
+---
+
+# V 1.32 February 2019
+
+## Release Dates
+
+**Test**: Jan 22, 2019
+
+**Production**: Feb 5, 2019
+
+## In This Release
+
+This release includes a new iOS and Android SDK with improvements and bug fixes for each. 
+
+The iOS SDK release includes an improvement to make the document review screens readable for assistive technologies. This improves accessibility and brings us closer to meeting the WCAG 2.1 accessibility standards. 
+
+The Android SDK used to request the user for location permission up to three times overall if they rejected the request each time. This provided a poor user experience so we have set the location permission request to only ask once. 
+
+## iOS SDK{#ReleaseNotes:greenIDMobilev1.32-iOSSDK}
+
+The greenID Mobile iOS SDK v1.32.0 is supported on iOS versions 10.0 – 11.3.1 (At the time of this release, 12.1 was the latest production release of iOS available.)
+
+| **iOS SDK**                  |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Accessibility compliance** | <p>**Document review screens accessible to users of assistive technology**</p><p>Previously, important information on the document review screen was not readable for assistive technologies. This has been fixed so that the document review screen is accessible to users of assistive technology.</p>                                                                                                                                                                                                                                                                                                   |
+| **Errors and Bug Fixes**     | <p>**iOS POC error experienced on accounts that use additional document upload**</p><p>Fixed an error experienced in the iOS POC following the additional document capture review screen. This has been resolved and the iOS POC works correctly again on accounts that use additional document upload. </p><p>**iOS SDK - subsequent verification attempts including incorrect liveness results**</p><p>Fixed a bug that caused a user's liveness results to be incorrect for any further verification attempts following an attempt that was cancelled at the personal details confirmation screen. </p> |
+
+## Android SDK{#ReleaseNotes:greenIDMobilev1.32-AndroidSDK}
+
+The greenID Mobile Android SDK v2.8.10 is supported on Android: 7.0 – 8.1. (At the time of this release, 9.0 was the latest production release of Android available.)
+
+\*\*Important: \*\*In this release, we have removed the unreliable BroadcastReceiver method of receiving a result from the greenID Android SDK. We have instead replaced it with a Listener pattern. Migration from the old method is require to make use of this release. Please see [Android Integration](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/335479196/Android+Integration) for more information on the code changes required to make use of the new method, including a guide on [how to migrate from the old method](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/335479196/Android+Integration#AndroidIntegration-Upgradingto2.8.x). 
+
+| **Android SDK**               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Functionality Improvement** | <p>\*\*Location permission request \*\*</p><p>The Android SDK requests the user for location permissions so that their location can be verified if required. Previously if the user rejected the location permission request, the SDK would later ask for location permission up to two more times. We have made a change so that users that reject the first location permission request are not asked again. </p>                                                                                                                                       |
+| **SDK Stability Improvement** | <p>**Improved logging within the Android SDK**</p><p>We have improved our logging within the Android SDK so that issues can be identified and resolved more easily. </p><p>**Improved code quality and structure within the Android SDK**</p><p>We have improved code quality and structure within the Android SDK to improve stability and handling of unexpected behaviour.</p>                                                                                                                                                                         |
+| **Errors and Bug Fixes**      | <p>**Android POC error experienced on accounts that use additional document upload**</p><p>Fixed an error experienced in the Android POC following the additional document capture review screen. This has been resolved and the Android POC works correctly again on accounts that use additional document upload. </p><p>**Improved code structure to remove event dependencies that caused errors under certain conditions**</p><p>Changes have been made to prevent errors that previously occurred under certain conditions in the Android SDK. </p> |
+
+## greenID Core{#ReleaseNotes:greenIDMobilev1.32-greenIDCore}
+
+| **greenID Core** |                                                                                                                                                                                                                                                     |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Code refactoring | <p>**Improved quality of greenID Mobile code**</p><p>Last release we took steps to improve the quality of greenID Mobile code. We have made further improvements this release to make future changes safer and less time consuming to deliver. </p> |
+
+## Known Issues
+
+Known issues were introduced in this release:
+
+- **Android white screen error**
+
+Under certain rare conditions, when the mobile device’s network connection drops during specific points in the verification process, the user may be presented with a white screen, with no way of continuing the verification process. This is a known issue and will be addressed in the next SDK release.
+
+Existing known issues can be found on the [Known issues in greenID Mobile](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/459835177/Known+issues+in+greenID+Mobile) page. 

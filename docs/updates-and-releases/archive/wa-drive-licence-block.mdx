@@ -1,0 +1,217 @@
+---
+id: wa-drive-licence-block
+title: WA Driver Verification Licence Block
+sidebar_position: 5
+---
+
+# WA Driver Verification Licence Block
+
+On 1 July 2023, the WA Department of Transport (DoT) implemented functionality that allows WA driver’s licence holders to place a block on their licence. When a block is applied, the driver’s licence will not verify in the DVS and will instead return a ‘**D**’ or ‘**document invalid**’ response.
+
+The licence block can only be applied and removed by the licence holder by logging into their DoTDirect online account. This important identity security measure allows WA driver’s licence holders to proactively protect their driver’s licence details from being used for fraudulent activities by controlling when they can be used for identity verification through the DVS. A licence block can be applied and removed in ‘real time’.
+
+As per DVS standard advice with regards to ‘D’ responses, if a document returns a ‘D’ response, you should seek an alternate document from the individual or undertake additional identity proofing measures. If the document is a WA driver’s licence, DVS suggest you can consider asking the individual if they may have placed a block on their licence and ask that they temporarily remove the block via their DoTDirect account if this is the case.  
+
+## **How will locked documents impact my ID verification's for WA Driver Licence?**{#How-will-locked-documents-impact-my-ID-verification's-for-WA-Driver-Licence?}
+
+Attempts to match against a locked WA driver licence will not contribute as a match to your rule.
+
+An individual will need to provide an alternative identity document to proceed with their identity verification.
+
+## **What does a D response show as in greenID?**{#What-does-a-D-response-show-as-in-greenID?}
+
+In greenID a D response is reported in one of two ways, depending on your configuration.
+
+1. Not Contributing, or
+
+2. Not matched
+
+Neither result is counted towards a rule match.
+
+In either case the individual will need to provide an alternative document to proceed.
+
+### Not Contributing{#Not-Contributing}
+
+If your account is configured to report back in the case of a not contributing result, you will see the driver licence as not contributing with a status of document invalid.
+
+Following this result, the source will also no longer be available for another attempt.
+
+#### Example in Admin Panel{#Example-in-Admin-Panel}
+
+![](/img/wa-1.png)
+
+![](/img/wa-2.png)
+
+![](/img/wa-3.png)
+
+![](/img/wa-4.png)
+
+### Example via API
+
+`<individualResult> `
+
+`<dateVerified>2023-08-31T13:51:07.692+1000</dateVerified> `
+
+`<extraData> `
+
+`<name>sourceResponseMessage_licenceNumber</name> <value>Document Invalid.</value> `
+
+`</extraData> `
+
+`<fieldResult> `
+
+`<name>givenName</name> `
+
+`<status>CONFIRMED</status> `
+
+`<value>LEANNE</value> `
+
+`</fieldResult> `
+
+`<fieldResult> `
+
+`<name>surname</name> `
+
+`<status>CONFIRMED</status> `
+
+`<value>RAO</value> `
+
+`</fieldResult> `
+
+`<fieldResult> `
+
+`<name>dob</name> `
+
+`<status>CONFIRMED</status> `
+
+`<value>1999-07-28</value> `
+
+`</fieldResult> `
+
+`<fieldResult> `
+
+`<data>NC_DVS_D</data> `
+
+`<name>RegistrationStateReason</name> `
+
+`<status>ADDITION</status> `
+
+`</fieldResult> `
+
+`<method>interactive</method> `
+
+`<name>WARegoDVS</name> `
+
+`<state>NOT_CONTRIBUTING</state> `
+
+`</individualResult> `
+
+`<individualResult>`
+
+### Not Matched{#Not-Matched}
+
+If your account is not configured to report not contributing results, you will see the driver licence as a failed result. This will be the same behaviour as a no match result for the source. the audit logs will indicate the 'D' response.
+
+**Note:** Standard lockout rules will still apply for this result as it is treated as a ‘no match’ in greenID.
+
+#### Example in Admin Panel{#Example-in-Admin-Panel.1}
+
+![](/img/wa-5.png)
+
+![](/img/wa-6.png)
+
+#### Example via APl{#Example-via-APl}
+
+`<individualResult> <extraData> <name>sourceResponseMessage_licenceNumber</name> <value>Document Invalid.</value> </extraData> <fieldResult> <name>givenName</name> <status>CONFIRMED</status> <value>Leanne</value> </fieldResult> <fieldResult> <name>surname</name> <status>CONFIRMED</status> <value>Rao</value> </fieldResult> <fieldResult> <name>dob</name> <status>CONFIRMED</status> <value>1999-07-28</value> </fieldResult> <method>interactive</method> <name>WARegoDVS</name> <state>IN_PROGRESS</state> </individualResult>` 
+
+## **Changing your configuration**{#Changing-your-configuration}
+
+If you would like your configuration to be updated to report the not contributing and document invalid results please reach out to your Account Manager.
+
+However, please note that there are multiple reasons for a D - document invalid response. For driver licence these can include licence cancelled, inactive, refused or restricted, present on the document compromised register, or blocked.
+
+## **Important Notes regarding changing your configuration**{#Important-Notes-regarding-changing-your-configuration}
+
+You will not be to specifically identify and differentiate a WA licence block from any other D response. In time, DVS may change the way these are reported to allow this, but for now, they are reporting them along with the other D responses.
+
+Changing your configuration to report not contributing results will return additional data in your API and will need to be tested accordingly.
+
+## **Are there Expanded Responses for the WA licence block?**{#Are-there-Expanded-Responses-for-the-WA-licence-block?}
+
+There are currently no Expanded Responses available from DVS for the WA Block.
+
+On 1 July 2023, the WA Department of Transport (DoT) implemented functionality that allows WA driver’s licence holders to place a block on their licence. When a block is applied, the driver’s licence will not verify in the DVS and will instead return a ‘**D**’ or ‘**document invalid**’ response.
+
+ The licence block can only be applied and removed by the licence holder by logging into their DoTDirect online account. This important identity security measure allows WA driver’s licence holders to proactively protect their driver’s licence details from being used for fraudulent activities by controlling when they can be used for identity verification through the DVS. A licence block can be applied and removed in ‘real time’.
+
+As per DVS standard advice with regards to ‘D’ responses, if a document returns a ‘D’ response, you should seek an alternate document from the individual or undertake additional identity proofing measures. If the document is a WA driver’s licence, DVS suggest you can consider asking the individual if they may have placed a block on their licence and ask that they temporarily remove the block via their DoTDirect account if this is the case.  
+
+## **How will locked documents impact my ID verification's for WA Driver Licence?**{#How-will-locked-documents-impact-my-ID-verification's-for-WA-Driver-Licence?.1}
+
+Attempts to match against a locked WA driver licence will not contribute as a match to your rule.
+
+An individual will need to provide an alternative identity document to proceed with their identity verification.
+
+## **What does a D response show as in greenID?**{#What-does-a-D-response-show-as-in-greenID?.1}
+
+In greenID a D response is reported in one of two ways, depending on your configuration.
+
+1. Not Contributing, or
+
+2. Not matched
+
+Neither result is counted towards a rule match.
+
+In either case the individual will need to provide an alternative document to proceed.
+
+### Not Contributing{#Not-Contributing.1}
+
+If your account is configured to report back in the case of a not contributing result, you will see the driver licence as not contributing with a status of document invalid.
+
+Following this result, the source will also no longer be available for another attempt.
+
+#### Example in Admin Panel{#Example-in-Admin-Panel.2}
+
+![](/img/wa-7.png)
+
+![](/img/wa-8.png)
+
+![](/img/wa-9.png)
+
+![](/img/wa-10.png)
+
+#### **Example via API**{#Example-via-API.1}
+
+`<individualResult> <dateVerified>2023-08-31T13:51:07.692+1000</dateVerified> <extraData> <name>sourceResponseMessage_licenceNumber</name> <value>Document Invalid.</value> </extraData> <fieldResult> <name>givenName</name> <status>CONFIRMED</status> <value>LEANNE</value> </fieldResult> <fieldResult> <name>surname</name> <status>CONFIRMED</status> <value>RAO</value> </fieldResult> <fieldResult> <name>dob</name> <status>CONFIRMED</status> <value>1999-07-28</value> </fieldResult> <fieldResult> <data>NC_DVS_D</data> <name>RegistrationStateReason</name> <status>ADDITION</status> </fieldResult> <method>interactive</method> <name>WARegoDVS</name> <state>NOT_CONTRIBUTING</state> </individualResult> <individualResult>`
+
+### Not Matched{#Not-Matched.1}
+
+If your account is not configured to report not contributing results, you will see the driver licence as a failed result. This will be the same behaviour as a no match result for the source. the audit logs will indicate the 'D' response.
+
+**Note:** Standard lockout rules will still apply for this result as it is treated as a ‘no match’ in greenID.
+
+#### Example in Admin Panel{#Example-in-Admin-Panel.3}
+
+![](/img/wa-11.png)
+
+![](/img/wa-12.png)
+
+#### Example via APl{#Example-via-APl.1}
+
+`<individualResult> <extraData> <name>sourceResponseMessage_licenceNumber</name> <value>Document Invalid.</value> </extraData> <fieldResult> <name>givenName</name> <status>CONFIRMED</status> <value>Leanne</value> </fieldResult> <fieldResult> <name>surname</name> <status>CONFIRMED</status> <value>Rao</value> </fieldResult> <fieldResult> <name>dob</name> <status>CONFIRMED</status> <value>1999-07-28</value> </fieldResult> <method>interactive</method> <name>WARegoDVS</name> <state>IN_PROGRESS</state> </individualResult>`
+
+## **Changing your configuration**{#Changing-your-configuration.1}
+
+If you would like your configuration to be updated to report the not contributing and document invalid results please reach out to your Account Manager.
+
+However, please note that there are multiple reasons for a D - document invalid response. For driver licence these can include licence cancelled, inactive, refused or restricted, present on the document compromised register, or blocked.
+
+## **Important Notes regarding changing your configuration**{#Important-Notes-regarding-changing-your-configuration.1}
+
+You will not be to specifically identify and differentiate a WA licence block from any other D response. In time, DVS may change the way these are reported to allow this, but for now, they are reporting them along with the other D responses.
+
+Changing your configuration to report not contributing results will return additional data in your API and will need to be tested accordingly.
+
+## **Are there Expanded Responses for the WA licence block?**{#Are-there-Expanded-Responses-for-the-WA-licence-block?.1}
+
+There are currently no Expanded Responses available from DVS for the WA Block.

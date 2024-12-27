@@ -1,0 +1,49 @@
+---
+id: faults-and-errors-v3
+title: Faults and Errors V3
+sidebar_position: 11
+---
+
+# Faults and Errors V3
+
+:::note
+
+**API Versions**
+
+This documentation relates to Version 3, the current version of the greenID API. Version 3 became available to customers as of 03 Apr 2017.
+
+:::
+
+Errors encountered during a web service call are passed back as a SOAP Fault.  The `faultcode` will be "`env:Server"` and the `faultstring` will give a brief description of the error.  A detail element will include more details.
+
+The most common type of error is likely to be validation errors.  If one of the parameters passed does not meet the validation requirements, then a SOAP Fault will be returned, with a `faultDetails` object nested inside it which contains details of the validation error.  For example, a call to `setFields` for the `medicaredvs` source with an invalid Medicare number would give the following response:
+
+| <p>`<env:Envelope` `xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">`</p><p>`   <env:Header/>`</p><p>`   <env:Body>`</p><p>`      <env:Fault>`</p><p>`         <faultcode>env:Server</faultcode>`</p><p>`         <faultstring>Invalid input field(s) - medicare card number</faultstring>`</p><p>`         <detail>`</p><p>`            <ns2:faultDetails` `xmlns:ns2="http://dynamicform.services.registrations.edentiti.com/">`</p><p>`               <code>FieldValidationFault</code>`</p><p>`               <details>Medicare card number is not a valid Medicare number.</details>`</p><p>`            </ns2:faultDetails>`</p><p>`         </detail>`</p><p>`      </env:Fault>`</p><p>`   </env:Body>`</p><p>`</env:Envelope>`</p> |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+The `faultstring` element indicates a validation error, and names the field. The `faultDetails` object indicates the exact error, i.e. a `FieldValidationFault`, and gives a readable message in the details element.  If more than one field fails validation, then the `faulstring` and details elements will contain multiple errors in a list.  For example:
+
+| <p>`<env:Envelope` `xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">`</p><p>`   <env:Header/>`</p><p>`   <env:Body>`</p><p>`      <env:Fault>`</p><p>`         <faultcode>env:Server</faultcode>`</p><p>`         <faultstring>Invalid input field(s) - medicare card expiry date, medicare card number</faultstring>`</p><p>`         <detail>`</p><p>`            <ns2:faultDetails` `xmlns:ns2="http://dynamicform.services.registrations.edentiti.com/">`</p><p>`               <code>FieldValidationFault</code>`</p><p>`               <details>Medicare card expiry date is not formatted correctly.`</p><p>`                  Medicare card number is not a valid Medicare number.</details>`</p><p>`            </ns2:faultDetails>`</p><p>`         </detail>`</p><p>`      </env:Fault>`</p><p>`   </env:Body>`</p><p>`</env:Envelope>`</p> |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+
+In this example, both the Medicare card number and expiry date failed validation.
+
+**A note about the WSDL**
+
+The WSDL for the greenID API does not include elements for `faultcode` and `faultstring`.  This is a known issue.
+
+A list of fault codes is given in the table below.
+
+| **Fault code**                | **Description**                                                                                                      |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `FieldValidationFault`        | One or more input fields failed validation.                                                                          |
+| `InvalidCertificateFault`     | The client certificate presented for mutual authentication did not pass the certificate checking process.            |
+| `InvalidIPAddressFault`       | The IP address of the client is not permitted to call the web service.                                               |
+| `InvalidPasswordFault`        | The `accountId` and password could not be matched or the `accountId` was not recognised.                             |
+| `InvalidRuleIdFault`          | The `ruleId` element was not recognised.                                                                             |
+| `InvalidSourceIdFault`        | The `sourceId` element was not recognised.                                                                           |
+| `InvalidTokenFault`           | The `verificationToken` (also referred to as a `userToken`) supplied was not recognised.                             |
+| `SystemFault`                 | There was an unexpected error during the web service call. This is an internal error for greenID.                    |
+| `TokenTimeoutFault`           | The `verificationToken` (`userToken`) supplied has expired.                                                          |
+| `VerificationIdNotFoundFault` | One of the API methods other than `registerVerification` was called with a `verificationId` that was not recognised. |
+| `VerificationFault`           | There was an unexpected error during the verification process.                                                       |

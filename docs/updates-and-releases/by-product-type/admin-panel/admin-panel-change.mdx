@@ -1,0 +1,127 @@
+---
+id: admin-panel-change
+title: Admin Panel Change
+sidebar_position: 1
+---
+
+# Admin Panel Change
+
+:::note
+
+**Update 17-09-2024:** The enablement of the new login page has been rescheduled to this **Thursday 19th September**.
+
+:::
+
+## **What is changing?**{#What-is-changing?}
+
+The greenID Admin Panel login page is changing.
+
+- To log on, **enter your email address and click Next**, then enter your password and authentication checks as usual.
+
+- The design is slightly different.
+
+![](/img/ap-change-1.png)
+
+**The new login page**
+
+## **When is it happening?**{#When-is-it-happening?}
+
+- The new login page is availble in Test now.
+
+- UPDATE Sep 3, 2024 - The enablement of the new login page in Production has been delayed.
+
+## **Why is it changing?**{#Why-is-it-changing?}
+
+We are making Single Sign On (SSO) available to those customers who wish to use it. For more information about SSO click [here](https://vixverify.atlassian.net/wiki/x/AoASjQ).
+
+## **What if I have automated processes using the greenID Admin Panel?**{#What-if-I-have-automated-processes-using-the-greenID-Admin-Panel?}
+
+If your organisation automates any processes using the greenID Admin Panel, this change is likely to impact those automations. GBG will make the change available in our test environment for you to amend and test your processes. See above for the test release date.
+
+- What does it mean by ***automated processes***?
+
+Automated processes are automation developed by you/your team such as RPA(Robotics Process Automation) & scripts eg. Selenium, Puppeteer, etc. to automate the login process without a person entering his/her email address and password manually.
+
+## **Will the login URL change?**{#Will-the-login-URL-change?}
+
+Yes, once the new login page is available the login URL will change. greenID will have a redirect in place to ensure that you’re still able to access the page once the new URL is available.
+
+## **How will the login process work if I am *not*** **using SSO to login to greenID admin panel?**{#How-will-the-login-process-work-if-I-am-not-using-SSO-to-login-to-greenID-admin-panel?}
+
+The login workflow will change slightly (see screens below) to:
+
+1. Enter your email address and click Next.
+
+2. Enter your password.
+
+3. Perform any additional authentication checks (2-FA and / or recaptcha).
+
+4. The greenID admin panel will display.
+
+ 
+
+![](/img/ap-change-1.png)
+
+**1. Enter your email address and select ‘Next’**
+
+ 
+
+![](/img/ap-change-2.png)
+
+**2. Enter your password and perform Recaptcha Check, select LOGIN**
+
+ 
+
+![](/img/ap-change-3.png)
+
+**3. Complete 2 Factor Authentication, select VERIFY**
+
+ 
+
+![](/img/ap-change-4.png)
+
+**4. greenID Admin Panel Logged In**
+
+ 
+
+## **How will the login process work if I am using SSO to login to greenID admin panel?**{#How-will-the-login-process-work-if-I-am-using-SSO-to-login-to-greenID-admin-panel?}
+
+**Prior to logging with SSO your organisation’s domains must be configured to use SSO for greenID admin panel login.**
+
+1. Select login with SSO.
+
+2. Enter your email address on the GBG login screen.
+
+3. Perform authentication checks (password, 2-FA etc.) with your organisation’s identity provider.
+
+4. Login to the greenID admin panel.
+
+ 
+
+![](/img/ap-change-5.jfif)
+
+**1. Select login with SSO**
+
+ 
+
+![](/img/ap-change-6.png)
+
+**2.Enter your email address on the GBG login screen.**
+
+ 
+
+![](/img/ap-change-7.png)
+
+**3. Perform authentication checks (note: this is an example only and will vary for each customer)**
+
+![](/img/ap-change-4.png)
+
+**4. greenID Admin Panel Logged In**
+
+## **Does this impact any other parts of the login process?**{#Does-this-impact-any-other-parts-of-the-login-process?}
+
+Yes. All actions that require a user to login such as creating and resetting passwords and first time login, will use these new screens.
+
+## **Will this impact my login page configuration?**{#Will-this-impact-my-login-page-configuration?}
+
+No. The existing configuration on the login page (logo, authentication checks etc) will be applied to the new login screen.\\

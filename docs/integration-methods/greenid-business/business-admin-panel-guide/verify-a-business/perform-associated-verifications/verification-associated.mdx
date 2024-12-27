@@ -1,0 +1,95 @@
+---
+id: verification-associated
+title: Verification of Associated Individuals
+sidebar_position: 2
+---
+
+# Verification of Associated Individuals
+
+Individual verifications are performed using greenID’s personal identity verification services. A full discussion of personal identity verification is outside the scope of this manual, but we’ll briefly describe the process as it relates to greenID Business. (See the *greenID Rules Guide and Checklist* for more information.)
+
+When you begin the verification of an associated individual, a wizard walks you through the process. First, the individual’s details — i.e., name, address and date of birth — must be confirmed and the address validated before they can be registered. (If the address can’t be validated, you must verify the person externally.) The details are then registered as a new personal verification record, which is linked to the business verification record. (This link appears as a status indicator next to the individual’s task or option button. You can select the status to go to the record.)
+
+GreenID then checks the individual’s details against personal verification sources, which are specified in your account configuration.
+
+Some of the checks may be performed in the background using the individual’s registered data. But often sources require additional data, specific to the source (e.g., a government agency that issues driver's licences will require the licence number). If that is the case, or data is missing, the wizard displays a form containing fields for the data that the source requires. If more than one source is configured, you may be offered a choice of sources, and you can submit the forms only for the sources you choose. When enough sources have verified the individual, the wizard stops checking sources. The person is marked as verified, and you are returned to the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen.
+
+Sometimes, however, the verification can’t be completed. Perhaps a source couldn’t be reached, or the data requires manual review. If you see a status other than “Verified” or “Failed” (e.g., Pending Review), go to the personal verification record and refer to *greenID Admin Panel User Guide* for instructions on how to complete the verification.
+
+Another option for verifying associated individuals is to link the individual to an existing personal verification record.
+
+- If that person was verified in greenID and the record was registered under the same account as the greenID Business account you can forego running a new personal verification check. You simply need the verification ID (Reference number) of the previously verified record. (See [Procedure 23. Link an associated individual to a previous verification](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492732890/Verification+of+associated+individuals#Verificationofassociatedindividuals-procedure23Procedure23.Linkanassociatedindividualtoapreviousverification))
+
+- If the individual was verified under a different greenID account, you can’t link to the record, but you can mark the person as externally verified and provide the account name and the verification ID in your comments.
+
+Personal verification records can be found by using the **Search or filter** form on the main Admin Panel screen. (See [Find a personal verification record for an individual](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/491520911/Admin%2BPanel#AdminPanel-Procedure2.Findapersonalverificationrecordforanindividual)) Once the record is linked, the status of the personal verification appears in the Associated Parties section for that individual. There is some latency in updates between the two systems, so the display may not show the most current personal verification status. To force display of the current status, wait 60 seconds after the change was made, go to the Admin Panel (exit greenID Business) and then return to your associated party’s Business Verification page.
+
+If you mark a business as externally verified, all of its associated parties will be marked as “Verification not required.”
+
+## Procedure 22. Verify an associated individual
+
+On the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen:
+
+1\. Navigate to the person you want to verify and select **Begin Verification**.
+
+![](/img/associate-1.png)
+
+2\. When the Verification wizard appears, enter any details it requires (e.g., date of birth). If you need help validating an address, select **I can’t see the address here-what do I do?**
+
+*Figure 10. Run Verification Wizard — Confirm individual’s details screen*
+
+![](/img/associate-2.png)
+
+3\. Check for accuracy since this data will be registered in the personal verification record.
+
+4\. Select **Next**.
+
+If additional information is needed for particular sources, a verification form appears on the screen. It represents an external ID source that will be checked to confirm the individual’s personal details.
+
+5\. On the ID form, enter any additional details it requires – OR – (if available) select **Choose a different ID option**.
+
+![](/img/associate-3.png)
+
+6\. If you choose to use a different ID source, select an option from the dropdown list:
+
+![](/img/associate-4.png)
+
+7\. When you have completed the form, select **Verify these details**.
+
+![](/img/associate-5.png)
+
+8\. Repeat steps [5](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=494043306#Externallyverifiedassociatedparties-step5) through [7](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=494043306#Externallyverifiedassociatedparties-step7) for as many sources as required.
+
+When greenID returns to the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen, it displays the status next to the options button. (If the verification is completed, the task button is removed.)
+
+![](/img/associate-6.png)
+
+## Procedure 23. Link an associated individual to a previous verification
+
+On the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen:
+
+1\. Navigate to the person you want to verify and select the dropdown options button.
+
+![](/img/associate-7.png)
+
+2\. Select **Link to an existing greenID verification**.
+
+![](/img/associate-8.png)
+
+3\. Enter the verification ID of the record you want to link to.
+
+![](/img/associate-9.png)
+
+4\. Select **Search for this ID**.
+
+If the record is found, the details are displayed in the dialog. IMPORTANT: Before linking, make sure this is the correct verification record.
+
+![](/img/associate-10.png)
+
+5\. If this is NOT the correct record, select **Cancel**.
+
+6\. If it is the correct record, select **Link this verification**.
+
+When greenID returns to the [Verify a Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/492307184/Verify+a+business) screen, it displays the linked status next to the options button. (If the verification is completed the task button is removed.)
+
+![](/img/associate-11.png)

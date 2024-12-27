@@ -1,0 +1,71 @@
+---
+id: integration-method-API
+title: Integration Method API
+sidebar_position: 3
+---
+
+# Integration Method API
+
+:::note
+
+This section contains the technical details of the greenID API.  The API is not available to all customers as it requires additional support fees and permission from greenID prior to its use.
+
+The reader is assumed to have knowledge of the following:
+
+- how the interactive verification process works at greenID,
+
+- an understanding of their own verification requirements,
+
+- a general understanding of programming, and
+
+- Web Services and how to consume them.
+
+:::
+
+## Purpose of the API
+
+To simplify the integration of greenID Web Services into customer applications, greenID provides a Web interface and a [Mobile SDK](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/14286909/greenID+Mobile). However, these solutions require that the person being verified be re-directed to greenID verification pages for the interactive portion of the verification process, and returned to the customer application when that process is completed. They may not be suitable for all customers, and the greenID API is designed to meet this need.
+
+With the greenID API, greenID Web Services are fully integrated into the customer's application. Individuals being verified stay entirely within the customer's web site, i.e., they are never redirected to any greenID pages. The customer’s application makes Web Service calls to greenID and uses the results to drive the verification process. The integration effort will be higher, since customers aren't leveraging the existing greenID verification pages, but the trade-off is greater flexibility, customisability and control. The use of greenID becomes totally transparent to the person being verified.
+
+The greenID API also offers a method to download any additional document uploads performed as part of the verification. Information on this API can be found on the [Document Image Service V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/212075380/Document+Image+Service+V3) page. The getDocUploadImages method is used to download the additional document upload images.
+
+## Typical Use Case
+
+At a high level, the process of verifying a person's identity follows these basic steps:
+
+1. **Register a verification attempt with greenID**. (Required) This establishes the "master record" in greenID, which is used throughout the rest of the verification process.
+
+2. **Fetch the list of sources that can help verify a person’s identity**. (Optional) Some customers will have fixed lists of data sources, however this step offers some additional flexibility to those customers who require it.  This list is computed dynamically, depending on customer account configuration, the state of the verification attempt and the availability of data sources.
+
+3. **Fetch the list of fields required for a particular data source**. (Optional) After a data source has been chosen, the list of fields can be fetched. This step is optional, because the fields associated with a particular data source do not usually change. Once you know what they are, you can assume they will remain the same; this strategy is reasonable and will save on Web Service calls.
+
+4. **Submit values for data fields to a particular data source**. (Required) After the person being verified supplies values for required data fields, these items are submitted to greenID. The result indicates the outcome of the check, along with a complete snapshot of the state of the verification attempt, and a list of data sources that can help the person become verified (the same list that would be returned from Step 2, including the current state of attempts the person has made against any data sources).
+
+5. **Repeat steps 3 and 4 until the verification process is complete**. Keep in mind that Step 3 is optional. An alternative outcome is that the person abandons the verification process or chooses an offline option.
+
+## API Versions
+
+| **Current Version**                                                                                                                                                                                                                            | **Legacy Versions**                                                                                                                                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p>[Version 5 greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111233/Version+5+greenID+API)</p><p>[Version 3 greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60483142/Version+3+greenID+API)</p> | <p>[Version 2 greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629471/Version+2+greenID+API)</p><p>[Version 1 greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/20283549/Version+1+greenID+API)</p> |
+
+The current version of the API is backward compatible with previous versions.  Therefore you should use the current version, unless you have an application that was created using an earlier version and you have internal requirements that necessitate your continuing to use it.  We have left documentation for earlier versions of the API in the Knowledge Base for the convenience of such customers.  
+
+## Contents
+
+- [Version 5 greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111233/Version+5+greenID+API)
+
+- [Version 3 greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60483142/Version+3+greenID+API)
+
+- [Version 2 greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629471/Version+2+greenID+API)
+
+- [Version 1 greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/20283549/Version+1+greenID+API)
+
+- [Web Service Endpoints](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880463/Web+Service+Endpoints)
+
+- [Data Source Reference](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880465/Data+Source+Reference)
+
+- [Additional Web Services](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/490962961/Additional+Web+Services)
+
+- [iFrame Integration](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/11206690/iFrame+Integration)

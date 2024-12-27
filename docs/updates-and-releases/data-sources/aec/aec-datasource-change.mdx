@@ -1,0 +1,166 @@
+---
+id: aec-datasource-change
+title: AEC(Commonwealth Electoral Roll) Datasource Change
+sidebar_position: 2
+---
+
+# AEC(Commonwealth Electoral Roll) Datasource Change
+
+## **General information about the AEC changes**
+
+## \*\*What’s changing?  \*\*{#What’s-changing?}
+
+The Australian Electoral Commission (AEC) is mandating a change to the way they supply Commonwealth electoral roll data for ID verifications.  
+
+From **30 November 2022**, Commonwealth electoral roll verifications will only be possible via DVS.  
+
+This will impact all identity service providers such as greenID who will need to change how they access electoral roll data.  
+
+## **When will the change be available in Test and Production?**{#When-will-the-change-be-available-in-Test-and-Production?}
+
+GBG will be transitioning customers on the following dates in Test and Production to ensure that customers can continue access electoral roll data .
+
+| **Change**                           | **Date**               |
+| ------------------------------------ | ---------------------- |
+| Enable AEC via DVS in **Test**       | **9th November 2022**  |
+| Enable AEC via DVS in **Production** | **30th November 2022** |
+
+Please note that as each environment is enabled with the AEC via DVS, access to the current source will be made unavailable. More information about implementation and testing is available [here](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717).
+
+## \*\*How will this change impact me?  \*\*{#How-will-this-change-impact-me?}
+
+To continue using Commonwealth electoral roll data, you will need to review the new [DVS terms and conditions](https://gbg-greenid.com/wp-content/uploads/2022/09/DVS-BusinessUserTerms-and-Conditions-of-Use.pdf?utm_campaign=APAC_GID_IMP_AEC-Data-Supplier-Change_SEP22\&utm_medium=email&_hsmi=2&_hsenc=p2ANqtz-8rUloKCQBQJ8skj2_tQXMvyNBV8lcVoLZ61trVzSO1YCJMzvGD6P8ubchdh4vNvdeiYTutskPN4vvlDa1zU-JWHSMu5g\&utm_content=2\&utm_source=hs_email) and sign a declaration form with DVS confirming you are an AML/CTF obligated reporting entity.  
+
+GBG will be managing this on behalf of DVS.  You must return to signed declaration to us as soon as possible, and no later than \*\*31 October 2022 \*\*
+
+By signing the Declaration, you agree to the new Terms, and acknowledge you want to continue accessing electoral roll data. 
+
+The standard DVS transaction fee for electoral roll verification attempts will apply.  The DVS standard fee will align to your current greenID Agreement. 
+
+## \*\*Will this impact my greenID billing?    \*\*{#Will-this-impact-my-greenID-billing?}
+
+From **30 November 2022**, a standard DVS transaction fee for Commonwealth electoral roll verifications attempts will apply.  The DVS standard fee will align to your current greenID Agreement.\*\* \*\* 
+
+## \*\*How is GBG helping to minimise the cost of the DVS electoral roll verification fees? \*\*{#How-is-GBG-helping-to-minimise-the-cost-of-the-DVS-electoral-roll-verification-fees?}
+
+GreenID will be introducing a ‘*cascading check*’ for Commonwealth electoral roll verifications.  This means that electoral roll data will only be used when it can contributes to the verification outcome.    
+
+How you capture your identity data, what rules you have configured and how you are integrated to greenID can all have an impact on how often electoral roll data will be used. 
+
+Please find more information about cascading [here](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2225111041).
+
+## \*\*What if I don't want to pay for DVS Commonwealth electoral roll transactions? \*\*{#What-if-I-don't-want-to-pay-for-DVS-Commonwealth-electoral-roll-transactions?}
+
+You can remove the electoral roll data from your verification process.  However, removing the electoral roll data will have an impact on your match rates.   
+
+## \*\*Will this impact my pass rates in greenID?  \*\*{#Will-this-impact-my-pass-rates-in-greenID?}
+
+Some customers may see a small impact to their pass rates as DVS has tighter criteria for matching electoral roll data.  To optimise your pass rates, we suggest you review your data capture processes and consider collecting the following data if you’re not already:  
+
+- DOB   
+
+- Middle name  
+
+- Building name  
+
+- Flat number   
+
+- Street types  
+
+- Street number
+
+- Street name
+
+- State   
+
+- Postcode  
+
+- Suburb
+
+ Please find more information about collecting additional data [here](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717).
+
+## \*\*Will there be a technical impact? Do I need to make any technical changes?  \*\*{#Will-there-be-a-technical-impact?-Do-I-need-to-make-any-technical-changes?}
+
+If you are using the current electoral roll data, there should be no technical impact if you continue to use it in the same way. We will provide advance warning if technical changes are required and ample time for customer regression testing.  
+
+## \*\*Can I access the DVS electoral roll service before 30 November 2022?  \*\*{#Can-I-access-the-DVS-electoral-roll-service-before-30-November-2022?}
+
+Yes, GBG plans to be connected to the DVS electoral roll service in October 2022.  We will provide notification when the new source is available.  
+
+*Note* that early access to the DVS electoral roll service will attract a standard DVS fees.  
+
+## \*\*Can I elect to have electoral roll data removed from my service?  \*\*{#Can-I-elect-to-have-electoral-roll-data-removed-from-my-service?}
+
+Yes, however we suggest you speak to your Account Manager, who will work with you to consider alternative options to ensure your match rates are not impacted.  
+
+## \*\*How will the electoral roll charges appear on my invoice? \*\*{#How-will-the-electoral-roll-charges-appear-on-my-invoice?}
+
+They will be included in the DVS charges.  
+
+## **Why should I continue to use the AEC data source now that it costs money?**{#Why-should-I-continue-to-use-the-AEC-data-source-now-that-it-costs-money?}
+
+ In order to minimise the cost impact of this mandated change, GBG have made significant changes to how this data source behaves by implementing it as a cascading source. 
+
+This means that AEC will **only** be called when it can contribute to a rule. Individual customer call rates will vary depending on their ruleset.
+
+ To give an example using a conservative call rate of 20%, a customer performing 1,000 verifications per month would call AEC 200 times, a monthly cost of 200 x DVS fee.
+
+ However, if the same customer chose to remove the AEC as a data source, their pass rates will reduce, resulting in either 80 customers lost, or a manual verification fee of $3,200\*.
+
+ \*estimates based on 40% AEC pass rate and $40 manual verification fee. 
+
+## **Need help completing the DVS Declaration?**
+
+## \*\*When do I need to sign and return the declaration?  \*\*{#When-do-I-need-to-sign-and-return-the-declaration?}
+
+You must return the signed declaration and return it to GBG as soon as possible, and no later than **31 October 2022**, to ensure DVS has time to validate and activate Commonwealth electoral roll data for you.   *GBG is managing this process on behalf of DVS*. Please return the signed declaration to [anz.orders@gbgplc.com](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717) as soon as possible to avoid impact to your service.
+
+## \*\*Why do I need to sign a Declaration with DVS?  \*\*{#Why-do-I-need-to-sign-a-Declaration-with-DVS?}
+
+To use the Commonwealth electoral roll service via DVS your business must have an obligation to verify an individual’s address under the Anti-Money Laundering and Counter Terrorism Financing Act 2006 (AML/CTF Act) or the Financial Transaction Reports Act 1988 (FTR Act).  The declaration allows DVS to confirm your obligation.  
+
+## \*\*What is an OAC number? \*\*{#What-is-an-OAC-number?}
+
+Originating Agency Code (OAC) is issued by DVS when they set up a business in their systems.  OAC is used in all requests to the DVS Hub and is a three-character code identifying the organisation and a one-digit number representing the service. 
+
+## \*\*Why do I need an OAC number for this change? \*\*{#Why-do-I-need-an-OAC-number-for-this-change?}
+
+DVS will use your OAC to activate Commonwealth electoral roll for your business. 
+
+## \*\*Where do I get my OAC? \*\*{#Where-do-I-get-my-OAC?}
+
+You can find your OAC number on your original confirmation from DVS.  Alternatively, you can email GBG Customer Support at [customer.support@gbgplc.com](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717) or call 1800 312 860.  Please supply your company name and ABN number to assist us in finding your OAC. 
+
+## \*\*How do I complete the ‘Reason for Access Request’ section on the declaration? \*\*{#How-do-I-complete-the-‘Reason-for-Access-Request’-section-on-the-declaration?}
+
+This section should include a brief description of what your organisation does, what AML/CTF obligations you have, and how the Electoral roll will help meet these obligations.  Including your AFSL number will assist DVS to process your form quicker. 
+
+## \*\*Where can I find a copy of the DVS Declaration and Terms and Conditions?  \*\*{#Where-can-I-find-a-copy-of-the-DVS-Declaration-and-Terms-and-Conditions?}
+
+You can download copies of the [Terms ](https://gbg-greenid.com/wp-content/uploads/2022/09/DVS-BusinessUserTerms-and-Conditions-of-Use.pdf?utm_campaign=APAC_GID_IMP_AEC-Data-Supplier-Change_SEP22\&utm_medium=email&_hsmi=2&_hsenc=p2ANqtz-8NOVIYlgtIQE-q546r_vSh3UanjmajyrnN8DhNT5vg-_zQlK3DR__GQSbUHfp704GLiS0CI7R459ngpsUCtY1ZgPmHpQ\&utm_content=2\&utm_source=hs_email)and [declaration ](https://gbg-greenid.com/wp-content/uploads/2022/09/Electoral-Roll-Declaration-Form-Business-User_with-GSP.pdf?utm_campaign=APAC_GID_IMP_AEC-Data-Supplier-Change_SEP22\&utm_medium=email&_hsmi=2&_hsenc=p2ANqtz-_xqmSWj8bDj6OTPRNTVT9_emLrHC_PkW4n5wOnLkPSZVuzJqFzCp0M4Itfrczw1XWCTHR_O3AndrccViEVl5Yojvu_jg\&utm_content=2\&utm_source=hs_email)here.
+
+## **What happens if I don't return my declaration in time?**{#What-happens-if-I-don't-return-my-declaration-in-time?}
+
+You still need to review the DVS terms and conditions and return the signed AEC declaration to GBG at [anz.orders@gbgplc.com](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717) as soon as possible.   
+
+From 30 November 22 until the DVS approves your AEC declaration greenID will no longer be able to successfully validate individuals against the AEC data source, this means that:
+
+- your pass rates will reduce
+
+- greenID will return a standard error advising the source cannot be checked at this time. 
+
+  - This is a standard error, already accommodated in greenID.   
+
+  - You will NOT be charged for this error response. 
+
+When DVS approves your AEC declaration, AEC will automatically start to validate again. The DVS turnaround time to approve AEC declarations is 30 days.
+
+In early 2023, if your declaration has not been received, we will remove the DVS AEC datasource from your greenID configuration.
+
+## \*\*What if I want to negotiate changes to the new DVS terms and conditions?  \*\*{#What-if-I-want-to-negotiate-changes-to-the-new-DVS-terms-and-conditions?}
+
+GBG has no influence over the new DVS terms and conditions.  These are standard DVS terms that apply to all their services.  
+
+## \*\*Who can access the DVS Commonwealth electoral roll service?  \*\*{#Who-can-access-the-DVS-Commonwealth-electoral-roll-service?}
+
+Access to the Commonwealth electoral roll can only be provided to businesses that have an obligation to verify an individual’s address under the Anti-Money Laundering and Counter Terrorism Financing Act 2006 (AML/CTF Act) or the Financial Transaction Reports Act 1988 (FTR Act). 

@@ -1,0 +1,56 @@
+---
+id: faults-and-errors
+title: Faults and Errors
+sidebar_position: 6
+---
+
+# Faults and Errors
+
+:::note
+
+**iFrame Deprecated**
+
+iFrame integration was deprecated in January 2015.
+
+New customers should integrate using either [greenID Web](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) or [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API). Existing customers are encouraged to upgrade the integration method - [contact support](mailto\:support@edentiti.com) to find out more.
+
+This documentation remains to support existing customers with an iFrame integration.
+
+:::
+
+greenID will throw two basic kinds of faults:
+
+1. FaultDetails – the application has experienced an error.  This may happen when a validation rule or business rule is violated, or when an unexpected error occurs.
+
+2. SOAPFaultException – these may be thrown by the JBoss container and other libraries outside of the greenID application.  This generally indicates a problem at the container level, which would generally be considered catastrophic.
+
+The FaultDetails object is described below.
+
+## FaultDetails{#Faults&errors-FaultDetails}
+
+The FaultDetails object is thrown when Edentiti experiences an error. It is designed to contain enough information to allow the client application to understand the error, and continue processing.  
+
+There are three circumstances that will cause a FaultDetails fault to be raised: 
+
+1. A validation rule is violated.  
+
+2. A business logic rule is violated.  
+
+3. An error that is unexpected, and does not fall into the above two categories.  
+
+The FaultDetails exception is wrapped in a normal SOAPFault, and Web Services client libraries will usually unwrap this object for client consumption automatically. That is, the FaultDetails object (generated on the client side from Edentiti’s WSDL), should be returned to the client code directly.
+
+The FaultDetails object has the following structure:  
+
+ 
+
+| **Member** | **Meaning**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Code       | <p>This member contains a short code for the problem. The list of possible fault codes is:</p><p>FieldValidationFault – a field, or fields, have not passed the validation rules.UserIdInUseFault – a userId that is already in use has been used again. A different userId needs to be used.InvalidCustomerIdFault – the customerId is not recognised.InvalidRuleIdFault – the ruleId is not recognised.SystemFault – an unexpected problem has occurred.InvalidCertifcateFault – a client certificate is invalid.UserIdNotFoundFault – the userId supplied could not be found in the database.</p><p> </p>                                                                                                                                                       |
+| Details    | <p>This field contains a human readable message which details the exact nature of the fault.</p><p>In the case where the code is a FieldValidationError, this field contains a list of fields that were invalid, including the name and a validation message, separated by “\n” characters. For example, if theisoCountry parameter and the postcode parameter were invalid, then this field would contain the following:</p><p>isoCountry\:Invalid Country Code\n</p><p>postcode\:Please enter a valid postcode</p><p>In the case of the other faults, this field contains a short, human readable description of the fault. For example, if a userId that is already in use (say, 123) is used again, then this field will contain:</p><p>UserId in use: 123</p> |
+
+## Errors During Verification Processing{#Faults&errors-ErrorsDuringVerificationProcessing}
+
+From time to time, an error will occur during processing a particular verification request. For example, network problems may prevent connections, or service providers may be unavailable.
+
+Such errors do not raise faults, though. Instead the fact that an error was experience is stored in the state member of the object, and is returned if the outcome is queried by the client.

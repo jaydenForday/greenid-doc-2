@@ -1,0 +1,183 @@
+---
+id: card-no-change
+title: DVS Driver Licence Card No Change - FAQs
+sidebar_position: 4
+---
+
+# DVS Driver Licence Card No Change - FAQs
+
+:::note
+
+This change is now enabled in Production for the mandatory states (NSW, SA, WA, NT, TAS, QLD and ACT).
+
+**UPDATE: VIC Card number is being made mandatory at 7 am on 19 December 2022.**
+
+:::
+
+### What is the Driver Licence card number?{#What-is-the-Driver-Licence-card-number’?}
+
+The card number is a unique number attributed to a new version of a Driver Licence in Australia.
+
+### Why is DVS including going to check this field?{#Why-is-DVS-including-going-to-check-this-field?}
+
+Card number is a unique identifier which is updated each time a driver licence is re-issued.  By including card number in the matching criteria, you can validate that the document being presented is the most recently issued document.  This change will help reduce identity crime in Australia.
+
+### Will this number replace the Driver Licence number?{#Will-this-number-replace-the-Driver-Licence-number?}
+
+No. It is intended that both fields will be available to limit the changes required to existing business processes.
+
+### When will the card number become mandatory for matching?{#When-will-the-card-number-become-mandatory-for-matching?}
+
+- The card number will become mandatory for **NSW, ACT, SA, TAS, NT and WA on 1st September.**
+
+- The card number will be come mandatory for **QLD on 7th November 2022.**
+
+- VicRoads is seeing ministerial approval to launch **VIC on 19 December 2022.**
+
+### Why is the change not mandatory for all states?{#Why-is-the-change-not-mandatory-for-all-states?}
+
+Data readiness varies state to state with different technical challenges and timelines to enable driver licence card number.  The intention is for all states to become mandatory.
+
+### How do I know which States are ready for card number matching?{#How-do-I-know-which-States-are-ready-for-card-number-matching?}
+
+GBG will manage this with the Department of Home Affairs.  When a State reaches a critical mass of card number data and becomes a ‘mandatory state’, GBG will activate card number for driver licence matching for that state.
+
+States highlighted in green below are on GBG’s ‘supported states’ list i.e. states that have been confirmed by the DHA as being made mandatory on specified dates.
+
+The table below was updated as of Oct 27, 2022 .  This will be kept up to date as we receive more information from DHA.
+
+| **Mandatory Date**     | **Jurisdiction** |   |
+| ---------------------- | ---------------- | - |
+| **1st September 2022** | **NSW**          |   |
+|                        | **ACT**          |   |
+|                        | **SA**           |   |
+|                        | **TAS**          |   |
+|                        | **WA**           |   |
+|                        | **NT**           |   |
+| **7 November 2022**    | **QLD**          |   |
+| **19 December 2022**   | **VIC**          |   |
+
+### I am greenID API customer, what do I need to do by when?{#I-am-greenID-API-customer,-what-do-I-need-to-do-by-when?}
+
+| **Date**               | **Activity**                                                                                                                                                                                                                                                                                                                                                                               | **Status** |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- |
+| **2nd Feb 2022**       | GBG will make a global change to configure DL card number on in customer test environment for all customers. When enabled this field will only work for ‘supported’ states (see table above) and will be optional.                                                                                                                                                                         | **Done**   |
+| **3rd May 2022**       | GBG will make a global change to enable WA and TAS in customer test environments as an optional field. Following this change, card number will be available as an optional field for ACT, SA, NSW, TAS and WA in Test.                                                                                                                                                                     | **Done**   |
+| **20th May 2022**      | GBG will make a global change to enable NT in customer test environments as an optional field. Following this change, card number will be available as an optional field for ACT, SA, NSW, TAS, NT and WA in Test.                                                                                                                                                                         | **Done**   |
+| **6th July 2022**      | Card number becomes a mandatory input in Test for expected mandatory states (ACT, NSW, TAS, SA, NT and WA). As an API customer, you will need to ensure that a card number value is submitted for mandatory states for the DL check to work in Test.                                                                                                                                       | **Done**   |
+| **9th August 2022**    | GBG will make a global change to configure DL number in its production environment for expected mandatory states (ACT, NSW, TAS, SA, NT and WA). At this stage, card number will be optional in production. As an API customer, you will be able to submit card number for mandatory states with your request and greenID will submit it to DVS for checking but it will not be mandatory. | **Done**   |
+| **1st September 2022** | **DHA Deadline (ACT, NSW, TAS, SA, NT and WA)** - GBG will make the card number a mandatory field in production for all customers. API customers who are not sending us DL number for ACT, NSW, TAS, SA and WA by this time will experience no matches.                                                                                                                                    | **Done**   |
+| **12th October 2022**  | Card number becomes a mandatory input in Test for QLD. As an API customer, you will need to ensure that a card number value is submitted for QLD for the DL check to work in Test.                                                                                                                                                                                                         | **Done**   |
+| **18th October 2022**  | Card number becomes a mandatory input in Test for VIC. As an API customer, you will need to ensure that a card number value is submitted for QLD for the DL check to work in Test.                                                                                                                                                                                                         | **Done**   |
+| **7th November 2022**  | **DHA Deadline (QLD)** - GBG will make the card number a mandatory field for QLD Driver’s Licence in production for all customers. API customers who are not sending us DL number for QLD by this time will experience no matches.                                                                                                                                                         | **Done**   |
+| **19th December 2022** | **DHA Deadline (VIC)** - GBG will make the card number a mandatory field for VIC Driver’s Licence in production for all customers. API customers who are not sending us DL number for VIC by this time will experience no matches.                                                                                                                                                         | **Done**   |
+
+### How can I find out more about the required API change?{#How-can-I-find-out-more-about-the-required-API-change?}
+
+- Driver’s Licence as a background source: [Background Checks V3 | BackgroundChecksV3 BackgroundDVSDriver'sLicenceChecks](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60482657#BackgroundChecksV3-BackgroundDVSDriver%27sLicenceChecks)
+
+- Driver’s Licence as an interactive source: [Australian Data Sources](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880634)
+
+### I am a greenID Web, Mobile, iFrame or Admin Panel customer, what do I need to do by when?{#I-am-a-greenID-Web,-Mobile,-iFrame-or-Admin-Panel-customer,-what-do-I-need-to-do-by-when?}
+
+| **Date**               | **Activity**                                                                                                                                                                                                                                                                | **Status** |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| **2nd Feb 2022**       | GBG will make a global change to configure DL card number on in customer test environment for all customers. When enabled this field will only work for ‘supported’ states (see table above) and will be optional.                                                          | **Done**   |
+| **3rd May 2022**       | GBG will make a global change to enable WA and Tasmania in customer test environments. Following this change, card number will be available as an optional field for ACT, SA, NSW, TAS and WA in Test on all screens controlled by greenID.                                 | **Done**   |
+| **20th May 2022**      | GBG will make a global change to enable NT in customer test environments as an optional field. Following this change, card number will be available as an optional field for ACT, SA, NSW, TAS, NT and WA in Test.                                                          | **Done**   |
+| **6th July 2022**      | Card number becomes a mandatory input in Test for expected mandatory states (ACT, NSW, TAS, SA, NT and WA). Following this change, card number will be available as a mandatory field for ACT, SA, NSW, TAS, NT and WA in Test on all screens controlled by greenID.        | **Done**   |
+| **9th August 2022**    | GBG will make a global change to configure DL number in it’s production environment for expected mandatory states (ACT, NSW, SA, TAS, NT and WA). At this stage, card number will be optional in production and end users will have the option to submit the number or not. | **Done**   |
+| **1st September 2022** | **DHA Deadline (ACT, NSW, TAS, SA, NT and WA)** - GBG will make the card number a mandatory field in production for all customers for ACT, NSW, Tas, SA and WA.                                                                                                             | **Done**   |
+| **12th October 2022**  | Card number becomes a mandatory input in Test for QLD. Following this change, card number will be available as a mandatory field for QLD in Test on all screens controlled by greenID.                                                                                      | **Done**   |
+| **18th October 2022**  | Card number becomes a mandatory input in Test for VIC. Following this change, card number will be available as a mandatory field for VIC in Test on all screens controlled by greenID.                                                                                      | **Done**   |
+| **7th November 2022**  | **DHA Deadline (QLD)** - GBG will make the card number a mandatory field in production for all customers for QLD.                                                                                                                                                           | **Done**   |
+| **19th December 2022** | **DHA Deadline (VIC)** - GBG will make the card number a mandatory field in production for all customers for VIC.                                                                                                                                                           | **Done**   |
+
+### How do I have card number enabled on my greenID account?{#How-do-I-have-card-number-enabled-on-my-greenID-account?}
+
+The card number field should be enabled on your account in Test now. If you have any questions or require more information, please contact [customer.support@gbgplc.com](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60482657#BackgroundChecksV3-BackgroundDVSDriver%27sLicenceChecks)
+
+### **How does match working in the non-mandatory phase?**{#How-does-match-working-in-the-non-mandatory-phase?}
+
+#### **Matching for Supported States (in greenID)**{#Matching-for-Supported-States-(in-greenID)}
+
+| **Submitted Data**  | **DVS Database**             | **Result**                                                                                               |
+| ------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Empty / Null        | DL Card Number Available     | Match                                                                                                    |
+| Empty / Null        | DL Card Number Not Available | Match                                                                                                    |
+| DL Card Number      | DL Card Number Available     | Match                                                                                                    |
+| DL Card Number      | DL Card Number Not Available | 'N' - Not Matched or Fail                                                                                |
+| Invalid Card Number | Not Checked                  | Check appears as 'failed' in the admin panel but no request is sent to DVS nor is the customer billed\*  |
+
+#### **Matching for Unsupported States (in greenID)**{#Matching-for-Unsupported-States-(in-greenID)}
+
+| **Submitted Data** | **greenID**                                                                                                           |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Empty / Null       | Ignores field as it is not on the supported states list. greenID will send other ‘required’ data to DVS for checking. |
+| DL Card number     | Ignores field as it is not on the supported states list. greenID will send other ‘required’ data to DVS for checking. |
+
+### **How does matching work in the mandatory phase?**{#How-does-matching-work-in-the-mandatory-phase?}
+
+#### **Matching Supported States (in greenID)**{#Matching-Supported-States-(in-greenID)}
+
+| **Submitted Data**                            | **DVS Database**         | **Result**                                                                                            |
+| --------------------------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| DL Card Number (valid and correct as on card) | DL Card Number Available | Match                                                                                                 |
+| DL Card Number (valid but incorrect)          | DL Card Number Available | 'N' - Not Matched or Fail                                                                             |
+| Invalid Card Number                           | Not Checked              | Check appears as 'failed' in the admin panel but no request is sent to DVS nor is the customer billed |
+
+#### **Matching for Unsupported States (in greenID)**{#Matching-for-Unsupported-States-(in-greenID).1}
+
+| **Submitted Data** | **greenID**                                                                                                           |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Empty / Null       | Ignores field as it is not on the supported states list. greenID will send other ‘required’ data to DVS for checking. |
+| DL Card number     | Ignores field as it is not on the supported states list. greenID will send other ‘required’ data to DVS for checking. |
+
+### **Is the driver’s licence card number encrypted?**{#Is-the-driver’s-licence-card-number-encrypted?}
+
+Yes, the card number is treated in the same way as the licence number.
+
+### **What will happen if a card number is sent to greenID for a state that is not on the supported states list?**{#What-will-happen-if-a-card-number-is-sent-to-greenID-for-a-state-that-is-not-on-the-supported-states-list?}
+
+greenID will ignore the card number for any state that is not on the supported states list and continue to send the request to DVS without the card number.
+
+### **I am on an older version of the API, do I need to upgrade to version 3 to make this change?**{#I-am-on-an-older-version-of-the-API,-do-I-need-to-upgrade-to-version-3-to-make-this-change?}
+
+No, this change is compatible with older versions.
+
+### **Will tooltips be included on the greenID screens (eg. Web, Admin Panel) for this field?**{#Will-tooltips-be-included-on-the-greenID-screens-(eg.-Web,-Admin-Panel)-for-this-field?}
+
+Tooltips are currently available for all states accept for Victoria and Tasmania.
+
+### **I’m an API customer and I need tool tips images for my own screens?**{#I’m-an-API-customer-and-I-need-tool-tips-images-for-my-own-screens?}
+
+We’ve add sample images and links here: [Tooltips Images for Card Number](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2159345665/Tooltips+Images)
+
+### **Are stubs available for this field?**{#Are-stubs-available-for-this-field?}
+
+We have not introduced specific stubs data to support testing of this field, however, the stubs data available for driver’s licences on [Data Testing](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880678) will continue to work.
+
+### **What’s the expected format for card number for each state and territory?**{#What’s-the-expected-format-for-card-number-for-each-state-and-territory?}
+
+The card number should be entered as it appears on the driver’s licence.
+
+| **State** | **Format**                                  |
+| --------- | ------------------------------------------- |
+| ACT       | Length equal to 10 alphanumeric characters  |
+| NSW       | Length equal to 10 numeric characters       |
+| NT        | Length between 6 and 8 numeric characters   |
+| QLD       | Length equal to 10 alphanumeric characters  |
+| SA        | Length equal to 9 alphanumeric characters   |
+| TAS       | Length equal to 9 alphanumeric characters   |
+| VIC       | Length equal to 8 alphanumeric characters   |
+| WA        | Between 8 and 10 alphanumeric characters    |
+
+### **I’m an API customer using setFields and want to know what error I will see if I don’t send card number for a mandatory state?**{#I’m-an-API-customer-using-setFields-and-want-to-know-what-error-I-will-see-if-I-don’t-send-card-number-for-a-mandatory-state?}
+
+Attached is a sample xml response for setFields when card number is missing in the input:
+
+![](/img/dvs-api.png)
+
+### **Will SA digital DL be updated to include card number?**{#Will-SA-digital-DL-be-updated-to-include-card-number?}
+
+DHA has confirmed that there is work underway to add the card number to SA digital DL’s. It is expected to be complete ahead of the 1st September mandatory date.

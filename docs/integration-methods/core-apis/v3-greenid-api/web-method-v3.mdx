@@ -1,0 +1,300 @@
+---
+id: web-method-v3
+title: Web Method details V3
+sidebar_position: 3
+---
+
+# Web Method details V3
+
+:::note
+
+**API Versions**
+
+This documentation relates to Version 3, the current version of the greenID API. Version 3 became available to customers as of 03 Apr 2017.
+
+:::
+
+## RegisterVerification
+
+This method must be called before any of the other web methods in this API for a verification of an individual person.  This method will register the person’s details, a.k.a. the “master record”, with greenID.  This method establishes a `verificationId` that must be used to identify this particular verification attempt in subsequent method calls.
+
+This method also performs a series of background checks, as per the configuration of the caller's greenID account.  This may range from no checks at all, to a comprehensive set of checks including international watch lists, credit header checks, and even checks of government issued documents, such as passports, against issuer records.
+
+The results of the registration process and background checks are returned to the caller in a `CurrentStatusV3` object.  This object contains:
+
+- the result of the verification process thus far;
+
+- a list of data sources that will help the person become fully verified; and
+
+- a user token, if one was requested (see parameters below).
+
+## A Note on Addresses{#WebMethodDetailsV3-ANoteonAddresses}
+
+The `Address` complex type is intended for use with all international addresses.  The country field should be populated with the ISO 3166 alpha2 country code, i.e. the two character country abbreviation such as "AU" or "NZ".  For full details about the country codes, please refer to [https://www.iso.org/obp/ui/#search](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60368141/Web+Method+Details+V3#WebMethodDetailsV3-RegisterVerification).
+
+As a specific note about New Zealand addresses, the "city" element is not required for any current greenID data sources, so this is not required to be passed to greenID.  Populating the suburb element into the suburb field is sufficient for the current range of New Zealand data sources.  Also, the state field can be left blank for New Zealand addresses.
+
+## Input Parameters{#WebMethodDetailsV3-InputParameters}
+
+| **Name**                     | **Type**                                                                                                                | **Required**  | **Restrictions**                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `accountId`                  | `String`                                                                                                                | Yes           | GreenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller.  This `accountId` must be supplied with every call to any method in this API.                                                                                                                                                                                                                                                                                             |
+| `password`                   | `String`                                                                                                                | Yes           | Each customer is issued a password that must be supplied with every call to any web method in this API.                                                                                                                                                                                                                                                                                                                                                                                   |
+| `verificationId`             | `String`                                                                                                                | May be `null` | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person.  If the caller supplies the `verificationId` then greenID stores and uses that identifier; otherwise, greenID will generate a unique `verificationId`.  The `verificationId` is returned to the caller.                                                                                    |
+| `ruleId`                     | `String`                                                                                                                | Yes           | <p>Callers have one or more rules configured for their greenID account.  This string must identify one of those rules.  Contact greenID for the names of the rules configured for your account.  If only one rule is configured, then the string “default” will automatically select that rule.</p><p>Customers who are checking watch lists only will have a specific ruleId that will need to be passed in this field. Please confirm this ruleId with your greenID representative.</p> |
+| `name`                       | `Name`                                                                                                                  | Yes           |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `email`                      | `String`                                                                                                                | May be `null` | Must be a valid email address following the [Standard Hibernate validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/14287025/Before+you+integrate#Beforeyouintegrate-RegardingEmailAddresses) and checking Top Level Domain (TLD) is valid. See [https://data.iana.org/TLD/tlds-alpha-by-domain.txt](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60368141/Web+Method+Details+V3#WebMethodDetailsV3-RegisterVerification)                                      |
+| `currentResidentialAddress`  | [Address](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60369524/Data+Structures+V3#DataStructuresV3-Address) | Yes           |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `previousResidentialAddress` | `Address`                                                                                                               | May be `null` |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `dob`                        | `DateOfBirth`                                                                                                           | Yes           | Must be a valid date in the past.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| homePhone                    | String                                                                                                                  | May be `null` | If present, must be 10 digits only.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `workPhone`                  | `String`                                                                                                                | May be `null` | If present, must be 10 digits only.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `mobilePhone`                | `String`                                                                                                                | May be `null` | If present, must be 10 digits only, starting with “04”.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `deviceIDData`               | `String`                                                                                                                | May be `null` | This parameter is only needed for customers using the ReD Shield device verification service. Customers not using this service can leave this field blank. If you are using the ReD Shield device verification service, then please contact Edentiti for technical details regarding this field.                                                                                                                                                                                          |
+| `generateVerificationToken`  | `boolean`                                                                                                               | No            | This parameter indicates whether a verification token is required. If "true", the `registerVerification` method will produce a verification token, referred to as a `userToken` or `verificationToken`, just as the `getVerificationToken` method would.  For information about verification tokens, please refer to the `getVerificationToken` method.  If a verification token is not required, this parameter should be set to  “false”.                                               |
+| `extraData`                  | `List<NameValuePair>`                                                                                                   | No            | This parameter allows the customer to send extra data that will need to be agreed upon before implementation. It will be a simple key/value format. If there is no previous agreement for certain keys to be sent in this field then it will be ignored.                                                                                                                                                                                                                                  |
+
+## Return Value{#WebMethodDetailsV3-ReturnValue}
+
+This method returns `CurrentStatusV3` object.  The following members will be populated:
+
+- `verificationResult` – this  member will contain the results of all the background checks that were performed.
+
+- `sourceList` – this field will contain a list of data sources, which will help the person become fully verified.
+
+- `registrationDetails` - this field will contain all the details that were supplied for registration.
+
+## Exceptions{#WebMethodDetailsV3-Exceptions}
+
+The following exceptions may be thrown:
+
+- `InvalidCustomerIdException` – the accountId input parameter was missing or not recognised.
+
+- `InvalidRuleIdException` – the `ruleId` input parameter was missing or not recognised.
+
+- `InvalidCertificateException` – if certificates are used to connect, then this exception may be thrown if an invalid certificate is used.
+
+- `InvalidPasswordException` – the `password` input parameter was missing or incorrect.
+
+- `InvalidFieldException` – one of the required fields was missing, or the format of a field was not valid.  For example, this may be thrown if an email address is not valid.
+
+- `InvalidSourceIPAddressException` - if web service IP restriction is enabled, then this exception will be thrown if the caller's IP address is not white-listed.
+
+- `SystemException` - an unexpected error occurred.
+
+Note that exceptions will be wrapped and returned using the normal `SOAPFault` mechanism.
+
+## GetSources
+
+This method is used to get a list of data sources, which, if completed, will help a person become fully verified.  The method will also return the person’s verification status to date.
+
+## Input Parameters{#WebMethodDetailsV3-InputParameters.1}
+
+| **Name**            | **Type**              | **Required** | **Restrictions**                                                                                                                                                                                                                                              |
+| ------------------- | --------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `accountId`         | `String`              | Yes          | GreenID issues each customer with an `accountId`, which is a unique identifier by which greenID knows the caller.  This `accountId` must be supplied with every call to any method in this API.                                                               |
+| `password`          | `String`              | Yes          | Each customer is issued a password that must be supplied with every call to any web method in this API.                                                                                                                                                       |
+| `verificationId`    | `String`              | Yes          | This parameter must be a valid `verficationId` that has been previously registered, via the `registerVerification` web method, with greenID.  If the `verficationId` cannot be found in the greenID database, then an `InvalidTokenException` will be thrown. |
+| `verificationToken` | `String`              | No           | This parameter is reserved for the SimpleUI.  All customers should ignore this parameter, and set it to null.                                                                                                                                                 |
+| `extraData`         | `List<NameValuePair>` | No           | This parameter is used to send additional request information to greenID.  The various parameters are mentioned as required in this documentation.                                                                                                            |
+
+## Return Value{#WebMethodDetailsV3-ReturnValue.1}
+
+This method returns `CurrentStatusV3` object.  The following members will be populated:
+
+- `verificationResult` – this  field contains the results of checks that have been performed to date, and the person’s current verification status.
+
+- `sourceList` – this field will contain a list of data sources, which will help the person become fully verified.
+
+- `registrationDetails` - this field will contain all the details that were supplied for registration.
+
+## Exceptions{#WebMethodDetailsV3-Exceptions.1}
+
+The following exceptions may be thrown:
+
+- `InvalidCustomerIdException` – the `accountId` input parameter was missing or not recognised.
+
+- `InvalidCertificateException` – if certificates are used to connect, then this exception may be thrown if an invalid certificate is used.
+
+- `InvalidPasswordException` – the `password` input parameter was missing or incorrect.
+
+- `InvalidFieldException` – one of the required fields was missing, or the format of a field was not valid.  For example, this may be thrown if an email address is not valid.
+
+- `VerificationIdNotFoundException` - the `verificationId` supplied could not be found in greenID.
+
+- `InvalidSourceIPAddressExceptio`n - if web service IP restriction is enabled, then this exception will be thrown if the caller's IP address is not white-listed.
+
+- `SystemException` - an unexpected error occurred.
+
+## GetFields
+
+This method is used to get a list of source fields required for a particular data source.  The method will also return the person’s verification status to date
+
+## Input Parameters{#WebMethodDetailsV3-InputParameters.2}
+
+| **Name**          | **Type**              | **Required** | **Restrictions**                                                                                                                                                                                                                                                                                                               |
+| ----------------- | --------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| accountId         | String                | Yes          | GreenID issues each customer with an `accountId`, which is a unique identifier by which greenID knows the caller.  This `accountId` must be supplied with every call to any method in this API.                                                                                                                                |
+| password          | String                | Yes          | Each customer is issued a password that must be supplied with every call to any web method in this API.                                                                                                                                                                                                                        |
+| verficationId     | String                | Yes          | This parameter must be a valid `verficationId` that has been previously registered, via the `registerVerification` web method, with greenID.  If the `verficationId` cannot be found in the greenID database, then an `InvalidTokenException` will be thrown.                                                                  |
+| verificationToken | String                | No           | This parameter is reserved for the SimpleUI.  All customers should ignore this parameter, and set it to null.                                                                                                                                                                                                                  |
+| sourceId          | String                | Yes          | This parameter is the name of the data source for which the fields are being requested.  It must be a non-blank string that is a valid data source name.  For a complete list of available data sources, please refer to \<insert reference here>.  If the data source cannot be found, then the list of fields will be empty. |
+| extraData         | `List<NameValuePair>` | No           | This parameter is used to send additional request information to greenID.  The various parameters are mentioned as required in this documentation.                                                                                                                                                                             |
+
+## Return Value{#WebMethodDetailsV3-ReturnValue.2}
+
+This method returns `CurrentStatusV3` object.  The following members will be populated:
+
+- `verificationResult` – this  field contains the results of checks that have been performed to date, and the person’s current verification status.
+
+- `sourceFields` – this field will contain a list of fields that are required for the named data source.  If the data source could not be identified correctly, then this list will be empty.
+
+- `sourceList` – this field will contain an updated list of data sources, which will help the person become fully verified.  This field is provided for convenience, so that the caller does not need to call `getSources` immediately after this call.
+
+- `registrationDetails` - this field will contain all the details that were supplied for registration.
+
+## Exceptions{#WebMethodDetailsV3-Exceptions.2}
+
+The following exceptions may be thrown:
+
+- `InvalidCustomerIdException` – the `accountId` input parameter was missing or not recognised.
+
+- `InvalidCertificateException` – if certificates are used to connect, then this exception may be thrown if an invalid certificate is used.
+
+- `InvalidPasswordException` – the `password` input parameter was missing or incorrect.
+
+- `InvalidFieldException` – one of the required fields was missing, or the format of a field was not valid.  For example, this may be thrown if an email address is not valid.
+
+- `VerificationIdNotFoundException` - the `verificationId` supplied could not be found in greenID.
+
+- `InvalidSourceIPAddressException` - if web service IP restriction is enabled, then this exception will be thrown if the caller's IP address is not white-listed.
+
+- `SystemException` - an unexpected error occurred.
+
+## SetFields
+
+This method is used to provide data fields to greenID for the purpose of performing a check against a data source.  If all the fields are present and valid, then greenID will perform the check against the data source, and the result will be returned to the caller.
+
+## Input Parameters{#WebMethodDetailsV3-InputParameters.3}
+
+| **Name**          | **Type**              | **Required** | **Restrictions**                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ----------------- | --------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accountId         | String                | Yes          | GreenID issues each customer with an `accountId`, which is a unique identifier by which greenID knows the caller.  This `accountId` must be supplied with every call to any method in this API.                                                                                                                                                                                                                     |
+| password          | String                | Yes          | Each customer is issued a password that must be supplied with every call to any web method in this API.                                                                                                                                                                                                                                                                                                             |
+| verificationId    | String                | Yes          | This parameter must be a valid verificationId that has been previously registered, via the `registerVerification` web method, with greenID.  If the `verificationId` cannot be found in the greenID database, then an `InvalidTokenException` will be thrown.                                                                                                                                                       |
+| verificationToken | String                | No           | This parameter is reserved for the SimpleUI.  All customers should ignore this parameter, and set it to null.                                                                                                                                                                                                                                                                                                       |
+| sourceId          | String                | Yes          | This parameter is the name of the data source for which the fields are being requested.  It must be a non-blank string that is a valid data source name.  For a complete list of available data sources, please refer to the [Data Source Reference](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880465/Data+Source+Reference).  If the data source cannot be found, then an exception will be thrown. |
+| inputFields       | `List<NameValuePair>` | Yes          | This parameter contains a list of `NameValuePair` objects, each of which describes a single input field.  For example, a Medicare card number would be a single `NameValuePair`, with name = “Medicare card number” and value = “2xxxxxxxxx”.                                                                                                                                                                       |
+| `extraData`       | `List<NameValuePair>` | No           | This parameter is used to send additional request information to greenID.  The various parameters are mentioned as required in this documentation.                                                                                                                                                                                                                                                                  |
+
+## Return Value
+
+This method returns `CurrentStatusV3` object.  The following members will be populated:
+
+- `verificationResult` – this  field contains the results of checks that have been performed to date, and the person’s current verification status.
+
+- `sourceList` – this field will contain an updated list of data sources, which will help the person become fully verified.  This field is provided for convenience, so that the caller does not need to call `getSources` immediately after this call.
+
+- `registrationDetails` - this field will contain all the details that were supplied for registration.
+
+## Exceptions
+
+The following exceptions may be thrown:
+
+- `InvalidCustomerIdException` – the `accountId` input parameter was missing or not recognised.
+
+- `InvalidCertificateException` – if certificates are used to connect, then this exception may be thrown if an invalid certificate is used.
+
+- `InvalidPasswordException` – the `password` input parameter was missing or incorrect.
+
+- A runtime exception will be thrown if the person has already completed the check, or if the user has been locked out of the data source, for example, by too many previous attempts.
+
+- `IllegalStateException` – if the check identified by the sourceId input parameter cannot be found.
+
+- `InvalidFieldException` – one of the required fields was missing, or the format of a field was not valid.  For example, this may be thrown if an email address is not valid.
+
+- `VerificationIdNotFoundException` - the verificationId supplied could not be found in greenID.
+
+- `InvalidSourceIPAddressException` - if web service IP restriction is enabled, then this exception will be thrown if the caller's IP address is not white-listed.
+
+- `SystemException` - an unexpected error occurred.
+
+## GetVerificationResult
+
+This method is used to get the current state of the verification process.  This call is effectively the same as a call to getSources, and indeed the same results will be returned.
+
+## Input Parameters{#WebMethodDetailsV3-InputParameters.4}
+
+| **Name**          | **Type**              | **Required** | **Restrictions**                                                                                                                                                                                                                                              |
+| ----------------- | --------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accountId         | String                | Yes          | GreenID issues each customer with an `accountId`, which is a unique identifier by which greenID knows the caller.  This `accountId` must be supplied with every call to any method in this API.                                                               |
+| password          | String                | Yes          | Each customer is issued a password that must be supplied with every call to any web method in this API.                                                                                                                                                       |
+| verificationId    | String                | Yes          | This parameter must be a valid verificationId that has been previously registered, via the `registerVerification` web method, with greenID.  If the `verificationId` cannot be found in the greenID database, then an `InvalidTokenException` will be thrown. |
+| verificationToken | String                | No           | This parameter is reserved for the SimpleUI.  All customers should ignore this parameter, and set it to null.                                                                                                                                                 |
+| extraData         | `List<NameValuePair>` | No           | This parameter is used to send additional request information to greenID.  The various parameters are mentioned as required in this documentation.                                                                                                            |
+
+## Return Value
+
+This method returns `CurrentStatusV3` object.  The following members will be populated:
+
+- `verificationResult` – this  field contains the results of checks that have been performed to date, and the person’s current verification status.
+
+- `sourceList` – this field will contain a list of data sources, which will help the person become fully verified.
+
+- `registrationDetails` - this field will contain all the details that were supplied for registration.
+
+## Exceptions{#WebMethodDetailsV3-Exceptions.3}
+
+The following exceptions may be thrown:
+
+- `InvalidCustomerIdException` – the `accountId` input parameter was missing or not recognised.
+
+- `InvalidCertificateException` – if certificates are used to connect, then this exception may be thrown if an invalid certificate is used.
+
+- `InvalidPasswordException` – the `password` input parameter was missing or incorrect.
+
+- `InvalidFieldException` – one of the required fields was missing, or the format of a field was not valid.  For example, this may be thrown if an email address is not valid.
+
+- `VerificationIdNotFoundException` - the verificationId supplied could not be found in greenID.
+
+- `InvalidSourceIPAddressException` - if web service IP restriction is enabled, then this exception will be thrown if the caller's IP address is not white-listed.
+
+- `SystemException` - an unexpected error occurred.
+
+## GetVerificationToken
+
+This method is used to get a token that can be used for a verification session within the API.  This also extends to use via the SimpleUI.  Please consult [greenID Web](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) for full details.  If you need to implement the "returning person" scenario using the SimpleUI, then you will need a token issued by this method.
+
+## Input Parameters{#WebMethodDetailsV3-InputParameters.5}
+
+| **Name**       | **Type**                           | **Required** | **Restrictions**                                                                                                                                                                                                                                                |
+| -------------- | ---------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**       | **Type**                           | **Required** | **Restrictions**                                                                                                                                                                                                                                                |
+| accountId      | String                             | Yes          | GreenID issues each customer with an `accountId`, which is a unique identifier by which greenID knows the caller.  This `accountId` must be supplied with every call to any method in this API.                                                                 |
+| password       | String                             | Yes          | Each customer is issued a password that must be supplied with every call to any web method in this API.                                                                                                                                                         |
+| verificationId | String                             | Yes          | This parameter must be a valid `verificationId` that has been previously registered, via the `registerVerification` web method, with greenID.  If the `verificationId` cannot be found in the greenID database, then an `InvalidTokenException` will be thrown. |
+| extraData      | <p>`List<NameValuePair>` </p><p /> | No           | This parameter is used to send additional request information to greenID.  The various parameters are mentioned as required in this documentation.                                                                                                              |
+
+## Return Value{#WebMethodDetailsV3-ReturnValue.3}
+
+This method returns a `String` object that is the token.
+
+## Exceptions{#WebMethodDetailsV3-Exceptions.4}
+
+The following exceptions may be thrown:
+
+- `InvalidCustomerIdException` – the `accountId` input parameter was missing or not recognised.
+
+- `InvalidCertificateException` – if certificates are used to connect, then this exception may be thrown if an invalid certificate is used.
+
+- `InvalidPasswordException` – the `password` input parameter was missing or incorrect.
+
+- `InvalidFieldException` – one of the required fields was missing, or the format of a field was not valid.  For example, this may be thrown if an email address is not valid.
+
+- `VerificationIdNotFoundException` - the verificationId supplied could not be found in greenID.
+
+- `InvalidSourceIPAddressException` - if web service IP restriction is enabled, then this exception will be thrown if the caller's IP address is not white-listed.
+
+- `SystemException` - an unexpected error occurred.
+
+\\

@@ -1,0 +1,179 @@
+---
+id: detailed-watchlist-result
+title: Detailed Watch List Result - getWatchlistResult
+---
+
+# Detailed Watch List Result - getWatchlistResult
+
+This method allows customers to retrieve a detailed watchlist result when they’re configured with Comprehensive Watchlist screening (via Comply Advantage).
+
+## **Web Service Endpoints** {#Web-Service-Endpoints}
+
+Test: [https://test-au.vixverify.com/Registrations-Registrations/WatchlistServiceV1?wsdl](https://test-au.vixverify.com/Registrations-Registrations/WatchlistServiceV1?wsdl)
+
+Production: [https://au.vixverify.com/Registrations-Registrations/WatchlistServiceV1?wsdl](https://test-au.vixverify.com/Registrations-Registrations/WatchlistServiceV1?wsdl)
+
+## **Input Parameters**{#Input-Parameters}
+
+This method supports pagination. Please ensure that all results are retrieved by using the pagination parameters when using this method.
+
+| Name           | Type    | Required | Restrictions                                                                                                                                                                                                                                                  |
+| -------------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accountId      | String  | Yes      | GreenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller.  This `accountId` must be supplied with every call to any method in this API.                                                                 |
+| password       | String  | Yes      | Each customer is issued a password that must be supplied with every call to any web method in this API.                                                                                                                                                       |
+| verificationId | String  | Yes      | This parameter must be a valid `verficationId` that has been previously registered, via the `registerVerification` web method, with greenID.  If the `verficationId` cannot be found in the greenID database, then an `InvalidTokenException` will be thrown. |
+| pageSize       | String  | No       | <p>Default is 25.</p><p>Must be a positive integer.</p><p>Max page size is 100.</p>                                                                                                                                                                           |
+| pageNumber     | String  | No       | Must be a positive integer.                                                                                                                                                                                                                                   |
+
+### Faults & Exceptions{#Faults-&-Exceptions}
+
+| **Type**                                          | **FaultCode**               | **Detail**                                           |
+| ------------------------------------------------- | --------------------------- | ---------------------------------------------------- |
+| accountId is missing                              | FieldValidationFault        | accountID is missing                                 |
+| verificationId is missing                         | FieldValidationFault        | verificationid is missing                            |
+| verificationId is not found                       | VerificationIdNotFoundFault | \<verificationId supplied in the request>            |
+| Invalid password or invalid accountId             | InvalidPasswordFault        | \<password or accountId supplied in the request>     |
+| Invalid page size                                 | FieldValidationFault        | Invalid page size                                    |
+| Invalid page number                               | FieldValidationFault        | Invalid page number                                  |
+| Page number does not exist                        | FieldValidationFault        | An unexpected problem occurred. Invalid page number. |
+| Invalid certificates (when certificates are used) | InvalidCertificateFault     | \<accountId supplied in the request>                 |
+| Invalid Source IP Address                         | InvalidIPAddressFault       | IP address                                           |
+| System exception                                  | SytemFault                  | Details will vary based on exception type.           |
+
+## [**Return Value**](https://confluence.gbgplc.com/display/GIDT/WatchlistService+API#WatchlistServiceAPI-ReturnValue){#Return-Value}
+
+This method returns [WatchlistCheckDetails](https://confluence.gbgplc.com/display/GIDT/WatchlistCheckDetails) object. The following members will be populated:
+
+- [Verification](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905#Verification) – this  field contains the results of checks that have been performed to date, and the person’s current verification status.
+
+- [ProfileMatch](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ProfileMatch) – this field will contain a list of individual person profile matches returned from a watchlist provider
+
+### WatchlistCheckDetails{#WatchlistCheckDetails}
+
+| Name                             | Type                                                                                                                                                              | Description                                                                                                                                  |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| verification                     | [Verification](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#Verification)         | Details of the verification these watchlist results relate to.                                                                               |
+| dateChecked                      | String                                                                                                                                                            | Date timestamp the watchlist check performed.                                                                                                |
+| lastActionDate                   | String                                                                                                                                                            | Date time stamp the watchlist check was last actioned.                                                                                       |
+| watchlistProduct                 | String                                                                                                                                                            | Name of the watchlist product                                                                                                                |
+| overallWatchlistStatus           | String                                                                                                                                                            | <p>Overall watchlist status.  Will be one of:</p><p>ERROR</p><p>FOUND\_ON\_LIST</p><p>NOT\_FOUND\_ON\_LIST</p><p>MATCH\_REVIEW\_REQURIED</p> |
+| customerIdentifier               | String                                                                                                                                                            | The ‘case’ identifier from the watchlist provider.                                                                                           |
+| numberOfProfileMatches           | int                                                                                                                                                               | Total number of person profiles matched.                                                                                                     |
+| watchlistCheckDetailsCurrentPage | int                                                                                                                                                               | Current page number - Use default if no value provided in the input.                                                                         |
+| watchlistCheckDetailsPageTotal   | int                                                                                                                                                               | Total number of pages.                                                                                                                       |
+| watchlistCheckDetailsPageSize    | int                                                                                                                                                               | Current page size - use default if no value provided in the input.                                                                           |
+| profileMatch                     | List\<[ProfileMatch](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ProfileMatch) > | Details of individual person profile(s) matched.                                                                                             |
+
+#### Verification{#Verification}
+
+| Name                | Type                                                                                                                                                                     | Description                                                                                                                                                                                                                                   |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| verificationId      | String                                                                                                                                                                   | The unique identifier for this verification attempt.                                                                                                                                                                                          |
+| dateCreated         | String                                                                                                                                                                   | The timestamp of when this verification attempt was created. The string will be formatted in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. The pattern used to generate this string in Java is `yyyy-MM-dd'T'HH:mm:ss.SSSZ`. |
+| registrationDetails | [RegistrationDetails](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#Registration-Details) | Details that were supplied for registration.                                                                                                                                                                                                  |
+
+#### RegistrationDetails
+
+| name                       | [Data Structures V5 \| DataStructuresV5 Name](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111363#DataStructuresV5-Name)               | The person's name.                             |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| dob                        | [Data Structures V5 \| DataStructuresV5 DateOfBirth](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111363#DataStructuresV5-DateOfBirth) | The person's date of birth.                    |
+| currentResidentialAddress  | [Data Structures V5 \| DataStructuresV5 Address](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111363#DataStructuresV5-Address)         | The person's current residential address.      |
+| previousResidentialAddress | [Data Structures V5 \| DataStructuresV5 Address](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111363#DataStructuresV5-Address)         | The person's previous residential address.     |
+| email                      | String                                                                                                                                                | The person’s email address, if provided.       |
+| homePhone                  | String                                                                                                                                                | The person’s home phone number, if provided.   |
+| mobilePhone                | String                                                                                                                                                | The person’s mobile phone number, if provided, |
+| workPhone                  | String                                                                                                                                                | The person’s work phone number, if provided.   |
+
+#### ProfileMatch{#ProfileMatch}
+
+| Name                         | Type                                                                                                                                                                                    | Description                       |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| personName                   | String                                                                                                                                                                                  | Name of the person matched.       |
+| personMatchType              | String                                                                                                                                                                                  | Person matched type.              |
+| personWatchlistsStatus       | String                                                                                                                                                                                  | Watchlist status of the profile.  |
+| personMatchSummary           | [PersonMatchSummary](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#PersonMatchSummary)                   | Match summary of the profile.     |
+| listofAlternativeNames       | [ListofAlternativeNames](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfAlternateNames)             | Lists of Also Known As.           |
+| listOfDateOfBirth            | [ListOfDateOfBirth](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfDateOfBirth)                     | List of known DOBs.               |
+| listOfDateOfDeath            | [ListOfDateOfDeath](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfDateOfDeath)                     | List of known Date of Death.      |
+| listOfPlaceOfBirth           | [ListOfPlaceOfBirth](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfPlaceOfBirth)                   | List of known Place of Birth.     |
+| listOfAssociates             | [ListOfAssociates](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfAssociates)                       | List of known associate details.  |
+| listOfDetailedCheckedResults | [ListOfDetailedCheckedResults](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfDetailedCheckResults) | List of detailed check results.   |
+
+##### PersonMatchSummary{#PersonMatchSummary}
+
+| Name                        | Type | Description                                                |
+| --------------------------- | ---- | ---------------------------------------------------------- |
+| associatesCount             | int  | Count of associates matched. Zero (0) if no match.         |
+| sanctionsCount              | int  | Count of sanctions matched. Zero (0) if no match.          |
+| warningsAndOtherListsCounts | int  | Count of warnings and lists matched. Zero (0) if no match. |
+| PEPCount                    | int  | Count of pep matched. Zero (0) if no match.                |
+| adverseMediaCount           | int  | Count of media matched. Zero (0) if no match.              |
+
+##### ListOfAlternateNames{#ListOfAlternateNames}
+
+| Name | Type          | Description                                      |
+| ---- | ------------- | ------------------------------------------------ |
+| name | List\<String> | Also Known As (an alias the person is known by). |
+
+##### ListOfDateOfBirth{#ListOfDateOfBirth}
+
+| Name | Type          | Description                   |
+| ---- | ------------- | ----------------------------- |
+| dob  | List\<String> | List of known dates of birth. |
+
+##### ListOfDateOfDeath{#ListOfDateOfDeath}
+
+| Name        | Type          | Description                   |
+| ----------- | ------------- | ----------------------------- |
+| dateOfDeath | List\<String> | List of known dates of death. |
+
+##### ListOfPlaceOfBirth{#ListOfPlaceOfBirth}
+
+| Name         | Type          | Description                    |
+| ------------ | ------------- | ------------------------------ |
+| placeOfBirth | List\<String> | List of known places of birth. |
+
+##### ListOfAssociates{#ListOfAssociates}
+
+| Name      | Type             | Description               |
+| --------- | ---------------- | ------------------------- |
+| Associate | List\<Associate> | List of known Associates. |
+
+##### Associate{#Associate}
+
+| Name | Type   | Description     |
+| ---- | ------ | --------------- |
+| name | String | Associate name. |
+| type | String | Associate type. |
+
+##### ListOfDetailedCheckResults{#ListOfDetailedCheckResults}
+
+| Name                | Type                                                                                                                                                                                  | Description                         |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| detailedCheckResult | List\<[DetailedCheckResult](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfDetailedCheckResults)> | List of Detailed watchlist results. |
+
+##### DetailedCheckResult
+
+| Name                 | Type                                                                                                                                                                      | Description                                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| listingStartDate     | String                                                                                                                                                                    | Date the source was first published.                                                                                             |
+| listingEndDate       | String                                                                                                                                                                    | Date the source was removed.                                                                                                     |
+| watchlistCategory    | String                                                                                                                                                                    | <p>The type of watchlist match.  Will be one of:</p><p>PEP</p><p>Sanctions</p><p>WarningsAndOtherLists</p><p>AdverseMedia</p>    |
+| watchlistUrl         | String                                                                                                                                                                    | URL of the source.                                                                                                               |
+| watchlistName        | String                                                                                                                                                                    | Name of the source.                                                                                                              |
+| watchlistDescription | String                                                                                                                                                                    | A description of the source.                                                                                                     |
+| pepClass             | String                                                                                                                                                                    | <p>The classification of the source, will be one of:</p><p>pep-class-1</p><p>pep-class-2</p><p>pep-class-3</p><p>pep-class-4</p> |
+| listOfMatchDataItems | [ListOfMatchDataItems](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfMatchDataItems) | A list of fields associated with the match.  This list contains the specific details of this match.                              |
+
+##### ListOfMatchDataItems
+
+| Name           | Type                                                                                                                                                                      | Description                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| matchDataItems | List\<[MatchDataItem](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/edit-v2/2472443905?draftShareId=154d79fc-2d43-4f26-83b3-6d56a61b1d1b#ListOfMatchDataItems)> | A list of name-value pairs, each of which contains a specific detail related to this match. |
+
+##### MatchDataItem
+
+| Name  | Type   | Description            |
+| ----- | ------ | ---------------------- |
+| name  | String | The name of the field. |
+| value | String | The name of the field. |

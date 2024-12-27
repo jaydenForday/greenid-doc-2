@@ -1,0 +1,33 @@
+---
+id: verification-processes
+title: Verification Processes
+sidebar_position: 6
+---
+
+# Verification Processes
+
+greenID Web supports verification of both new and returning users. 
+
+## New Person
+
+A typical usage scenario, referred to as the “new person scenario”, proceeds as follows:
+
+1. The person registers with your organisation via your web page, and elects to begin the identity verification process.
+
+2. greenID Web takes control of the page and dynamically renders the UI elements and governs the workflow to guide the person through the verification process.
+
+3. Once the verification process is complete, greenID web removes any UI elements it has rendered and returns control to your web page.
+
+4. Your application makes a call to greenID to fetch the details of the verification attempt. 
+
+## Returning Person
+
+It is also possible to pause or abandon the verification process and return later to resume.  This is called the “returning person” scenario.  The steps for returning person are:
+
+1. The person returns to your web page and elects to resume the verification process.
+
+2. The remaining steps are the same as the “new” person scenario.
+
+## Setup
+
+The setup for each scenario is slightly different. Even though the steps for both scenarios are almost identical. See [Registering and Verifying New Individuals](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880338/Registering+and+Verifying+New+Individuals) and [Continuing the Verification of Previously Registered Individuals](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/365002999/Continuing+the+Verification+of+Previously+Registered+Individuals) for more information. 

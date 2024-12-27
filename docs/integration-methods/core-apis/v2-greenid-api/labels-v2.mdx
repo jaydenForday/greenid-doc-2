@@ -1,0 +1,28 @@
+---
+id: labels-v2
+title: Labels V2
+sidebar_position: 5
+---
+
+# Labels V2
+
+:::note
+
+**API Versions**
+
+This documentation relates to an old version of the greenID API. [Version 2](https://vixverify.atlassian.net/wiki/display/GREEN/Version+2+greenID+API) was deprecated in October 2017. See [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API) for the current version.
+
+:::
+
+The sourceField and rawData elements of the responses contain labels and tooltips for the various data fields. There are two forms these labels/tooltips can take: 
+
+1. Handlebars templates of the form \{\{\{label\_name}}}. For an example, see the rawData example in the [Interpreting Results](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629480/Interpreting+Results+V2) section. Handlebars templates allows a customer to customise the content of the label by using the Handlebars Javascript templating engine. For more information on Handlebars, the reader is referred to the Handlebars website: [http://www.handlebarsjs.com/](http://www.handlebarsjs.com/)
+
+2. A translated label using greenID defaults. For an example, see the sourceFields example in the [Interpreting Results](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629480/Interpreting+Results+V2) section above.
+
+An account configuration option is set to determine which of these will be returned. The default setting is to translate labels to the greenID defaults. Please contact VIX Verify to change which option is used.
+
+Alternatively, label translation can be disabled on a per-request basis by passing an extraData parameter to the [getFields](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/17629476/Web+Method+Details+V2#WebMethodDetailsV2-GetFields) web method. If the optionalDatacontains a name-value pair with the name "disable.label.translation" and the value "true", then label translation will be skipped for that request. The request below shows an example of a getFields call with label translation disabled:
+
+| <p>`<soapenv:Envelope` `xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"` `xmlns:dyn="http://dynamicform.services.registrations.edentiti.com/">`</p><p>`   <soapenv:Header/>`</p><p>`   <soapenv:Body>`</p><p>`      <dyn:getFields>`</p><p>`         <accountId>YOUR_ACCOUNT_ID</accountId>`</p><p>`         <password>YOUR_WEB_SERVICE_PASSWORD</password>`</p><p>`         <verificationId>A_VERIFICATION_ID</verificationId>`</p><p>`         <sourceId>nswregodvs</sourceId>`</p><p>`         <extraData>`</p><p>`            <name>disable.label.translation</name>`</p><p>`            <value>true</value>`</p><p>`         </extraData>        `</p><p>`      </dyn:getFields>`</p><p>`   </soapenv:Body>`</p><p>`</soapenv:Envelope>`</p> |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,0 +1,23 @@
+---
+id: cancel-notification
+itle: Cancel Notification
+sidebar_position: 2
+---
+
+# Cancel Notification
+
+## **What is the cancel notification Service?**
+
+This notification service has been specifically introduced for customers using greenID Hosted so they are able to be notified when users cancel out of their Hosted journey. Unlike other implementation, Hosted does not hand off to a customer's calling application for actions like a user exiting the process. This notification service allows customer manage their workflow in the scenario that the user exits the journey from Hosted.
+
+## **How does it work?**
+
+Once the user is registered in greenID via the Hosted web service or Hosted site and hit the 'Cancel' button on any of the Hosted pages, a notification is sent to a customer configured URL. The notification will contain a verification ID. It must be noted that if the user opts out of the Hosted journey prior to registration, greenID will not send a notification because an associated verification ID will not be available at the time.
+
+The cancel notification will be an HTTP POST to the configured URL. The POST HTTP request will have a content-type of "application/x-www-form-urlencoded" and will contain a name/value pair with the name “verificationID” and the verificationID as the value.
+
+## **How can this be setup?**
+
+The notification URL is set as a property for a client organisation and can only be configured or changed by GBG staff. Customers can configure the notification URL for this to be the same as their other notification URLs, if required.  
+
+Please contact your account representative for more information.

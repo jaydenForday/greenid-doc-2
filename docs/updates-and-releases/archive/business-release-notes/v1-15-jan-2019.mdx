@@ -1,0 +1,36 @@
+---
+id: v1-a5-jan-2019
+title: V 1.15 Jan 2019
+sidebar_position: 3
+---
+
+# V 1.15 Jan 2019
+
+## Release Dates
+
+**Test**: Dec 13, 2018
+
+**Production**: Jan 8, 2019
+
+## In This Release
+
+The main focus of this release was to improve internals of the system to handle future upgrades scheduled for the first quarter of 2019. This includes updating the structure of the API data extraction response.
+
+The data extraction API documentation has been updated to reflect the above changes to the response, and also includes details in anticipation of the additional business information being returned in early 2019. The documentation is now available on the [greenID Customer Knowledge Base](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/393805869/greenID+Business+API+businessVerification+-+GET).
+
+Additional changes in this release include fixes regarding errors shown when validating "other public entity" businesses in New Zealand and the country name missing from addresses on the data extraction API.
+
+## Features and Updates
+
+The following outlines some of the key updates delivered in this release:
+
+| **Business Verification** |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Improvements**          | Improvements to internal error reporting to ensure data source errors are identified and actioned promptly                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **Errors and Bug Fixes**  | Address types for ASIC foreign companies are now displaying correctly in the audit logs. The audit log previously said 'address' rather than 'registered address'.Validating 'other public entity' type businesses located in New Zealand no longer causes a datasource error. Users can now validate these business types.The country name is now being returned as part of the address on the extract API for businesses created via an ACN lookup. This was previously only shown if the business was created via an NZBN or ABN lookup. It is also now being returned for addresses of individuals who are added manually to a business. |
+
+## Constraints and Known Issues
+
+No new constraints or known issues were introduced in this release.
+
+Existing constraints and known issues can be found on the [Constraints and Known Issues page](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues)

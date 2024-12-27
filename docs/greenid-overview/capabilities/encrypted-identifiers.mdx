@@ -1,0 +1,221 @@
+---
+id: encrypted-identifiers
+title: Encrypted Identifiers
+---
+
+# Encrypted Identifiers
+
+GreenID normally does not store identifiers such as document numbers, reference numbers and other document identifiers that may be checked as part of the verification process, which are not part of the person's basic data (name, address, DoB).  However, some customers require access to these identifiers after the verification process is complete.  To facilitate this greenID can store these identifiers once they have been encrypted.  
+
+GreenID uses a public/private PGP key pair, in which the organisation who wants the encrypted identifiers stored in greenID creates the public/private key pair, and gives the public key to VIX Verify.  GreenID uses the public key to encrypt the identifier before it is stored in the database.  Using such a public/private key pair ensures that VIX Verify cannot know what the identifiers are once they have been stored, but the customer organisation can still retrieve them and decrypt them using their private key.
+
+Following is a list of fields, listed by data source, of the fields that will be encrypted if this option is enabled (note that some sources have both a DVS and non-DVS version).  The list includes the field name that will be returned in a web service response (which is discussed in more detail below).
+
+- **ACT drivers licence:**
+
+  - licence number: number
+
+- **ACT drivers licence (DVS):**
+
+  - licence number: licenceNumber
+
+  - card number: cardNumber
+
+- **Birth certificate:**
+
+  - registration number: registrationNumber
+
+  - registration year: registrationYear
+
+  - state of issue: state
+
+- **Birth certificate (DVS):**
+
+  - registration number: registrationNumber
+
+  - registration year: registrationYear
+
+  - state of issue: state
+
+  - certificate number: certificateNumber
+
+  - certificate printed date: certificatePrintedDate
+
+  - registration date: registrationDate
+
+- **Change of name certificate (DVS):**
+
+  - previous given name: oldGivenName
+
+  - previous middle names: oldMiddleName
+
+  -  previous surname: oldSurname
+
+  - registration number: registrationNumber
+
+  - registration year: registrationYear
+
+  - registration date: registrationDate
+
+  - state of issue: state
+
+  - certificate issued date: certificateIssuedDate
+
+  - certificate number: certificateNumber
+
+- **Citizenship certificate (DVS):**
+
+  - stock number: stockNumber
+
+  - acquisition date: acquisitionDate
+
+- **Immi Card (DVS):**
+
+  - card number: cardNumber
+
+- **Marriage certificate (DVS):**
+
+  - date of marriage: dateOfMarriage
+
+  - state of issue: state
+
+  - spouse's given name: spouseGivenName
+
+  - spouse's middle names: spouseMiddleName
+
+  - spouse's surname: spouseSurname
+
+  - registration number: registrationNumber
+
+  - registration year: registrationYear
+
+  - certificate issued date: certificateIssuedDate
+
+  - certificate number: certificateNumber
+
+  - party (bride or groom): party
+
+- **Medibank:**
+
+  - membership number: number
+
+- **Medicare (DVS):**
+
+  - Medicare number: number
+
+  - individual reference number: reference
+
+- **NSW drivers licence:**
+
+  - licence number: licenceNumber
+
+  - RTA number: rtaNumber
+
+- **NSW drivers licence (DVS):**
+
+  - licence number: licenceNumber
+
+  - card number: cardNumber
+
+- **NT drivers licence (DVS):**
+
+  - licence number: licenceNumber
+
+  - card number: cardNumber
+
+- **NZ drivers licence:**
+
+  - licence number: number
+
+  - version number: code
+
+- **NZ passport:**
+
+  - passport number: number
+
+  - expiry date: expiryDate
+
+- **Passport:**
+
+  - passport number: number
+
+  - extra data: extradata
+
+- **Passport (DVS):**
+
+  - passport number: number
+
+  - gender code: genderCode
+
+- **QLD drivers licence:**
+
+  - licence number: number
+
+- **QLD drivers licence (DVS):**
+
+  - licence number: licenceNumber
+
+  - card number: cardNumber
+
+- **SA drivers licence:**
+
+  - licence number: number
+
+- **SA drivers licence (DVS):**
+
+  - licence number: licenceNumber
+
+  - card number: cardNumber
+
+- **TAS drivers licence (DVS):**
+
+  - licence number: licenceNumber
+
+  - card number: cardNumber
+
+- **VIC drivers licence:**
+
+  - licence number: number
+
+- **VIC drivers licence (DVS):**
+
+  - licence number: licenceNumber
+
+  - card number: cardNumber
+
+- **Visa:**
+
+  - passport number: number
+
+  - country of issue: country
+
+- **Visa (DVS):**
+
+  - passport number: passportNumber
+
+  - country of issue: countryOfIssue
+
+- **WA drivers licence:**
+
+  - licence number: number
+
+  - expiry date: expiryDate
+
+- **WA drivers licence (DVS):**
+
+  - licence number: licenceNumber
+
+  - card number: cardNumber
+
+
+
+Encrypted fields are included in web service responses from greenID.  The fields are included as a "fieldResults" element nested within a "individualResults" element, just like non-encrypted fields.  The difference is that encrypted fields have the "format" element set to the value "PGPEncrypted", and the "name" element will be one of the values from the list above, depending on the data source.
+
+An example response for a VisaDVS check is given below to illustrate:
+
+| <p>`<individualResults>`</p><p>`     <fieldsResults>`</p><p>`      <data>John</data>`</p><p>`      <dataInfo>currentAddress</dataInfo>`</p><p>`      <format>plain</format>`</p><p>`      <label>givenName</label>`</p><p>`      <name>givenName</name>`</p><p>`      <status>CONFIRMED</status>`</p><p>`     </fieldsResults>`</p><p>`     <fieldsResults>`</p><p>`      <data>Q</data>`</p><p>`      <dataInfo>currentAddress</dataInfo>`</p><p>`      <format>plain</format>`</p><p>`      <label>middleNames</label>`</p><p>`      <name>middleNames</name>`</p><p>`      <status>CONFIRMED</status>`</p><p>`     </fieldsResults>`</p><p>`     <fieldsResults>`</p><p>`      <data>Citizen</data>`</p><p>`      <dataInfo>currentAddress</dataInfo>`</p><p>`      <format>plain</format>`</p><p>`      <label>surname</label>`</p><p>`      <name>surname</name>`</p><p>`      <status>CONFIRMED</status>`</p><p>`     </fieldsResults>`</p><p>`     <fieldsResults>`</p><p>`      <data>1980-01-01` `00:00:00.0</data>`</p><p>`      <dataInfo>currentAddress</dataInfo>`</p><p>`      <format>plain</format>`</p><p>`      <label>dob</label>`</p><p>`      <name>dob</name>`</p><p>`      <status>CONFIRMED</status>`</p><p>`     </fieldsResults>`</p><p>`     <fieldsResults>`</p><p>`      <data>-----BEGIN PGP MESSAGE-----`</p><p>`Version: BCPG v1.43`</p><p> </p><p> </p><p>`hQEMA24zDb9xI+JJAQf9Hbm7PP1EyY4QSzk8tArWl/RrsfP4iRZVy3exRIc2ZEAP`</p><p>`TxFLs2budXPTZBHlEY4eQdxSylFsoyiD+x4vdSru9naRL8R38XFt9i+CVuLssbpu`</p><p>`eYTE7rApbrYZeKO6fj/lIm4v0DCaXY1MvWyMWZ2sN79M3L96skMdDOy/UWzTJhzI`</p><p>`KC4rTplcFxMHMe97feGz5Xq7I1S4nOoQ9sJM7BJQqUVI8M+jYtesBn0j0HNYGJv7`</p><p>`/dcHC5E+yXCjHY8q+wPK5haa79qyIT5IV8asqQUFzaqmVF1qxvJFip11KeYivc4H`</p><p>`B85YB1oSBMfyniyKiqDdx2uAw+Ek9S3osEKYQXWlN9I4AVK75xxiwsg95c/0qNWB`</p><p>`qHBfgUPTHt1PX3SypPcWml8g77MgyofisSFEFh8v5EA07hmuh0TN0nE=`</p><p>`=Y3z+`</p><p>`-----END PGP MESSAGE-----`</p><p>`</data>`</p><p>`      <format>PGPEncrypted</format>`</p><p>`      <label>countryOfIssue</label>`</p><p>`      <name>countryOfIssue</name>`</p><p>`      <status>ADDITION</status>`</p><p>`     </fieldsResults>`</p><p>`     <fieldsResults>`</p><p>`      <data>-----BEGIN PGP MESSAGE-----`</p><p>`Version: BCPG v1.43`</p><p> </p><p> </p><p>`hQEMA24zDB9YI+yJAQf+JyL3TrDP68Dy4tOgGQeU7QyB94JvvFMcrg8MwhuKY+Np`</p><p>`7XnU2dKhJRPGH0OWs4zhZcJOEtbbFngbWCosNt4spT51xXZ0Tw9y/DXiIu3+jWzi`</p><p>`WeybA9sITzVz7f5UIAMFXFyYJor7IL6Fz++IxugRXAQIKlAQVNxIrGblViDyb87+`</p><p>`Zm27QGfee3UOuzL4RI555mYI+XMYfErcMiYvwEFwzWOnyY4NKaFOmUgDSJ0UpJ0M`</p><p>`J+rs7G4yMEQiJLkmxp8yQfyC7silpUHff2rHcMtVd4wrvfYq2sMUlaZmb29zUrrC`</p><p>`dQuJweSQio9b5dZcF4ArOah70h2nEIgY56M5bef02CI+AVf6+rI4OyR0ztpXw1OD`</p><p>`He0PFviZdVQEKEqhmfYpY50XRuz8ZmO73SJa7ZQDn210dXBMd7K7QgVRKdmYG8w=`</p><p>`=a7a5`</p><p>`-----END PGP MESSAGE-----`</p><p>`</data>`</p><p>`      <format>PGPEncrypted</format>`</p><p>`      <label>passportNumber</label>`</p><p>`      <name>passportNumber</name>`</p><p>`      <status>ADDITION</status>`</p><p>`     </fieldsResults>`</p><p>`     <method>UC</method>`</p><p>`     <name>VisaDVS</name>`</p><p>`     <state>VERIFIED</state>`</p><p>`    </individualResults>`</p> |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+    
+
+\

@@ -1,0 +1,23 @@
+---
+id: setup-function-options
+title: Setup Function Options
+sidebar_position: 5
+---
+
+# Setup Function Options
+
+There are several options that can be given to the setup function. These parameters are all optional.
+
+## showDialogWhenNoSourcesLeft
+
+During a verification session, it is possible that there may be no more useful sources left, and the person is unable to complete verification.  In this circumstance, if the "document upload" feature is enabled, then that option is displayed. Otherwise, if the option to verify via Australia Post is enabled, then that option is displayed.  If neither of those two options are displayed, then the verification session will be finished automatically.  Optionally, a dialog can be displayed, indicating that there are no more sources available.
+
+The showDialogWhenNoSourcesLeft setting controls whether the dialog is displayed.  The default value is "true".  When the session is ended, the sessionCancelledCallback function will be called.
+
+## enableBackButtonWarning
+
+If a user tries to close the browser tab during verification they'll get a browser alert asking them if they really want to do this.  This is the default greenID Web behaviour.  If you'd like to disable this feature, set enableBackButtonWarning to "false".
+
+## enableCancelButton
+
+You can enable an optional 'Skip Verification' button that sits beside the submit button on all data sources.  This allows the user to decide that they don't want to complete verification. When clicked, it invokes the sessionCancelledCallback function and submits the form (if used).  If you'd like to use this button, set enableCancelButton to "true".

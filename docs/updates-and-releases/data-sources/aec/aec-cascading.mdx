@@ -1,0 +1,48 @@
+---
+id: aec-cascading
+title: Australian Electoral Roll (AEC) cascading
+sidebar_position: 3
+---
+
+# Australian Electoral Roll (AEC) cascading
+
+To minimise the impact of the DVS transaction fees for electoral roll verifications, greenID will only use Australian electoral roll data when it contributes to the verification outcome.   We call this a ‘cascading check’.  
+
+## **How does cascading check work?**
+
+In simple terms, the first identity check will continue to be against greenID’s core data set which includes exclusive data such as illion Credit Header, Australian Tenancy File and Australian Claims Database.  
+
+If the identity requires further verification, that Australian electoral roll data can provide, greenID will ‘cascade’ to check against the electoral roll database.
+
+Post go-live on 30 November 2022, we are seeing less than a quarter of verifications cascading to AEC saving customers the cost of DVS transaction fees for unnecessary checks. NOTE: how you capture your identity data, what rules you have configured and how you are integrated to greenID will have an impact on how often AEC data will be used for you.
+
+## **Match rate impacts**
+
+With the introduction of a cascading check, fewer verifications will utilise AEC data. However, those that do are likely to have less data available for matching. For example, they may have gaps in their data due to being young, or they may be older without a recent credit history.  Less data or gaps in data will make it harder to match against AEC data.
+
+In addition, DVS has tighter matching criteria on DOB, name and address fields, the information held by AEC must match exactly to the data supplied.
+
+Some specific fields that may cause matching errors include:
+
+- DOB
+- Middle name
+- Building name
+- Flat number
+- Street types
+- Street number
+- Street name
+- State
+- Postcode
+- Suburb
+
+If you have concerns about your match rate, please contact your Account Manager or complete this form and we will contact you to discuss your options. 
+
+[Request a Demo | Identity Verification Software | greenID](https://gbg-greenid.com/request-a-demo/)
+
+**Here are some examples of how cascading will work for different rules sets.**
+
+![](/img/aec1.png)
+
+![](/img/aec2.png)
+
+![](/img/aec3.png)

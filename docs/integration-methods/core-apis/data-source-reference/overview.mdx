@@ -1,0 +1,23 @@
+---
+id: overview
+title: Overview
+sidebar_position: 1
+---
+
+# Overview
+
+This section defines the sourceIds that are valid for passing to getFields and setFields. This list is complete, but please note that your greenID account may be configured with a subset of these sources; a list of valid data sources for your greenID account is always available via a call to getSources, or by inspecting thesourceList element returned by any call to the API. If a source does not appear in the sourceList, then you cannot use it.
+
+## Data Source Versions
+
+For every data source, greenID maintains a version number, which is returned in each source element in the sourceList element, returned from every call to the API. The version number is used to track changes to the field structure for the data source. If the field structure changes, for example by adding a new required field, then the version number will be incremented.
+
+**The data sources are subject to change**, and the version number is the indicator that customers can use to identify that a change has occurred.
+
+**A full list of data fields required for a data source is always available via a call to getFields; this list is always authoritative, and overrides anything that may be documented here or elsewhere.**
+
+The version number should be used by customers who are using fixed field lists to check that they are providing fields for the current version of the data source.
+
+If fields for the wrong version of a data source are submitted to setFields, then the data source may not work, resulting in an error.
+
+The version won't be changed without a good reason. Most often, a new version will be produced because the underlying data source has been changed. For example, if a data source changed to require an additional field, then the field would be added and the version number incremented. These changes will, generally speaking, not be backwards compatible. If a change is made that maintains backward compatibility, then the old version may continue to be used.

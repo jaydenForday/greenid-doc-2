@@ -1,0 +1,32 @@
+---
+id: v1-21-jul-2019
+title: V 1.21 July 2019
+sidebar_position: 9
+---
+
+# V 1.21 July 2019
+
+## Release Dates
+
+**Test**: June 25, 2019
+
+**Production**: July 09, 2019
+
+## Major updates in this release
+
+This release is a minor release - no major functionality changes delivered.
+
+## Other features and updates
+
+The following outlines the minor updates delivered in this release:
+
+| **Business Verification**      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Functionality Improvements** | **Validation of 'Notes':** Validation of text entered in 'Notes' (e.g. when a user adds a note, or captures a note as part of certain actions such as externally verifying or confirming a business can be verified) has been made less stringent so that commonly used special characters can now be entered - such as @, %, and >. Certain combinations of special characters will still be blocked for security reasons. An inline validation message has also be introduced for when invalid text is entered, rather than an error modal being presented requiring a refresh of the [page.](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues)**[Business](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues) List Page:** Performance improvements have been made to the main 'Business List' page (i.e. the main page when greenID Business is loaded) such that the page will load faster for customers with a high number of Business Verifications listed.                                                                                                                                 |
+| **Bug Fixes**                  | <p>**Unable to verify some NZ individuals electronically from within greenID Business:**</p><p>**Before the fix:** Certain individuals with New Zealand addresses found in businesses looked up on the NZBN, could not be verified electronically via greenID from within greenID Business. When 'begin verification' was used, a warning banner was being displayed saying that they could not be verified electronically. This was occurring due to the NZBN returning a country of 'null' for some New Zealand addresses.\*\*After the fix: \*\*If an individual within an NZBN business has an address with a 'null' country code, it will be defaulted to 'New Zealand' and the warning banner will not be displayed. Once the address is validated, the individual can then be verified electronically using greenID. (There may be some cases where the address is not actually a New Zealand address. In this case the user can change the country and the new country will be used to determine whether the individual can be verified electronically).</p><p>(Please note: As per existing functionality, New Zealand individuals can only be verified via greenID if there is rule defined in greenID for them.)</p> |
+
+## Constraints and Known Issues
+
+No new constraints or issues were introduced in this release.
+
+Existing constraints and known issues can be found on the [Constraints and Known Issues page](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/452460547/greenID+Business+Constraints+and+Known+Issues)

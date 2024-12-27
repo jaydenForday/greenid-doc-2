@@ -1,0 +1,62 @@
+---
+id: override-wording
+title: Override Wording
+sidebar_position: 2
+---
+
+# Override Wording
+
+You can override almost any heading or wording in the default interface using javascript.
+
+## Override values
+
+:::note
+
+greenID has introduced a document capture instruction screen for customers using scans. To enable it, customers must pass in the following override before starting greenID Web:
+
+greenidConfig.setOverrides(\{"biometrics\_enable\_doc\_guidance\_page" : true});
+
+Available in Test on 8th November 2023 and Prod on 21st November.
+
+:::
+
+greenID Web is highly customisable, and a customer can override almost heading or wording element of the default interface.  This is a simple and straightforward process using JavaScript.
+
+The full list of names that may be overridden and their default values can be found at [https://simpleui-test-au.vixverify.com/df/javascripts/greenidConfig.js](https://simpleui-test-au.vixverify.com/df/javascripts/greenidConfig.js).  The file contains all of the client-overridable strings in greenID Web.  Simply search this file for the text you'd like to change and copy the relevant name of that text value (see the example below).
+
+Any of these default values may be overridden using the `greenidConfig.setOverrides` function.  This function takes a single javascript map as the only parameter, and the values are used to override the default values found in the greenidConfig object.
+
+An example fragment of JavaScript that overrides the main title at the top of the greenID content is below:
+
+| `greenidConfig.setOverrides({"intro_title"` `: "<h1>My custom heading</h1>"});` |
+| ------------------------------------------------------------------------------- |
+
+## Customising introductory wording for interactive sources
+
+The introductory wording on the interactive source screen is very general by default to cater for as many of our customers as possible, but can (and should) be customised to be more specific to your actual Rule Set and therefore provide the user with very clear advice about what's expected of them.
+
+Depending upon how many background sources have been passed when the user first sees greenID Web, you can show different wording to make it clear to the customer what the remaining requirements for verification are. In this way, you can be quite specific when they arrive about how many sources you expect they'll need to complete.
+
+The "intro\_introText" properties allow for this.  The number at the end of the property (e.g. "intro\_introText0") indicates the number of background sources passed.  So:\
+if 0 background sources have been passed: intro\_introText0 is displayed\
+if 1 background source has been passed: intro\_introText1 is displayed\
+if 2 or more background sources have been passed: intro\_introText2 is displayed
+
+Then, when a user passes their first (or subsequent) interactive source, the "intro\_completed\_source\_ introText" wording is displayed.
+
+## Customising the "Save & Complete Later" option
+
+A common requirement is to add or remove the "Save & Complete Later" option from the interactive source screen, which is found in the "Choose a different ID option" drop-down. It's enabled by default. This is achieved by setting the "enable\_save\_and\_complete\_later" property to true (enable it) or false (disable it) as follows:
+
+| `greenidConfig.setOverrides({"enable_save_and_complete_later"` `: false});` |
+| --------------------------------------------------------------------------- |
+
+## Customising the illion Credit Header consent wording
+
+The consent text for the illion Credit Header data source must be customised prior to going live.  By default, it looks like this, including "XXXX" placeholders:
+
+> By accepting these terms and conditions you give consent for XXXX to disclose your name, residential address and date of birth to a credit reporting agency and ask the credit reporting agency to provide an assessment of whether the personal information so provided matches (in whole or in part) personal information contained in a credit information file in the possession or control of the credit reporting agency to assist in verifying your identity for the purposes of the Anti-Money Laundering and Counter-Terrorism Act 2006. The credit reporting agency may prepare and provide XXXX with such an assessment and may use your personal information including the names, residential addresses and dates of birth contained in credit information files of you and other individuals for the purposes of preparing such an assessment. If you disagree with having your identity verified by a credit reporting agency, please select another data source or contact XXXX so that we can discuss other options with you.
+
+If you use this data source, at a minimum you need to replace the placeholders with your company's name.  You can modify this wording as you see fit in line with your obligations under the AML/CTF legislation. 
+
+To modify this wording, set the "dnb\_tandc\_text" parameter via the "greenidConfig.setOverrides()" function as above.

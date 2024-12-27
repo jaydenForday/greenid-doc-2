@@ -1,0 +1,190 @@
+---
+id: redirecting
+title: Redirecting to greenID screens
+sidebar_position: 3
+---
+
+# Redirecting to greenID screens
+
+:::note
+
+**iFrame Deprecated**
+
+iFrame integration was deprecated in January 2015.
+
+New customers should integrate using either [greenID Web](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) or [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API). Existing customers are encouraged to upgrade the integration method - [contact support](mailto\:support@edentiti.com) to find out more.
+
+This documentation remains to support existing customers with an iFrame integration.
+
+:::
+
+As the second step in verifying a user, a customer organisation needs to provide a link from their website to greenID’s website. The user will follow this link and begin the process of verifying their identity electronically.
+
+Redirecting the user is a two-step process:
+
+1. [Receive a session token via the getOneTimeSessionToken web service](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/14287043/Redirecting+to+greenID+screens#RedirectingtogreenIDscreens-Receivingasessiontoken)
+
+2. [POST to the start page](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/14287043/Redirecting+to+greenID+screens#RedirectingtogreenIDscreens-POSTingtothestartpage)
+
+## Receiving a session token
+
+### Method Summary
+
+The getOneTimeSessionToken method is used to obtain a unique, one time token that allows an individual with a particular userID and a particular customerID to be re-directed to the greenID web site. This is a security measure that prevents an attacker from executing a “replay” attack whereby they hijack a browser’s sessionID, and use that to view pages with data that do not belong to them. 
+
+The token can be configured on a per-client basis. For example, it can have a configurable time-to-live, or it can never expire.
+
+### Method Signature
+
+| <p>`String getOneTimeSessionToken(String customerId,`</p><p>`                         String userId)`</p> |
+| --------------------------------------------------------------------------------------------------------- |
+
+### Parameters
+
+| \*\*Name  \*\* | \*\*Type  \*\*                    | \*\*Required?  \*\* | \*\*Description  \*\*                                                                                                                                                                                                                   | \*\*Contract  \*\*                                        |
+| -------------- | --------------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| customerId     | <p>String  </p><p>255 Chars  </p> | Yes                 | This parameter is greenID's identifier for the client application. The value is supplied by greenID, and must be included with each registration request.                                                                               | Must be a valid identifier issued by greenID.             |
+| userId         | <p>String  </p><p>255 Chars  </p> | Yes                 | This parameter is an identifier that the client uses for the individual being verified. greenID does not use it as an identifier, but in order to easily locate individual's for a particular client application, the userId is used.   | <p>Must match an already registered userId.  </p><p> </p> |
+
+### Return Value
+
+This method will return a String object that is the value of the token. This must be included in the HTTP POST, discussed in the next section.
+
+### Faults
+
+This method may raise a FaultDetails, inside which can be the following codes:
+
+- SystemFault
+
+- InvalidCustomerIdFault
+
+- InvalidCertificateException
+
+greenID allows customer organisations to perform an HTTPS POST or GET (though we recommend POST) to the starting page. Within the POST, greenID requires several parameters, which are the main subject of this page.
+
+## POSTing to the start page
+
+### URL to POST to
+
+#### Test environment
+
+The test URL to POST to is:
+
+[https://test.edentiti.com/verification/start.seam](https://test.edentiti.com/verification/start.seam)
+
+#### Production environment
+
+The production URL to POST to is:
+
+[https://www.edentiti.com/verification/start.seam](https://www.edentiti.com/verification/start.seam)
+
+### POST Variables
+
+#### *token* 
+
+The token is the unique, one-time token issued by the getOneTimeSessionToken method above. 
+
+#### *userId*
+
+The userId parameter is the customer organisation’s identifier for the user. This is the same value that was returned by whichever of the register Web Service methods was used. 
+
+#### *customerId*
+
+This parameter is greenID's identifier for the client application. The value is supplied by greenID
+
+### *returnUrl*
+
+This is the URL to which the user will be redirected once they have completed the online identity verification process. This is invoked when the customer clicks the "Finish" button. If preferred, the customer can be automatically redirected to this URL upon completion of their verification session (just ask your greenID representative).
+
+#### *cancelUrl*
+
+This is the URL to which the user will be redirected if they leave the online identity verification process and are not yet verified.  This is the URL that will be used when the person chooses to leave the process via the "save & complete later"/"complete later" button on the greenID screen.
+
+*timeoutUrl*
+
+This is the URL to which the user will be redirected if they do not complete the online identity verification process within greenID’s session timeout period.
+
+#### *exceptionUrl*
+
+This is the URL to which the user will be redirected if an exception is encountered during the online identity verification process.
+
+***offlineOptionsUrl***
+
+This is an optional URL to which the user can be sent if they click on a custom button in the "Having trouble completing your verification?" section. An optional customisation, this can provide a way to differentiate between customers who click the default "save & complete later" button (and subsequently get sent to the cancelUrl) and those who wish to abandon electronic verification and try an offline/manual option.
+
+***ui***
+
+This is the name of a "skin" that can be selected based upon the value given to the ui paramter.  Please note that the skin names need to be pre-defined by greenID.
+
+### Previously Collected Personal Numbers{#RedirectingtogreenIDscreens-PreviouslyCollectedPersonalNumbers}
+
+In some situations identifiing number may have already been obtained before the greenID system is invoked.  It is possible to include these numbers as additional POST variables in the data sent to start.seam.  This enables the greenID system to prepopulate more data in the data entry screens.  This is provided simply as a way of improving the user experience for the user.  For example if the user provides their drivers licence number as part of the product application process then it can be sent down to greenID and when the user clicks on the drivers licence check the number that they entrered previously is already prefilled.  Any of the data in these variables are only stored temparily in the session while the user is using the greenID system.   Below the names of these POST variables are listed.  
+
+#### **Australia**{#RedirectingtogreenIDscreens-Australia}
+
+passport\_number - the passport number, for australian passports (non-DVS)
+
+actrego\_number - the ACT drivers licence number (non-DVS)
+
+**warego\_number** - the WA drivers licence number (non-DVS)
+
+**sarego\_number** - the SA drivers licence number (non-DVS)
+
+**vicrego\_number** - the VIC drivers licence number (non-DVS)
+
+**nswrego\_licenceNumber** - the NSW drivers licence number (non-DVS)
+
+**nswrego\_rtaNumber** - the NSW drivers licence RTA number (non-DVS)
+
+**qldrego\_number** - the QLD drivers licence number (non-DVS)
+
+\*\*actregodvs\_licenceNumber \*\*- the ACT drivers licence number (DVS)
+
+\*\*waregodvs\_licenceNumber \*\*- the WA drivers licence number (DVS)
+
+\*\*saregodvs\_licenceNumber \*\*- the SA drivers licence number (DVS)
+
+\*\*vicregodvs\_licenceNumber \*\*- the VIC drivers licence number (DVS)
+
+\*\*nswregodvs\_licenceNumber \*\*- the NSW drivers licence number (DVS)
+
+\*\*qldregodvs\_licenceNumber \*\*- the QLD drivers licence number (DVS)
+
+\*\*ntregodvs\_licenceNumber \*\*- the NT drivers licence number (DVS)
+
+\*\*tasregodvs\_licenceNumber \*\*- the TAS drivers licence number (DVS)
+
+visadvs\_**passportNumber** - the passport number for non-australian passports (DVS)
+
+passportdvs\_number - the passport number, for australian passports (DVS)
+
+**medicare\_number** - the medicare number (non-DVS)
+
+**medicare\_referenceNumber** - the medicare reference number (non-DVS)
+
+medibank\_number - the medibank private membership number
+
+visa\_number - the passport number for non-australian passports (non-DVS)
+
+#### **New Zealand**{#RedirectingtogreenIDscreens-NewZealand}
+
+\*\*nztadriverslicence\_number \*\*- the NZ Driver Licence number
+
+\*\*nztadriverslicence\_versionNumber \*\*- the NZ Driver Licence version number
+
+\*\*nzpassport\_number \*\*- the NZ Passport number
+
+### About these URLs{#RedirectingtogreenIDscreens-AbouttheseURLs}
+
+Note that by default greenID will append the userId as a URL encoded parameter (GET request) to the any URL supplied, for example [http://www.example.com/return.html](http://www.example.com/return.html) will become [http://www.example.com/return.html?userId=123](http://www.example.com/return.html?userId=123).
+
+This feature is not available for the timeoutUrl.  
+
+greenID can turn this feature on and off on a per customer basis.
+
+## Example HTML{#RedirectingtogreenIDscreens-ExampleHTML}
+
+The HTML below is an example of a form that can be used to POST to greenID’s test server:
+
+| <p>`<form action="https://test.edentiti.com/verification/start.seam"` `method="post"> `</p><p>` <input name="token"` `value="0987654321"` `type="hidden"` `/>`</p><p>` <input name="userId"` `value="123456"` `type="hidden"` `/>`</p><p>` <input name="customerId"` `value="59"` `type="hidden"/>`</p><p>` <input name="returnUrl"` </p><p>` value="https://www.exampleorg.com/verification/return.html"` </p><p>` type="hidden"` `/>`</p><p>` <input name="cancelUrl"` </p><p>` value="https://www.exampleorg.com/verification/cancel.html"` </p><p>` type="hidden"` `/>`</p><p>` <input name="timeoutUrl"` </p><p>` value="https://www.exampleorg.com/verification/cancel.html"` </p><p>` type="hidden"` `/>`</p><p>` <input name="exceptionUrl"` </p><p>` value="https://www.exampleorg.com/verification/cancel.html"` </p><p>` type="hidden"` `/>`</p><p>` <input type="submit"` `value="Proceed"` `/> `</p><p>`</form>`</p> |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

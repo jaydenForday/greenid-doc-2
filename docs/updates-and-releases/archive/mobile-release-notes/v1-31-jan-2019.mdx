@@ -1,0 +1,47 @@
+---
+id: v1-31-jan-2019
+title: V 1.31 January 2019
+sidebar_position: 3
+---
+
+# V 1.31 January 2019
+
+## Release Dates
+
+**Test**: January 8, 2019
+
+**Production**: January 22, 2019
+
+Release dates | Test 08/01/19 | Production 22/01/19
+
+## In This Release
+
+This is a server-side only release, featuring changes to improve the quality of greenID Mobile code.
+
+## greenID Core{#ReleaseNotes:greenIDMobilev1.31-greenIDCore}
+
+| **greenID Core** |                                                                                                                                                                                                                              |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Code refactoring | <p>**Improved quality of greenID Mobile code**</p><p>In this release we have improve the quality of greenID Mobile code to make it safer and less time consuming for greenID engineers to build and test future changes.</p> |
+
+## Known Issues
+
+Known issues were introduced in this release:
+
+- **Subsequent verification attempts may include incorrect Liveness results**
+
+Our analysis into improving our liveness algorithm identified an issue where a user’s liveness results were incorrect for any further verification attempts following an attempt that was cancelled at the personal details confirmation screen. We will fix this issue in our next SDK release. This only affects customers with face consistency liveness checks configured on their account.
+
+- **iOS and Android SDKs: Some phones show initial page twice.**
+
+In returning user mode, the “Sign up and verify your identity” screen is reloading after the initial display on some Samsung and iPhone models. We are looking into the cause.
+
+- **Android SDK: The \< Back button does not always respond to single clicks.**
+
+The \< Back button on the screen is intermittently unresponsive to single clicks. Sometimes two clicks are required. We are investigating the cause.
+
+- **Android SDK: The device \< Back button remains active after document capture.**
+
+The \< Back button on the device should not be active while a successfully captured document is being uploaded for processing. We have raised the issue with our document capture framework provider.
+
+Existing known issues can be found on the [Known issues in greenID Mobile](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/459835177/Known+issues+in+greenID+Mobile) page. 

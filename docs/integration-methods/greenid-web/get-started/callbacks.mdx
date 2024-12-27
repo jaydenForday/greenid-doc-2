@@ -1,0 +1,87 @@
+---
+id: callbacks
+title: Callbacks
+sidebar_position: 4
+---
+
+# Callbacks
+
+This section describes the callbacks that can be registered. All of these callbacks are optional, and will only be invoked if an implementation is provided.
+
+## registerCallback
+
+:::note
+
+This call back does not work for Web journeys which register users using document scans.
+
+:::
+
+Invoked once the verification attempt has been registered with greenID. This callback will be passed the following parameters:
+
+- verificationId – this is the unique identifier for the verification attempt.  This ID will be required for any calls to the greenID API Web Services, and should be stored.  Note that the verificationId can also be obtained by securely querying the outcome of the verification process (see below for details) with a valid verification token.
+
+- userData – this is an object that currently contains a single member called verificationToken.  (An object is used to provide extensibility in the future.)
+
+## errorCallback
+
+Invoked upon any error encountered by greenID Web.  This callback will be passed the following parameters:
+
+- verificationToken – the verificationToken for the verification session, as described above.
+
+- errorName – a readable name of the error.
+
+- code - an error code
+
+- error - full details of the error
+
+The first two parameters are most useful for production use, the other two may be useful when integrating a new system.   The full details of the error are not suitable for presenting to an end user.  
+
+## sourceAttemptCallback 
+
+:::note
+
+This call back does not work for Web journeys which register users using document scans.
+
+:::
+
+Invoked when a person attempts to verify some details against a data source.  This callback will be passed the following parameters:
+
+- verificationToken – the verificationToken for the verification session,
+
+- sourceName – the name of the source that was attempted.  This name will be the normal source name that would be passed to the greenID API.  Please refer to the [greenID API list of source names](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880465/Data+Source+Reference).
+
+- checkState – the outcome of the check against the data source.  This will be one of the normal greenID states.  For a list of these states, please refer to the [greenID API list of Individual Source States](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/11206904/Reference+Tables#ReferenceTables-IndividualSourceStates).
+
+- overallState – the overall state of the current verification attempt.  Please refer to the [greenID API list of Overall Outcome States](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/11206904/Reference+Tables#ReferenceTables-OverallOutcomeStates).   
+
+## sessionCompleteCallback
+
+Invoked at the end of the verification session, immediately prior to the form being submitted, if a form submit is being used.  The callback will be passed the following parameters:
+
+- verificationToken – the verificationToken for the verification session.
+
+- overallState – the overall state of the current verification attempt.  Again, please refer to the [greenID API list of Overall Outcome States](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/11206904/Reference+Tables#ReferenceTables-OverallOutcomeStates).  
+
+## sessionCancelledCallback
+
+Invoked when the person has elected to cancel the session by clicking on the “save and complete later” button.  In this scenario, the sessionCompleteCallback will not be called.  The callback will be passed the following parameters:
+
+- verificationToken – the verificationToken for the verification session.
+
+- overallState – the overall state of the current verification attempt.  Please refer to the [greenID API list of Overall Outcome States](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/11206904/Reference+Tables#ReferenceTables-OverallOutcomeStates).
+
+## preSubmitValidationCallback
+
+Invoked before greenID starts processing.  If the function returns false, i.e. one or more fields on the registration form are invalid, then greenID returns control to the customer page in order to remedy the validation errors before proceeding.  This callback is used to prevent submitting invalid data to greenID.  The function is not passed any parameters, and must return a boolean value.   Any value other than true, i.e. false or undefined, will stop the greenID verification process.
+
+## submitCallback
+
+Invoked when the verification session has finished, and control needs to be returned to the client page.  If this callback is present, the form submit will not be completed, and instead the callback can take any necessary action.  The callback will be passed the following parameters:
+
+- verificationToken – the verificationToken for the verification session.
+
+- overallState – the overall state of the current verification attempt.  Please refer to the [greenID API list of Overall Outcome States](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/11206904/Reference+Tables#ReferenceTables-OverallOutcomeStates).
+
+## Example Callbacks
+
+For examples of the callbacks, please refer to the example form at [https://test-au.vixverify.com/verification/customers/greenid\_simpleui\_demo/simpleui-demo.html](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880465/Data+Source+Reference).

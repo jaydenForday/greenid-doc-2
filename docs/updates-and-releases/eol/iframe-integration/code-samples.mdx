@@ -1,0 +1,1096 @@
+---
+id: code-samples
+title: Code Samples
+---
+
+# Code Samples
+
+:::note
+
+**iFrame Deprecated**
+
+iFrame integration was deprecated in January 2015.
+
+New customers should integrate using either [greenID Web](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880210/greenID+Web) or [greenID API](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880212/greenID+API). Existing customers are encouraged to upgrade the integration method - [contact support](mailto\:support@edentiti.com) to find out more.
+
+This documentation remains to support existing customers with an iFrame integration.
+
+:::
+
+## example request of registerUser()
+
+| <p>`<SOAP-ENV:Envelope` `xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'` `xmlns:ns1='http://services.registrations.edentiti.com/'>`</p><p>` <SOAP-ENV:Body>`</p><p>`  <ns1:registerUser` `xmlns:ns1='http://services.registrations.edentiti.com/'>`</p><p>`   <customerId>somecustomer</customerId>`</p><p>`   <password>fake-password</password>`</p><p>`   <ruleId>default</ruleId>`</p><p>`   <name>`</p><p>`    <givenName>James</givenName>`</p><p>`    <middleNames/>`</p><p>`    <surname>Smith</surname>`</p><p>`   </name>`</p><p>`   <currentResidentialAddress>`</p><p>`    <country>Australia</country>`</p><p>`    <postcode>2913</postcode>`</p><p>`    <state>act</state>`</p><p>`    <streetName>Phillip</streetName>`</p><p>`    <streetNumber>22</streetNumber>`</p><p>`    <streetType>AVE</streetType>`</p><p>`    <suburb>DOWNER</suburb>`</p><p>`   </currentResidentialAddress>`</p><p>`   <dob>1980-12-25</dob>`</p><p>`<homePhone>0262541234</homePhone>`</p><p>`  </ns1:registerUser>`</p><p>` </SOAP-ENV:Body>`</p><p>`</SOAP-ENV:Envelope>`</p> |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+## example response of registerUser()
+
+| <p>`<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">`</p><p>`   <env:Header/>`</p><p>`   <env:Body>`</p><p>`      <ns2:registerUserResponse xmlns:ns2="http://services.registrations.edentiti.com/">`</p><p>`         <return>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>AVE</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetType</label>`</p><p>`                  <name>streetType</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>unitNumber</label>`</p><p>`                  <name>unitNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>0262541234</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>phoneNumber</label>`</p><p>`                  <name>phoneNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>James</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>givenName</label>`</p><p>`                  <name>givenName</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>middleNames</label>`</p><p>`                  <name>middleNames</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>Aec</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>AVE</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetType</label>`</p><p>`                  <name>streetType</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>unitNumber</label>`</p><p>`                  <name>unitNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>dayOfBirth</label>`</p><p>`                  <name>dayOfBirth</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>monthOfBirth</label>`</p><p>`                  <name>monthOfBirth</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>yearOfBirth</label>`</p><p>`                  <name>yearOfBirth</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>James</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>givenName</label>`</p><p>`                  <name>givenName</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>middleNames</label>`</p><p>`                  <name>middleNames</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>0262541234</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>phoneNumber</label>`</p><p>`                  <name>phoneNumber</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>GDC</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <method>DB</method>`</p><p>`               <name>OFAC/DFAT Watchlist</name>`</p><p>`               <state>PASSED</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <method>DB</method>`</p><p>`               <name>PEP Watchlist</name>`</p><p>`               <state>PASSED</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <method>DB</method>`</p><p>`               <name>RBA Watchlist</name>`</p><p>`               <state>PASSED</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>AVE</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetType</label>`</p><p>`                  <name>streetType</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>unitNumber</label>`</p><p>`                  <name>unitNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>James</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>givenName</label>`</p><p>`                  <name>givenName</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>middleNames</label>`</p><p>`                  <name>middleNames</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>0262541234</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>phoneNumber</label>`</p><p>`                  <name>phoneNumber</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>GDC Property</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <method>DB</method>`</p><p>`               <name>HMT Watchlist</name>`</p><p>`               <state>PASSED</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>James</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>givenName</label>`</p><p>`                  <name>givenName</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>middleNames</label>`</p><p>`                  <name>middleNames</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>unitNumber</label>`</p><p>`                  <name>unitNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>AVE</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetType</label>`</p><p>`                  <name>streetType</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>Data Coop</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>0262541234</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>phoneNumber</label>`</p><p>`                  <name>phoneNumber</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>Wp</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <outcome>IN_PROGRESS</outcome>`</p><p>`            <ruleId>default</ruleId>`</p><p>`            <transactionId>8503839</transactionId>`</p><p>`            <userId>qkVRMxWy</userId>`</p><p>`         </return>`</p><p>`      </ns2:registerUserResponse>`</p><p>`   </env:Body>`</p><p>`</env:Envelope>`</p> |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+
+## example request of getVerificationResult()
+
+| <p>`<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"` `xmlns:ser="http://services.registrations.edentiti.com/">`</p><p>`   <soapenv:Header/>`</p><p>`   <soapenv:Body>`</p><p>`      <ser:getVerificationResult>`</p><p>`         <customerId>somecustomer</customerId>`</p><p>`         <password>fake-password</password>`</p><p>`         <userId>qkVRMxWy</userId>`</p><p>`      </ser:getVerificationResult>`</p><p>`   </soapenv:Body>`</p><p>`</soapenv:Envelope>`</p> |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+## example response of getVerificationResult()
+
+| <p>`<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">`</p><p>`   <env:Header/>`</p><p>`   <env:Body>`</p><p>`      <ns2:getVerificationResultResponse xmlns:ns2="http://services.registrations.edentiti.com/">`</p><p>`         <result>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>AVE</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetType</label>`</p><p>`                  <name>streetType</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>0262541234</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>phoneNumber</label>`</p><p>`                  <name>phoneNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>unitNumber</label>`</p><p>`                  <name>unitNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>middleNames</label>`</p><p>`                  <name>middleNames</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>James</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>givenName</label>`</p><p>`                  <name>givenName</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>Aec</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>AVE</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetType</label>`</p><p>`                  <name>streetType</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>yearOfBirth</label>`</p><p>`                  <name>yearOfBirth</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>monthOfBirth</label>`</p><p>`                  <name>monthOfBirth</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>dayOfBirth</label>`</p><p>`                  <name>dayOfBirth</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>unitNumber</label>`</p><p>`                  <name>unitNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>0262541234</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>phoneNumber</label>`</p><p>`                  <name>phoneNumber</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>middleNames</label>`</p><p>`                  <name>middleNames</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>James</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>givenName</label>`</p><p>`                  <name>givenName</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>GDC</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <method>DB</method>`</p><p>`               <name>OFAC/DFAT Watchlist</name>`</p><p>`               <state>PASSED</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <method>DB</method>`</p><p>`               <name>PEP Watchlist</name>`</p><p>`               <state>PASSED</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <method>DB</method>`</p><p>`               <name>RBA Watchlist</name>`</p><p>`               <state>PASSED</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>AVE</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetType</label>`</p><p>`                  <name>streetType</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>CONFIRMED</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>unitNumber</label>`</p><p>`                  <name>unitNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>0262541234</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>phoneNumber</label>`</p><p>`                  <name>phoneNumber</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>middleNames</label>`</p><p>`                  <name>middleNames</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>James</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>givenName</label>`</p><p>`                  <name>givenName</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>GDC Property</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <method>DB</method>`</p><p>`               <name>HMT Watchlist</name>`</p><p>`               <state>PASSED</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>AVE</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetType</label>`</p><p>`                  <name>streetType</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>unitNumber</label>`</p><p>`                  <name>unitNumber</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data/>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>middleNames</label>`</p><p>`                  <name>middleNames</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>James</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>givenName</label>`</p><p>`                  <name>givenName</name>`</p><p>`                  <status>MISSING</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>Data Coop</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <individualResults>`</p><p>`               <dateVerified>2013-04-23T14:28:25.990+10:00</dateVerified>`</p><p>`               <fieldsResults>`</p><p>`                  <data>ACT</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>state</label>`</p><p>`                  <name>state</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>2913</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>postcode</label>`</p><p>`                  <name>postcode</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>DOWNER</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>suburb</label>`</p><p>`                  <name>suburb</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Phillip</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetName</label>`</p><p>`                  <name>streetName</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>22</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>streetNumber</label>`</p><p>`                  <name>streetNumber</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>0262541234</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>phoneNumber</label>`</p><p>`                  <name>phoneNumber</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>Smith</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>surname</label>`</p><p>`                  <name>surname</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <fieldsResults>`</p><p>`                  <data>J</data>`</p><p>`                  <dataInfo>currentAddress</dataInfo>`</p><p>`                  <format>plain</format>`</p><p>`                  <label>firstInitial</label>`</p><p>`                  <name>firstInitial</name>`</p><p>`                  <status>NO_MATCH</status>`</p><p>`               </fieldsResults>`</p><p>`               <method>DB</method>`</p><p>`               <name>Wp</name>`</p><p>`               <state>AUTOFAIL</state>`</p><p>`            </individualResults>`</p><p>`            <outcome>IN_PROGRESS</outcome>`</p><p>`            <ruleId>default</ruleId>`</p><p>`            <transactionId>8503839</transactionId>`</p><p>`            <userId>qkVRMxWy</userId>`</p><p>`         </result>`</p><p>`      </ns2:getVerificationResultResponse>`</p><p>`   </env:Body>`</p><p>`</env:Envelope>`</p> |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+
+ 
+
+\<env\:Envelope xmlns\:env="[http://schemas.xmlsoap.org/soap/envelope/](http://schemas.xmlsoap.org/soap/envelope/)">
+
+   \<env\:Header/>
+
+   \<env\:Body>
+
+      \<ns2\:getVerificationResultResponse xmlns\:ns2="[http://services.registrations.edentiti.com/](http://services.registrations.edentiti.com/)">
+
+         \<result>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<fieldsResults>
+
+                  \<data>ACT\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>state\</label>
+
+                  \<name>state\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>DOWNER\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>suburb\</label>
+
+                  \<name>suburb\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>AVE\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetType\</label>
+
+                  \<name>streetType\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Phillip\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetName\</label>
+
+                  \<name>streetName\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>22\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetNumber\</label>
+
+                  \<name>streetNumber\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Smith\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>surname\</label>
+
+                  \<name>surname\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>0262541234\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>phoneNumber\</label>
+
+                  \<name>phoneNumber\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>unitNumber\</label>
+
+                  \<name>unitNumber\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>J\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>firstInitial\</label>
+
+                  \<name>firstInitial\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>2913\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>postcode\</label>
+
+                  \<name>postcode\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data/>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>middleNames\</label>
+
+                  \<name>middleNames\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>James\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>givenName\</label>
+
+                  \<name>givenName\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<method>DB\</method>
+
+               \<name>Aec\</name>
+
+               \<state>AUTOFAIL\</state>
+
+            \</individualResults>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<fieldsResults>
+
+                  \<data>ACT\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>state\</label>
+
+                  \<name>state\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>DOWNER\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>suburb\</label>
+
+                  \<name>suburb\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>AVE\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetType\</label>
+
+                  \<name>streetType\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Phillip\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetName\</label>
+
+                  \<name>streetName\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>22\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetNumber\</label>
+
+                  \<name>streetNumber\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Smith\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>surname\</label>
+
+                  \<name>surname\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data/>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>yearOfBirth\</label>
+
+                  \<name>yearOfBirth\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data/>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>monthOfBirth\</label>
+
+                  \<name>monthOfBirth\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data/>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>dayOfBirth\</label>
+
+                  \<name>dayOfBirth\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>unitNumber\</label>
+
+                  \<name>unitNumber\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>J\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>firstInitial\</label>
+
+                  \<name>firstInitial\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>0262541234\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>phoneNumber\</label>
+
+                  \<name>phoneNumber\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>2913\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>postcode\</label>
+
+                  \<name>postcode\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data/>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>middleNames\</label>
+
+                  \<name>middleNames\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>James\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>givenName\</label>
+
+                  \<name>givenName\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<method>DB\</method>
+
+               \<name>GDC\</name>
+
+               \<state>AUTOFAIL\</state>
+
+            \</individualResults>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<method>DB\</method>
+
+               \<name>OFAC/DFAT Watchlist\</name>
+
+               \<state>PASSED\</state>
+
+            \</individualResults>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<method>DB\</method>
+
+               \<name>PEP Watchlist\</name>
+
+               \<state>PASSED\</state>
+
+            \</individualResults>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<method>DB\</method>
+
+               \<name>RBA Watchlist\</name>
+
+               \<state>PASSED\</state>
+
+            \</individualResults>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<fieldsResults>
+
+                  \<data>ACT\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>state\</label>
+
+                  \<name>state\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>DOWNER\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>suburb\</label>
+
+                  \<name>suburb\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>AVE\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetType\</label>
+
+                  \<name>streetType\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Phillip\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetName\</label>
+
+                  \<name>streetName\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>22\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetNumber\</label>
+
+                  \<name>streetNumber\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Smith\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>surname\</label>
+
+                  \<name>surname\</name>
+
+                  \<status>CONFIRMED\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>unitNumber\</label>
+
+                  \<name>unitNumber\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>J\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>firstInitial\</label>
+
+                  \<name>firstInitial\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>0262541234\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>phoneNumber\</label>
+
+                  \<name>phoneNumber\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>2913\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>postcode\</label>
+
+                  \<name>postcode\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data/>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>middleNames\</label>
+
+                  \<name>middleNames\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>James\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>givenName\</label>
+
+                  \<name>givenName\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<method>DB\</method>
+
+               \<name>GDC Property\</name>
+
+               \<state>AUTOFAIL\</state>
+
+            \</individualResults>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<method>DB\</method>
+
+               \<name>HMT Watchlist\</name>
+
+               \<state>PASSED\</state>
+
+            \</individualResults>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<fieldsResults>
+
+                  \<data>2913\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>postcode\</label>
+
+                  \<name>postcode\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>ACT\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>state\</label>
+
+                  \<name>state\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>DOWNER\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>suburb\</label>
+
+                  \<name>suburb\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>AVE\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetType\</label>
+
+                  \<name>streetType\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Phillip\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetName\</label>
+
+                  \<name>streetName\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>22\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetNumber\</label>
+
+                  \<name>streetNumber\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>unitNumber\</label>
+
+                  \<name>unitNumber\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Smith\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>surname\</label>
+
+                  \<name>surname\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data/>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>middleNames\</label>
+
+                  \<name>middleNames\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>J\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>firstInitial\</label>
+
+                  \<name>firstInitial\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>James\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>givenName\</label>
+
+                  \<name>givenName\</name>
+
+                  \<status>MISSING\</status>
+
+               \</fieldsResults>
+
+               \<method>DB\</method>
+
+               \<name>Data Coop\</name>
+
+               \<state>AUTOFAIL\</state>
+
+            \</individualResults>
+
+            \<individualResults>
+
+               \<dateVerified>2013-04-23T14:28:25.990+10:00\</dateVerified>
+
+               \<fieldsResults>
+
+                  \<data>ACT\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>state\</label>
+
+                  \<name>state\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>2913\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>postcode\</label>
+
+                  \<name>postcode\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>DOWNER\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>suburb\</label>
+
+                  \<name>suburb\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Phillip\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetName\</label>
+
+                  \<name>streetName\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>22\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>streetNumber\</label>
+
+                  \<name>streetNumber\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>0262541234\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>phoneNumber\</label>
+
+                  \<name>phoneNumber\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>Smith\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>surname\</label>
+
+                  \<name>surname\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<fieldsResults>
+
+                  \<data>J\</data>
+
+                  \<dataInfo>currentAddress\</dataInfo>
+
+                  \<format>plain\</format>
+
+                  \<label>firstInitial\</label>
+
+                  \<name>firstInitial\</name>
+
+                  \<status>NO\_MATCH\</status>
+
+               \</fieldsResults>
+
+               \<method>DB\</method>
+
+               \<name>Wp\</name>
+
+               \<state>AUTOFAIL\</state>
+
+            \</individualResults>
+
+            \<outcome>IN\_PROGRESS\</outcome>
+
+            \<ruleId>default\</ruleId>
+
+            \<transactionId>8503839\</transactionId>
+
+            \<userId>qkVRMxWy\</userId>
+
+         \</result>
+
+      \</ns2\:getVerificationResultResponse>
+
+   \</env\:Body>
+
+\</env\:Envelope>
+
+\

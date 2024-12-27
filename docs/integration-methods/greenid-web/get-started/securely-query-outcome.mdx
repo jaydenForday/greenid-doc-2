@@ -1,0 +1,102 @@
+---
+id: securely-query-outcome
+title: Securely Query Outcome
+sidebar_position: 3
+---
+
+# Securely Query Outcome
+
+Use the RESTful web service to retrieve the result of a verification attempt from greenID
+
+After the verification session is complete, it is highly recommended that you make a call from their application to greenID to retrieve the result of the verification attempt.
+
+The overallState value returned to any of the callback functions should not be trusted as the authoritative source of truth because they are just javascript functions, and third party javascript could call those same functions with any values.
+
+## Making the request
+
+The simplest way to query the outcome is to use the RESTful web service provided by greenID.  The web service can be invoked by performing a HTTP GET against the base URL being used plus “/df/verificationResult” with the following query parameters:
+
+- accountId – the customer’s greenID account ID.  Issued by greenID.
+
+- webServicePassword – the customer’s web service password, note that this is not the same as the apiCode.
+
+- verificationToken – identifies which verification session to fetch the result for.  Note that the verificationToken must be current, and therefore this action must be performed within 30 minutes of the person completing the verification session, otherwise the verificationId must be used.
+
+- verificationId – if the verificationToken for a user has expired and the verificationId is known, then this can be used to identify the user to fetch the result for.
+
+Only one of the verificationToken or verificationId is required; if both are provided then verificationId is used.
+
+There are two ways to get the verificationToken:
+
+1. From the form that was submitted when the verification session completed.  When the form is finally allowed to submit, greenID Web will add a hidden input field called "verificationToken" to the form.
+
+2. When the sessionCompleteCallback function is invoked, the verificationToken is passed as a parameter.
+
+:::note
+
+Please note that if greenID Web is being run against the test environment, i.e. the environment parameter is set to "test" in the setup function, then the outcome must be queried from the greenID Web test server, which is [simpleui-test-au.vixverify.com](http://simpleui-test-au.vixverify.com/).
+
+:::
+
+## Examples of requests{#SecurelyQueryingtheOutcome-Examplesofrequests}
+
+Australian production environment:
+
+```
+https://simpleui-au.vixverify.com/df/verificationResult?accountId=greenidsimpleui&webServicePassword=password&verificationToken=914d98541cdc5e08ed0bdb3187b3edc93395b9de
+```
+
+Australian test environment:
+
+```
+https://simpleui-test-au.vixverify.com/df/verificationResult?accountId=greenid-simpleui&webServicePassword=password&verificationToken=914d98541cdc5e08ed0bdb3187b3edc93395b9de
+```
+
+## Fields Returned
+
+The web service will return a JSON fragment with all the details of the person and the overall status of the verification attempt.  The following fields are returned:
+
+- error – indicates if an error was encountered; normally this will be “false”.
+
+- errorMessage – contains an error message if the error element is “true”.  If there was no error, then this element will be absent from the JSON fragment.
+
+- verificationResult – the overall state of the verification attempt.
+
+- verificationId – the unique identifier for this verification attempt (note that this is different from the verification token, which identifies a single session related to the verification attempt).
+
+- verificationToken – an echo of the verificationToken passed to the web service.
+
+- givenName – the given name that was registered.  This field may be blank.
+
+- middleNames – the middle names that were registered.  This field may be blank.
+
+- surname – the surname that was registered.
+
+- email – the email that was registered.  This field may be blank.
+
+- dob – the date of birth that was registered.
+
+- homePhone – the home phone number that was registered.  This field may be blank.
+
+- workPhone – the work phone number that was registered.  This field may be blank.
+
+- mobilePhone – the mobile phone number that was registered.  This field may be blank.
+
+- flatNumber – the flat number that was registered.  This field may be blank.
+
+- streetNumber – the street number that was registered.   This field may be blank.
+
+- streetType – the street type that was registered.  This field may be blank.
+
+- suburb – the suburb that was registered.  This field may be blank.
+
+- state – the state that was registered.  This field may be blank.
+
+- postcode – the postcode that was registered.  This field may be blank.
+
+- country – the country that was registered.  This field may be blank.
+
+An example JSON fragment is given below:
+
+| <p>`{`</p><p>` "error":false,`</p><p>` "verificationResult":"IN_PROGRESS",`</p><p>` "verificationId":"PDqINE2T",`</p><p>` "verificationToken":"914d98541cdc5e08ed0bdb3187b3edc93395b9de",`</p><p>` "givenName":"Test",`</p><p>` "middleNames":"Brian",`</p><p>` "surname":"McTester",`</p><p>` "email":"accept@email.com",`</p><p>` "dob":"1980-01-01",`</p><p>` "streetNumber":"1",`</p><p>` "streetName":"Macquarie",`</p><p>` "streetType":"ST",`</p><p>` "suburb":"Sydney",`</p><p>` "state":"NSW",`</p><p>` "postcode":"2000",`</p><p>` "country":"AU"`</p><p>`}`</p> |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

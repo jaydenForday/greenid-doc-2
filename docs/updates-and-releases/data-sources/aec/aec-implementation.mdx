@@ -1,0 +1,171 @@
+---
+id: aec-implementation
+title: AEC Implementation and Testing
+sidebar_position: 1
+---
+
+# AEC Implementation and Testing
+
+:::note
+
+This page includes spec and integration information for the upcoming change to AEC where it will be supplied by the Document Verification Service (DVS). The source will be enabled for existing AEC customers in Test on **9th November 2022** and in Production on **30th November 2022**.
+
+Information about [Data Source Testing](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717/AEC+Implementation+and+Testing#Testing-the-Source) and [Access](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717/AEC+Implementation+and+Testing#Access-to-the-Source) is available below.
+
+:::
+
+:::note
+
+From **9th November 2022,** customers using the Electoral Roll source will be transitioned to the DVS version in **Test**. If stubs mode is disabled for an account and Electoral Roll access via DVS has been approved, customers will incur a charge for any attempts against the DVS version of the source.
+
+:::
+
+## **AEC Implementation**{#AEC-Implementation}
+
+The sections below describe what changes or improvements are required for each integration channel for the AEC source via DVS.
+
+1. API Background
+
+2. API Interactive
+
+3. Web
+
+4. greenID registration and interactive screens
+
+### 1. API Background{#1.-API-Background}
+
+Customers using the AEC source in background via API, **will not need to make any technical changes** to continue accessing AEC data.  **However**, GBG recommends you review your data collection process as the DVS matching criteria is stricter than our current supplier ([more information here](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2183856129/AEC+Commonwealth+Electoral+Roll+Data+Source+Change+-+FAQ+Sheet)). In particular, we recommend you review the fields outlined in the table.  You  can start collecting and sending this data as part of your greenID registrations now.
+
+Below are links to the appropriate integration documentations for relevant fields:
+
+**Web Service:** `registerVerification`
+
+| **Field**                      | **Data Structure / Field Requirements**                                                                                                                                                                                                                                                           |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Date of Birth**              | [Data Structures V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60369524#DataStructuresV3-DateOfBirth)                                                                                                                                                                               |
+| **Middle Name**                | <p>[Data Structures V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60369524#DataStructuresV3-Name)</p><p>(For the AEC check via DVS, the Middle Name will be added to the Given Name field and relevant DVS validation will be applied by greenID before the data source check.)</p> |
+| **Address - Property Name**    | [Data Structures V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60369524#DataStructuresV3-Address) (see propertyName)                                                                                                                                                                |
+| **Expanded Street Types**      | [Street Types \| Expanded Street Types for AU (DVS Australian Electoral Roll)](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2193031169/Street+Types#Expanded-Street-Types-for-AU-\(DVS-Australian-Electoral-Roll\))                                                                    |
+| **Address - All Other Fields** | [Address Handling](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/63543880#AddressHandling-Australia)                                                                                                                                                                                    |
+
+### 2. API Interactive{#2.-API-Interactive}
+
+Customers who are currently accessing the AEC source via API (interactive) will need to make changes to their implementation to ensure that they can continue to access and check the source. The changes required are due to additional mandatory field requirements and changes in the matching criteria through the new supplier of the source. Specifically, the following criteria has changed:
+
+- Date of birth is required as a mandatory field
+
+- Middle name needs to be supplied when present on the Electoral Roll record
+
+- Changes in address fields
+
+- Terms and conditions flag required as mandatory
+
+#### AEC DVS Spec (Interactive){#AEC-DVS-Spec--(Interactive)}
+
+This spec below is for the interactive version of the AEC source supplied by DVS.
+
+**Web Service:** `setFields`
+
+**Source web service name:** aec
+
+| **Field name**             | **Description**                                                                                                                                                                                             | **Required**                             | **Restrictions**                                                                                                                                            |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| greenid\_aec\_givenname    | <p>The person’s given names, exactly as it appears on the Electoral Roll.</p><p> </p><p>Any middle names should be entered in the ‘Given Name’ field as per the user’s enrolment on the Electoral Roll.</p> | Yes                                      | <p>Must contain only upper or lower case alphabetic characters, spaces, apostrophes, or hyphens.</p><p>Maximum of 25 characters.</p><p> </p><p> </p>        |
+| greenid\_aec\_surname      | The person’s surname, exactly as it appears on the Electoral Roll.                                                                                                                                          | Yes                                      | <p>Must contain only upper or lower case alphabetic characters, spaces, apostrophes, or hyphens.</p><p>Maximum of 25 characters.</p>                        |
+| greenid\_aec\_dob          | The person’s date of birth, as registered on the Electoral Roll.                                                                                                                                            | Yes                                      | <p>DD/MM/YYYY</p><p>Must be a valid date in the past.</p>                                                                                                   |
+| greenid\_aec\_propertyname | The property name component of the person’s address, as it appears on the Electoral Roll.                                                                                                                   | Yes - if present on the Electoral Roll\* | <p>Must contain only upper or lower case alphabetic characters, spaces, apostrophes, or hyphens.</p><p>Maximum of 25 characters.</p>                        |
+| greenid\_aec\_flatnumber   | The flat number component of the person’s address, as it appears on the Electoral Roll.                                                                                                                     | Yes – if present on the Electoral Roll\* | <p>Must contain only upper or lower case alphabetic characters, spaces, apostrophes, or hyphens.</p><p>Maximum of 6 characters.</p>                         |
+| greenid\_aec\_streetnumber | The street number component of the person’s address, as it appears on the Electoral Roll                                                                                                                    | Yes                                      | <p>Must contain only upper or lower case alphabetic characters, spaces, apostrophes, or hyphens.</p><p>Maximum of 6 characters.</p>                         |
+| greenid\_aec\_streetname   | The street name component of the person’s address, as it appears on the Electoral Roll.                                                                                                                     | Yes                                      | <p>Must contain only upper or lower case alphabetic characters, spaces, apostrophes, or hyphens.</p><p>Maximum of 25 characters.</p>                        |
+| greenid\_aec\_streettype   | <p>The street type component of the person’s address, as it appears on the Electoral Roll.</p><p> </p>                                                                                                      | Yes - if present on the Electoral Roll\* |                                                                                                                                                             |
+| greenid\_aec\_suburb       | The suburb component of the person’s address, as it appears on the Electoral Roll.                                                                                                                          | Yes                                      | g                                                                                                                                                           |
+| greenid\_aec\_state        | The suburb component of the person’s address, as it appears on the Electoral Roll.                                                                                                                          | Yes                                      | <p>Must be one of:</p><p>·      ACT</p><p>·      NSW</p><p>·      NT</p><p>·      QLD</p><p>·      SA</p><p>·      TAS</p><p>·      VIC</p><p>·      WA</p> |
+| greenid\_aec\_postcode     | The postcode component of the person’s address, as it appears on the Electoral Roll.                                                                                                                        | Yes                                      | Must be four digits.                                                                                                                                        |
+| greenid\_aec\_tandc        | An indication that the person agrees to the terms and conditions of the check.                                                                                                                              | Yes                                      | Must be the value “on”.                                                                                                                                     |
+
+\*The field is a not a required / mandatory field in greenID but a value should be provided to achieve a match on the Electoral Roll if the user is registered with those details.
+
+Example of error for missing mandatory field for API interactive.
+
+##### Missing Field{#Missing-Field}
+
+`<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"> <env:Header/> <env:Body> <env:Fault> <faultcode>env:Server</faultcode> <faultstring>Invalid input field(s) - dob</faultstring> <detail> <ns2:faultDetails xmlns:ns2="http://dynamicform.services.registrations.edentiti.com/"> <code>FieldValidationFault</code> <details>Date of birth cannot be blank.</details> </ns2:faultDetails> </detail> </env:Fault> </env:Body> </env:Envelope>`
+
+##### Invalid Field{#Invalid-Field}
+
+`<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"> <env:Header/> <env:Body> <env:Fault> <faultcode>env:Server</faultcode> <faultstring>Invalid input field(s) - postcode</faultstring> <detail> <ns2:faultDetails xmlns:ns2="http://dynamicform.services.registrations.edentiti.com/"> <code>FieldValidationFault</code> <details>Postcode is not formatted correctly.</details> </ns2:faultDetails> </detail> </env:Fault> </env:Body> </env:Envelope>`
+
+ 
+
+### 3. Web{#3.-Web}
+
+Customer using WEB to register individuals in greenID, **will not need to make any technical changes** to continue accessing AEC data.  **However**, GBG recommends you review your data collection process, as the DVS matching criteria is stricter than our current supplier ([more information here](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2183856129/AEC+Commonwealth+Electoral+Roll+Data+Source+Change+-+FAQ+Sheet)) In particular, we recommend you review the following fields.  You  can start collecting and sending this data as part of your greenID registrations now.
+
+Below are links to the appropriate integration documentations for relevant fields:
+
+| **Field**                      | **Data Structure / Field Requirements**                                                                                                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Date of Birth, Middle Name** | [Registering and Verifying New Individuals \| Create a form](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880338/Registering+and+Verifying+New+Individuals#Create-a-form)                                          |
+| **Address - Property Name**    | [Data Structures V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717/AEC+Implementation+and+Testing#) (see propertyName)                                                                                    |
+| **Expanded Street Types**      | [Street Types \| Expanded Street Types for AU (DVS Australian Electoral Roll)](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2193031169/Street+Types#Expanded-Street-Types-for-AU-\(DVS-Australian-Electoral-Roll\)) |
+| **Address - All Other Fields** | [Address Handling](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717/AEC+Implementation+and+Testing#)                                                                                                         |
+
+### 4. greenID Registration and Interactive Screens{#4.-greenID-Registration-and-Interactive-Screens}
+
+Any screens that greenID presents either for registration or for interactive source checks for the Australian Electoral Roll will be updated to ensure that greenID is collecting necessary data to check the AEC source via DVS. Therefore, **customers do not need to make any change**s to use the new version of the source.
+
+#### Updates to registration screens{#Updates-to-registration-screens}
+
+- Addition of **Property Name** as an optional field to address data fields
+
+- Update to the **Street Type** list to include the additional street types
+
+- Inclusion of **consent statement (Note:** This will appear for all customers regardless of if they are using the electoral roll data source or not\*\*)\*\*
+
+#### Updates to interactive screens{#Updates-to-interactive-screens}
+
+- Addition of **date of birth** as a mandatory field
+
+- Addition of **Property Name** as an optional field to address data fields fields
+
+- Update to the **Street Type** list to include the additional street types
+
+- Addition of **consent flag** as a mandatory check
+
+## **Testing the Source**{#Testing-the-Source}
+
+To test your connection to AEC DVS please disable stubs to test. The connection will depend on if DVS has processed your declaration and provided access. Please see [AEC Implementation and Testing | Access to the Source](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2223603717/AEC+Implementation+and+Testing#Access-to-the-Source).
+
+The DVS version of the source will be enabled for customers in Test **9th November**. Customers will be able to use stubs data to test the source. The [Data Testing](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880678) page will be updated with stubs code for AEC DVS, therefore allowing customers to initiate testing.
+
+\*\*Background: \*\* [Data Testing | DataTesting Codesforbackgroundchecks(Australia)](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880678#DataTesting-Codesforbackgroundchecks\(Australia\))
+
+**Interactive:** [Data Testing | DataTesting Codesforinteractivechecks(Australia)](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880678#DataTesting-Codesforinteractivechecks\(Australia\))
+
+As there are no changes to the source name and in the stubs mode, customers can check that the DVS version of the source has been run by:
+
+- Checking the admin panel results, DOB will appear as a matched field.
+
+- Checking interactive screens (controlled by greenID) - these will be updated to reflect the DVS requirements for the source.
+
+- Checking the validation errors for missing fields - greenID will not process the request if DOB or the consent flag is missing.
+
+- Checking the validation errors on fields (as per the spec above) - greenID will send back a validation error if the spec above is not met.
+
+- Checking the dashboard report and a count will appear for 'AEC (DVS)'.
+
+### Known Behaviour{#Known-Behaviour}
+
+- Customers using API (interactive) for the Electoral Roll source will receive a longer list of street types in their ‘getFields’ response. See full list here: [Street Types](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2193031169).
+
+- As per DVS requirements, any middle names must be added to the ‘First Name’ or ‘Given Name’ field to check the Electoral Roll source. Where an end user has a separate middle name on registration and the middle name is added to First Name in the Electoral Check via DVS, customers may see that the source result is in pending review because the registration data is different to the data submitted for data source checks. This is expected behaviour.
+
+- The text in ‘return’ API results (such as faults or errors) will refer to ‘aecdvs’ in some instances. This is just the text that is returned and does not impact the source ID.
+
+## **Access to the Source**{#Access-to-the-Source}
+
+Customers may not be able to immediately test their Production connection with DVS (via greenID Test) as connections will only be available once DVS has approved the declaration and granted access. Customers can contact their account manager or email [anz.orders@gbgplc.com](mailto\:anz.orders@gbgplc.com) to check the status of their access.
+
+During this period customers should **only test** using stubs. Customers will experience unexpected errors if they attempt to use the source when it is not approved by DVS and stubs mode is disabled. This will be resolved for the transition in Production.
+
+For more information about expected behaviour when OAC’s have not been granted access to the electoral roll data after the Production transition, please review our [FAQ](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2183856129/AEC+Commonwealth+Electoral+Roll+Data+Source+Change+-+FAQ+Sheet#What-happens-if-I-don%27t-return-my-declaration-in-time%3F).

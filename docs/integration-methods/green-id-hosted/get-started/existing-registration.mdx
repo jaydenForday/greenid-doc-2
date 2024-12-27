@@ -1,0 +1,111 @@
+---
+id: existing-registraion
+title: SMS Invites for Existing Registration
+sidebar_position: 4
+---
+
+# SMS Invites for Existing Registration
+
+## sendHostedSMSInviteForExistingRegistration
+
+This method checks that the input account is enabled for Hosted, retrieves a registration/validation using the input details and then will prepare a link to the hosted site for the account and send this link to the input mobile phone number via SMS.
+
+### SOAP{#SOAP}
+
+#### **Input Parameters**{#Input-Parameters}
+
+| Field Name     | Type                  | Required                                                                                  | Restrictions                                                                                                                                                                                                                                              |
+| -------------- | --------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accountId      | String                | Yes                                                                                       | greenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API.                                                              |
+| password       | String                | Yes                                                                                       | Each customer is issued a password that must be supplied with every call to any web method in the API.                                                                                                                                                    |
+| verificationId | String                | Yes                                                                                       | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person.                                                            |
+| mobilePhone    | String                | No (can be null if valid formatted mobile number is present on the existing Registration) | See [Mobile Phone Validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation)                                                                                                             |
+| extraData      | List \<NameValuePair> | No                                                                                        | This parameter allows the customer to send extra data that will need to be agreed upon before implementation. It will be a simple key /value format. If there is no previous agreement for certain keys to be sent in this field then it will be ignored. |
+
+For further information on the data structures used in this API please refer to [Data Structures V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2163081290/sendHostedSMSInviteForExistingRegistration#).
+
+#### Return Values{#Return-Values}
+
+The API call returns a GreenIDHostedServiceResult containing the following data:
+
+| Field Name                | Type    | Description                                                                                                                                                                                 |
+| ------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| verificationID            | String  |                                                                                                                                                                                             |
+| overallVerificationStatus | String  | The overall status of the verification.                                                                                                                                                     |
+| smsId                     | String  | A unique identifier of the SMS message sent                                                                                                                                                 |
+| smsStatus                 | String  | <p>Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent.</p><p>Values can be: 'submitted' or 'error'</p> |
+| responseErrorFlag         | Boolean | True = an error occurred False = no error occurred                                                                                                                                          |
+| responseErrorMessage      | String  | A message providing information regarding the error that occurred.                                                                                                                          |
+| errorReasonCode           | String  | Indicates the type of error that occurred.                                                                                                                                                  |
+
+#### **Sample SOAP Request and Response**{#Sample-SOAP-Request-and-Response}
+
+- Open SOAP-sendHostedSMSInviteForExistingRegistration-Request.xml
+
+  **SOAP-sendHostedSMSInviteForExistingRegistration-Request.xml**
+
+  24 Feb 2022, 10:47 PM
+
+- Open SOAP-sendHostedSMSInviteForExistingRegistration-Response.xml
+
+  **SOAP-sendHostedSMSInviteForExistingRegistration-Response.xml**
+
+  24 Feb 2022, 10:47 PM
+
+### JSON{#JSON}
+
+#### **Input Parameters**{#Input-Parameters.1}
+
+| Field Name     | Type   | Required                                                                                  | Restrictions                                                                                                                                                                                     |
+| -------------- | ------ | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| accountId      | String | Yes                                                                                       | greenID issues each customer with an accountId, which is a unique identifier by which greenID knows the caller. This `accountId` must be supplied with every call to any method in this API.     |
+| password       | String | Yes                                                                                       | Each customer is issued a password that must be supplied with every call to any web method in the API.                                                                                           |
+| verificationId | String | Yes                                                                                       | Each verification attempt for a person must have a `verificationId`, which is a unique identifier that greenID and the caller use to refer to a verification attempt for an individual person.   |
+| mobilePhone    | String | No (can be null if valid formatted mobile number is present on the existing Registration) | See [Mobile Phone Validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation)                                                    |
+
+For further information on the data structures used in this API please refer to [Data Structures V3](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2163081290/sendHostedSMSInviteForExistingRegistration#).
+
+#### Return Values{#Return-Values.1}
+
+The API call returns a GreenIDHostedServiceResult containing the following data:
+
+| Field Name                | Type    | Description                                                                                                                                                                                 |
+| ------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| verificationID            | String  |                                                                                                                                                                                             |
+| overallVerificationStatus | String  | The overall status of the verification.                                                                                                                                                     |
+| smsId                     | String  | A unique identifier of the SMS message sent                                                                                                                                                 |
+| smsStatus                 | String  | <p>Indicates whether the SMS has been successfully submitted to the SMS provider, or if an error occurred meaning the SMS will not be sent.</p><p>Values can be: 'submitted' or 'error'</p> |
+| responseErrorFlag         | Boolean | True = an error occurred False = no error occurred                                                                                                                                          |
+| responseErrorMessage      | String  | A message providing information regarding the error that occurred.                                                                                                                          |
+| errorReasonCode           | String  | Indicates the type of error that occurred.                                                                                                                                                  |
+| hostedInviteURL           |         | This field should **not** be used in your implementation, it will be removed from the response soon.                                                                                        |
+
+#### Sample JSON Request and Response{#Sample-JSON-Request-and-Response}
+
+- Open JSON-sendHostedSMSInviteForExistingRegistration-Request.json
+
+  **JSON-sendHostedSMSInviteForExistingRegistration-Request.json**
+
+  24 Feb 2022, 10:48 PM
+
+- Open JSON-sendHostedSMSInviteForExistingRegistration-Response.json
+
+  **JSON-sendHostedSMSInviteForExistingRegistration-Response.json**
+
+  24 Feb 2022, 10:48 PM
+
+### Exceptions and Errors{#Exceptions-and-Errors}
+
+Detailed Exception and Error information for SOAP and JSON for this method is available on [Exceptions and Errors](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2164129836).
+
+## **Useful Links:**{#Useful-Links:}
+
+- [Hosted Endpoints](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164)
+
+- [ID Glossary](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#ID-Glossary)
+
+- [Mobile Phone Validation](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2154332164/Hosted+Web+Services#Mobile-Phone-Validation)
+
+- [Verification Results](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/60368141#WebMethodDetailsV3-GetVerificationResult)
+
+- [Image and OCR Results](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/336429183)

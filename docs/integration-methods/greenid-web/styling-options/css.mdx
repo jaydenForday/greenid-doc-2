@@ -1,0 +1,79 @@
+---
+id: css
+title: CSS Styling
+sidebar_position: 1
+---
+
+# CSS Styling
+
+The look and feel of the greenID Web interface is controlled via CSS
+
+## Including greenID CSS
+
+The greenID Web CSS file must be included for basic styling. You must link directly to the file via the relevant URL. Do not take a local copy. 
+
+For standard greenID Web, use `greenid.css`.
+
+For greenID Web with document validation and facial biometrics, use `greenid-mobile.css`.
+
+Remember to set the "environment" parameter in the greenidUi.setup() function to "test" or "prod" to match your URLs (refer to "Javascript setup for registering a new person").
+
+For example, in the **Production** environment in **Australia**, use: 
+
+```
+<link rel="stylesheet" type="text/css" media="screen" href="https://simpleui-au.vixverify.com/df/assets/stylesheets/greenid.css"/>
+```
+
+For example, in the **Test** environment in **Australia**, use: 
+
+```
+<link rel="stylesheet" type="text/css" media="screen" href="https://simpleui-test-au.vixverify.com/df/assets/stylesheets/greenid.css"/>
+```
+
+This code is also available on the example form at [https://test-au.vixverify.com/verification/customers/greenid\_simpleui\_demo/simpleui-demo.html](<\</span\>\</span\>\<a rel=>)
+
+## Overriding greenID styling
+
+If you need to make any styling changes, we recommend you overwrite the styles in your own CSS files rather than changing the greenID Web CSS file. Changing the greenID Web CSS file will make upgrading to a newer version more difficult in the future.
+
+Bootstrap ([http://getbootstrap.com](<\</span\>\</span\>\<a rel=>)) has been used as a basis for the default greenID Web styling. This has been chosen because it is a widely-used and understood boilerplate for web development. It provides an attractive-yet-vanilla base styling to ensure that you can be up and running quickly.  It also provides inbuilt responsive capabilities, so that greenID Web will work on all screen sizes, mobile or desktop.
+
+As such, the majority of CSS rules within the greenID Web CSS files are just default Bootstrap styles. If you already use Bootstrap, then these won’t affect your own styling.
+
+## Accessibility
+
+Standard greenID Web is WCAG 2.0 AA compliant and adheres to WAI-ARIA principles. [Full WCAG 2.0 accessibility compliance info is available](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/10060052/Accessibility). 
+
+However, greenID Web with scans and biometrics is not fully WCAG compliant.
+
+## Error messages
+
+The following are the types of error messages that greenID may present, and how you can customise them. 
+
+### If greenID servers are completely unavailable
+
+Your linked greenID Web JavaScript files won't load.  
+
+If you initiate greenID Web via the form submit method, your form will submit as normal as though greenID Web wasn't there; greenID Web will not intercept the submit button press. There’ll be no error message. 
+
+If you initiate greenID Web via the Javascript function method, you will get browser console errors but nothing will happen on-screen. There’ll be no user-facing error message.
+
+In both these situations you’d need to handle these errors yourself.
+
+### Unexpected errors
+
+For things that relate to configuration errors or things we’re not expecting to happen, a modal should appear with text relating to what went wrong.  Apart from the really unexpected errors, this text can be changed using the greenidConfig.setOverrides function (as outlined in the "[Overriding greenID defaults](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/8880338/Registering+and+Verifying+New+Individuals#RegisteringandVerifyingNewIndividuals-OverridinggreenIDDefaults)" section). Here’s an example of a default modal:
+
+![](/img/unexpected.png)
+
+### If a source doesn’t match
+
+These errors are displayed on-screen and are customisable using the greenidConfig.setOverrides function.  Here’s an example of a default message:
+
+![](/img/sourcematch.png)
+
+### If a field is invalid
+
+These errors are displayed below the field in question. Field validation wording is not customisable. Here’s an example:
+
+![](/img/fieldmatch.png)

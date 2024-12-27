@@ -1,0 +1,101 @@
+---
+id: reference-tables-v5
+title: Reference Tables V5
+sidebar_position: 6
+---
+
+# Reference Tables V5
+
+:::note
+
+**API Versions**
+
+This documentation relates to Version 5, the current version of the greenID API. Version 5 became available to customers as of 07 Feb 2024.
+
+:::
+
+## Overall Outcome States
+
+| **State Name**          | **Meaning**                                                                                                                                                                                                                       | **Human Readable Name** |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| VERIFIED                | The individual has been verified against the specified rule set.                                                                                                                                                                  | Verified                |
+| VERIFIED\_ADMIN         | The individual was manually verified by an administrator through the admin panel.                                                                                                                                                 | Verified (by admin)     |
+| VERIFIED\_WITH\_CHANGES | The individual was verified against the specified rule set, however some minor changes were made to the data in order to get the result. These changes are included in the rule set as acceptable changes.                        | Verified with changes   |
+| IN\_PROGRESS            | The individual has not yet been verified, but further checks may be attempted. As GreenID allows further checks to be performed at any time this can be considered as not yet meeting the rule set requirements for verification. | In progress             |
+| PENDING                 | The individual has been verified against the rule set, but to do so they changed data in a way that is not considered acceptable without further action.                                                                          | Pending review          |
+| LOCKED\_OUT             | The individual has been locked out completely. This will occur depending on the customer lock out rules or GBG Alert verification block configuration. By default there are no lock out rules.                                    | Locked out              |
+
+## Possible Modes
+
+| **Mode name** | **Meaning**                                                                                                                                                                                              | **Human readable name** |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| POSTOFFICE    | The individual was verified by filling out a Post Office form and visiting a branch of Australia Post where their identity documents were manually inspected.                                            | Post Office             |
+| ASSISTED      | The user was verified by an administrator logging into the admin panel and entering the data on behalf of the user. This method still contacts the third party data sources to confirm the entered data. | Admin assisted          |
+| EXTERNAL      | This mode is used to indicate that verification was carried out outside of the greenID system, and the results have been loaded into greenID.                                                            | Externally Verified     |
+
+## Individual Source States
+
+| **State name**          | **Meaning**                                                                                                                                                                                                                                                                                                                                                                                     | **Human readable name** |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| VERIFIED                | The individual's data has been verified against this source                                                                                                                                                                                                                                                                                                                                     | Verified                |
+| VERIFIED\_ADMIN         | An administrative user has marked the check as successful, after manual inspection of the results. This mostly applies to checks that were previously “Pending review” (see below).                                                                                                                                                                                                             | Verified (by admin)     |
+| VERIFIED\_WITH\_CHANGES | The check against the data source passed, but the person made some changes to their details in order to pass.  If the changes are acceptable according to the customer’s rules, then this state is applied; otherwise the status may remain as “PENDING”.                                                                                                                                       | Verified with changes   |
+| PASSED                  | Deprecated - refer to NOT\_FOUND\_ON\_LIST                                                                                                                                                                                                                                                                                                                                                      | Passed                  |
+| FAILED                  | <p>This status applies to a source when the check has been unsuccessful - either the data has not matched or (in the case of some interactive checks) the user has changed some data violating the the requirements of the rules.</p><p>For Watch Lists Deprecated - refer to FOUND\_ON\_LIST.</p>                                                                                              | Failed                  |
+| AUTOFAIL                | Applies to background checks, and indicates that a check that was attempted automatically has failed, i.e. the check against the data source was not successful.                                                                                                                                                                                                                                | Autofail                |
+| IN\_PROGRESS            | The check is currently in progress, i.e. the check has been started, but not enough data has been gathered to allow the check to be completed.                                                                                                                                                                                                                                                  | In progress             |
+| PENDING                 | The check against the data source passed, but the person made some changes to their details in order to pass, and manual intervention is required to assess the changes.                                                                                                                                                                                                                        | Pending review          |
+| NOT\_CONTRIBUTING       | The check against the data source passed, but for some reason the data source cannot be used to contribute to the verification. It may be that the data source indicates the match cannot be used (eg. DVS D response) or that the details were changed and the account does not allow pending review. The reason will also be passed back in the getVerificationResult web service call.       | Not contributing        |
+| LOCKED\_OUT             | Some data sources have a limited number of attempts associated with them, and if that threshold is exceeded, then the person is prevented from trying again.                                                                                                                                                                                                                                    | Locked out              |
+| ERROR                   | An error was experienced during the check, for example, the data source was unavailable.                                                                                                                                                                                                                                                                                                        | Error                   |
+| NOT\_FOUND\_ON\_LIST    | <p>This state is specific to the watchlist and GBG Alert checks.</p><p>**Watchlists:** The person was NOT found on a watchlist. \*\*GBG Trust: Alert: \*\*No configured GBG Trust: Alert rules were raised. See [GBG Trust: Alert Results](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2276556801/GBG+Trust+Alert+Results) (API v1-v4)</p>                                          | Not found on list       |
+| FOUND\_ON\_LIST\*       | <p>This state is specific to the watchlist and GBG Trust: Alert checks.</p><p>**Watchlists:** The person found on a watchlist.\*\*GBG Trust: Alert: \*\*Configured GBG Trust: Alert rules were raised. Each rules raised will be listed separately. See: [GBG Trust: Alert Results](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2276556801/GBG+Trust+Alert+Results) (API v1-v4)</p> | Found on list           |
+| MATCH\_REVIEW\_REQUIRED | This state is specific to the watchlist checks. The person was found on the watchlist.                                                                                                                                                                                                                                                                                                          | Match Review Required   |
+| MATCH\_CONFIRMED        | This state is specific to the watchlist checks. The person was found on the watchlist and the state is the result of an administrator taking an action.                                                                                                                                                                                                                                         | Match Confirmed         |
+| MATCH\_FALSE\_POSITIVE  | This state is specific to the watchlist checks. The person was found on the watchlist and the state is the result of an administrator taking an action.                                                                                                                                                                                                                                         | Match False Positive    |
+| EMPTY                   | Indicates this check has not been used.                                                                                                                                                                                                                                                                                                                                                         |                         |
+
+\*This result only appears for a deprecated watchlist.
+
+## Method Names
+
+| **Method name** | **Meaning**                                                                                                                                                                                                                                      | **Human readable name**  |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| DB              | This check was a “Data Base” check that was automatically carried out with no user input. This is also referred to as a “Non Consent check” as no explicit consent is needed from the user.                                                      | Data Base OR Non Consent |
+| background      | This is a pseudonym for DB.                                                                                                                                                                                                                      |                          |
+| UC              | The check was a “User Centric” check that required either input or explicit consent from the user or both.                                                                                                                                       | User Centric             |
+| interactive     | This is a pseudonym for UC.                                                                                                                                                                                                                      |                          |
+| PP              | This check was carried out as a “Person Present” or face to face check. The main example of this type of check is a Post Office verification where the user physically presented themselves and their verification information at a Post Office. | Person Present           |
+|                 | A category that does not fall into the above will have a blank or null method name.                                                                                                                                                              | None                     |
+
+## Field Status
+
+| **Status name** | **Meaning**                                                                                                                                                                                                                                            | **Human readable name**  |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| CONFIRMED       | The details on the master record match the details submitted to the datasource.                                                                                                                                                                        | Field confirmed.         |
+| CHANGED         | The details on the master record differ from the details submitted to the datasource.                                                                                                                                                                  | Field changed.           |
+| ADDITION        | This was an additional field that was added by the user in order to get a valid verification. This is a specialised field that is only available to certain customers. By default a customer will never receive this.                                  | Additional field.        |
+| NO\_MATCH       | This is a status returned by “DB” or non consent checks and indicates that a match was not able to found on the source.                                                                                                                                | No exact match found.    |
+| MISSING         | This is a status returned by a “DB” or non consent source and indicates that this field was not available to be compared on the source, for example in the phone book check the givenName is most often MISSING, whereas the firstInitial is present.  | Field missing on source. |
+
+## DateTime specification
+
+If you are not programmatically consuming the WSDL but are instead constructing the xml by hand then the Date must be of xs\:dateTime see [http://www.w3.org/TR/xmlschema-2/#dateTime](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111401/Reference+Tables+V5#ReferenceTablesV5-OverallOutcomeStates)
+
+## .NET and Date Types{#ReferenceTablesV5-.NETandDateTypes}
+
+**Please read this section if your development platform is .NET!**
+
+Another important note is how .NET treats date/time types. When JBoss generates the WSDL for GreenID’s Web Services, the type “xs\:dateTime” is used to map the Java [java.util.Date](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111401/Reference+Tables+V5#ReferenceTablesV5-OverallOutcomeStates) class. This is not a problem if a Java platform is used to consume the WSDL, but .NET will behave in a slightly unexpected way.
+
+When the .NET platform consumes WSDL that contains a complex type with a member of the type xs\:dateTime, the corresponding class generated by .NET will contain not only a member named as per the WSDL, but also a member of the same name, but with the word “Specified” appended to the name. This extra member is of the type boolean. When using the generated class, it is ***imperative*** that the “Specified” member be set to true, otherwise the date parameter received will be null, which will cause an exception to be thrown.
+
+For example, the registerUser method (described below) takes a parameter which is of the complex type tns\:registerUser, which contains a member called “dob” of the type xs\:dateTime. The .NET platform will generate a class called registerUser which contains a member calleddob of the type dateTime, and will also generate a member called “dobSpecified”, which ***must*** be set to true, otherwise the field dob will be null when received by GreenID’s Web Service.
+
+This note applies to applications written in C# or VB.
+
+For further information, the reader is referred to [http://msdn2.microsoft.com/en-us/library/ms973825.aspx](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111401/Reference+Tables+V5#ReferenceTablesV5-OverallOutcomeStates), and in particular, the section [http://msdn2.microsoft.com/en-us/library/ms973825.aspx#datetime\_topic4](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2310111401/Reference+Tables+V5#ReferenceTablesV5-OverallOutcomeStates).
+
+## Street Types
+
+Refer to [Street Types](https://vixverify.atlassian.net/wiki/spaces/GREEN/pages/2193031169/Street+Types) for a list of accepted Australian and New Zealand street types and abbreviations. 

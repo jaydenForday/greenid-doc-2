@@ -1,0 +1,104 @@
+---
+id: newzealand-data-sources
+title: New Zealand Data Sources
+sidebar_position: 3
+---
+
+# New Zealand Data Sources
+
+| **Title**                                     | **Webservice Name**                                                                                                                                                   | **Type**            | **Coverage** |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------ |
+| New Zealand Automobile Association Membership | [New Zealand Data Sources#nzaa](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=8880653#NewZealandDataSources-nzaa)                             |                     | New Zealand  |
+| New Zealand Birth Certificate                 | [New Zealand Data Sources#nzbirthcertificate](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=8880653#NewZealandDataSources-nzbirthcertificate) | Certificate - Birth | New Zealand  |
+| New Zealand Citizenship Certificate           | [New Zealand Data Sources#nzcitizenship](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=8880653#NewZealandDataSources-nzcitizenship)           | Citizenship         | New Zealand  |
+| New Zealand Passport                          | [New Zealand Data Sources#nzpassport](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=8880653#NewZealandDataSources-nzpassport)                 | Passport            | New Zealand  |
+| New Zealand Driver's Licence                  | [New Zealand Data Sources#nztadriverslicence](https://vixverify.atlassian.net/wiki/pages/resumedraft.action?draftId=8880653#NewZealandDataSources-nztadriverslicence) | Driver's Licence    | New Zealand  |
+
+## nzaa (version 1)
+
+Also known as New Zealand Automobile Association Membership or NZAA
+
+| **Field name**              | **Description**                                                                        | **Required**     | **Restrictions**                                                                                                                      |
+| --------------------------- | -------------------------------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| greenid\_nzaa\_number       | The Automobile Association membership number, as it appears on the membership card.    | Yes              | 16 numeric digits                                                                                                                     |
+| greenid\_nzaa\_givenname    | The person's given name, as it appears on the membership card.                         | Yes              | Length not exceeding 255 characters                                                                                                   |
+| greenid\_nzaa\_surname      | The person's surname, as it appears on the membership card.                            | Yes              | Length not exceeding 255 characters                                                                                                   |
+| greenid\_nzaa\_flatnumber   | The flat number component of the person's address.                                     | Yes (if present) | Between 1 and 255 characters                                                                                                          |
+| greenid\_nzaa\_streetnumber | The street number component of the person's address.                                   | Yes              | Between 1 and 255 characters                                                                                                          |
+| greenid\_nzaa\_streetname   | The street name component of the person's address.                                     | Yes              | Between 1 and 255 characters                                                                                                          |
+| greenid\_nzaa\_streettype   | The street type component of the person's address.                                     | Yes              | This field is a select field, please refer to the output from a call to getFields with the sourceId "nzaa" for the available options. |
+| greenid\_nzaa\_suburb       | The suburb component of the person's address.                                          | No               | Between 1 and 255 characters                                                                                                          |
+| greenid\_nzaa\_postcode     | The postcode component of the person's address.                                        | Yes              | Four digits                                                                                                                           |
+| greenid\_nzaa\_dob          | The person's date of birth.                                                            | Yes              | DD/MM/YYYY                                                                                                                            |
+| greenid\_nzraa\_tandc       | An indication that the person agrees to the terms and conditions of the licence check. | Yes              | "on"                                                                                                                                  |
+| greenid\_nzaa\_towncity     | The town or city component of the person's address                                     | Yes              | Between 1 and 255 characters                                                                                                          |
+
+## nzbirthcertificate (version 1)
+
+Also known as New Zealand Birth Certificate or NZ Birth Certificate
+
+| **Field name**                          | **Description**                                                                                  | **Required** | **Restrictions**                    |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------ | ----------------------------------- |
+| greenid\_nzbirthcertificate\_dob        | The person's date of birth, as it appears on the birth certificate.                              | Yes          | DD/MM/YYYY                          |
+| greenid\_nzbirthcertificate\_givenname  | The person's given name, as it appears on the birth certificate.                                 | Yes          | Length not exceeding 255 characters |
+| greenid\_nzbirthcertificate\_issuedate  | The issue date, as it appears on the birth certificate.                                          | No\*         | DD/MM/YYYY                          |
+| greenid\_nzbirthcertificate\_middlename | The person's middle name, as it appears on the birth certificate.                                | No\*\*       | Length not exceeding 255 characters |
+| greenid\_nzbirthcertificate\_regno      | The registration number, as it appears on the birth certificate.                                 | No\*\*\*     | Length not exceeding 255 characters |
+| greenid\_nzbirthcertificate\_surname    | The person's surname, as it appears on the birth certificate.                                    | Yes          | Length not exceeding 255 characters |
+| greenid\_nzbirthcertificate\_tandc      | An indication that the person agrees to the terms and conditions of the birth certificate check. | Yes          | "on"                                |
+
+\*The issue date is not used for matching by the source provider. This field has been made optional so customers' current configurations are not impacted. It is recommended that this field is not used.
+
+\*\*This is an optional field and should be supplied if a middle name is on the certificate.
+
+\*\*\*If supplied, it will be used by the provider for matching.
+
+## nzcitizenship (version 1)
+
+Also known as New Zealand Citizenship Certificate or NZ Citizenship
+
+| **Field name**                     | **Description**                                                                            | **Required** | **Restrictions**                    |
+| ---------------------------------- | ------------------------------------------------------------------------------------------ | ------------ | ----------------------------------- |
+| greenid\_nzcitizenship\_givenname  | The person's given name, as it appears on the citizenship certificate.                     | Yes          | Length not exceeding 255 characters |
+| greenid\_nzcitizenship\_middlename | The person's middle name, as it appears on the citizenship certificate.                    | No\*         | Length not exceeding 255 characters |
+| greenid\_nzcitizenship\_surname    | The person's surname, as it appears on the citizenship certificate.                        | Yes          | Length not exceeding 255 characters |
+| greenid\_nzcitizenship\_dob        | The person's date of birth, as it appears on the citizenship certificate.                  | Yes          | DD/MM/YYYY                          |
+| greenid\_nzcitizenship\_issuedate  | The issue date, as it appears on the citizenship certificate.                              | No\*\*       | DD/MM/YYYY                          |
+| greenid\_nzcitizenship\_certno     | The certificate number, as it appears on the citizenship certificate.                      | No\*\*\*     | Length not exceeding 255 characters |
+| greenid\_nzcitizenship\_tandc      | An indication that the person agrees to the terms and conditions of the citizenship check. | Yes          | "on"                                |
+
+\*This is an optional field and should be supplied if a middle name is on the certificate.
+
+\*\*The issue date is not used for matching by the source provider. This field has been made optional so customers' current configurations are not impacted. It is recommended that this field is not used.
+
+\*\*\*If supplied, it will be used by the provider for matching.
+
+## nzpassport (version 1)
+
+Also known as New Zealand Passport or NZ Passport
+
+| **Field name**                  | **Description**                                                                         | **Required** | **Restrictions**                             |
+| ------------------------------- | --------------------------------------------------------------------------------------- | ------------ | -------------------------------------------- |
+| greenid\_nzpassport\_number     | The passport number as it appears on the passport                                       | Yes          | Length between 7 - 9 alphanumeric characters |
+| greenid\_nzpassport\_expiry     | The passport expiry date, as it appears on the passport.                                | Yes          | DD/MM/YYYY                                   |
+| greenid\_nzpassport\_givenname  | The person's given name as it appears on the passport.                                  | Yes          | Length not exceeding 255 characters          |
+| greenid\_nzpassport\_middlename | The person's middle name, as it appears on the passport.                                | Yes          | Length not exceeding 255 characters          |
+| greenid\_nzpassport\_surname    | The person's surname, as it appears on the passport.                                    | Yes          | Length not exceeding 255 characters          |
+| greenid\_nzpassport\_dob        | The person's date of birth, as it appears on the passport.                              | Yes          | DD/MM/YYYY                                   |
+| greenid\_nzpassport\_tandc      | An indication that the person agrees to the terms and conditions of the passport check. | Yes          | "on"                                         |
+
+## nztadriverslicence (version 1)
+
+Also known as New Zealand Driver's Licence or NZTADriversLicence or NZTA Drivers Licence check
+
+| **Field name**                             | **Description**                                                                        | **Required** | **Restrictions**                    |
+| ------------------------------------------ | -------------------------------------------------------------------------------------- | ------------ | ----------------------------------- |
+| greenid\_nztadriverslicence\_number        | The driver's licence number, as it appears on the licence.                             | Yes          | Length not exceeding 255 characters |
+| greenid\_nztadriverslicence\_versionnumber | The driver's licence version number, as it appears on the licence.                     | Yes          | Length not exceeding 255 characters |
+| greenid\_nztadriverslicence\_givenname     | The person's given name, as it appears on the licence.                                 | Yes          | Length not exceeding 255 characters |
+| greenid\_nztadriverslicence\_middlename    | The person's middle name, as it appears on the licence.                                | Yes          | Length not exceeding 255 characters |
+| greenid\_nztadriverslicence\_surname       | The person's surname, as it appears on the licence.                                    | Yes          | Length not exceeding 255 characters |
+| greenid\_nztadriverslicence\_dob           | The person's date of birth, as it appears on the licence.                              | Yes          | DD/MM/YYYY                          |
+| greenid\_nztadriverslicence\_tandc         | An indication that the person agrees to the terms and conditions of the licence check. | Yes          | "on"                                |
+
+\\
